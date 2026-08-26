@@ -720,22 +720,16 @@ const CONTACTS = [
     role: "Organiser",
     name: "Aryan Raj",
     phone: "+91 8252900353",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&auto=format",
-    handle: "@aryan_tedxpcu",
   },
   {
     role: "Co-Organiser",
     name: "Shraddha Solanke",
     phone: "+91 9326843844",
-    image: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=300&h=300&fit=crop&auto=format",
-    handle: "@shraddha_tedxpcu",
   },
   {
     role: "Operations",
     name: "Swapnil Adlinge",
     phone: "+91 7887472023",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&auto=format",
-    handle: "@swapnil_tedxpcu",
   },
 ];
 
@@ -819,13 +813,17 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
           <div className="flex items-center gap-5 mb-7">
             <div className="relative flex-shrink-0">
               <div
-                className="w-16 h-16 rounded-full overflow-hidden transition-all duration-500"
+                className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center transition-all duration-500"
                 style={{
                   border: hovered ? "2px solid #ED2939" : "2px solid rgba(255,255,255,0.1)",
                   boxShadow: hovered ? "0 0 20px rgba(237,41,57,0.35)" : "none",
+                  background: hovered ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
                 }}
               >
-                <img src={contact.image} alt={contact.name} className="w-full h-full object-cover" />
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="12" cy="8" r="4" stroke={hovered ? "#ED2939" : "#8A96A4"} strokeWidth="1.5" fill="none" className="transition-all duration-300" />
+                  <path d="M4 20c0-3.314 3.582-6 8-6s8 2.686 8 6" stroke={hovered ? "#ED2939" : "#8A96A4"} strokeWidth="1.5" strokeLinecap="round" fill="none" className="transition-all duration-300" />
+                </svg>
               </div>
               {/* Live indicator */}
               <div
@@ -835,7 +833,6 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
             </div>
             <div>
               <h3 className="text-xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{contact.name}</h3>
-              <p className="text-sm" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>{contact.handle}</p>
             </div>
           </div>
 
