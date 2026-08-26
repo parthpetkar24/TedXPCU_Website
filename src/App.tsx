@@ -179,7 +179,7 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "nav-glass" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
         <button onClick={() => onNav("Home")} className="text-xl font-bold" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
-          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.45em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
+          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
         </button>
 
         <div className="hidden md:flex items-center gap-1">
@@ -344,7 +344,7 @@ function HeroSection() {
           className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
           style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", letterSpacing: "-0.03em" }}
         >
-          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.55em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 400 }}>PCU</span>
+          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 400 }}>PCU</span>
         </h1>
 
         <p
@@ -540,7 +540,7 @@ function AboutSection() {
         <div>
           <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
           <h2 data-aos="fade-right" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
-            What is <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.45em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.45em", padding: "0 0.08em" }}>x</sup>
+            What is <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.45em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup>
           </h2>
           <p data-aos="fade-right" data-aos-delay="200" className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             TEDx is a program of independently organized local events, created in the spirit of TED’s mission of “Ideas Worth Spreading.” It brings together inspiring speakers and TED Talks to spark meaningful conversations and share ideas that inspire change.
@@ -961,7 +961,7 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
             <div className="text-2xl font-bold mb-4" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", letterSpacing: "-0.02em" }}>
-              <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.45em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
+              <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
             </div>
             <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
               An independently organized TED event bringing ideas worth spreading to PCU and beyond.
