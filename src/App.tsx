@@ -344,7 +344,7 @@ function HeroSection() {
           className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
           style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", letterSpacing: "-0.03em" }}
         >
-          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.55em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
+          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.55em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 400 }}>PCU</span>
         </h1>
 
         <p
