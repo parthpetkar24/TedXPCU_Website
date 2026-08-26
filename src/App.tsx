@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import heroBg from "./imports/PCU_tedwireframeimage1.png";
+import heroBg from "./imports/1234.png";
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -124,7 +124,7 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "nav-glass" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-        <button onClick={() => onNav("Home")} className="text-xl font-bold tracking-widest" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>
+        <button onClick={() => onNav("Home")} className="text-xl font-bold tracking-widest" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
           TED<span style={{ color: "#ED2939" }}>x</span>PCU
         </button>
 
@@ -132,7 +132,7 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
           {NAV_LINKS.map((link) => (
             <button key={link} onClick={() => onNav(link)}
               className="px-4 py-2 text-sm font-medium transition-colors duration-200"
-              style={{ color: active === link ? "#ED2939" : "#AAB4C0", fontFamily: "Inter" }}>
+              style={{ color: active === link ? "#ED2939" : "#AAB4C0", fontFamily: "Rajdhani", fontWeight: 600 }}>
               {link}
             </button>
           ))}
@@ -152,7 +152,7 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
           {NAV_LINKS.map((link) => (
             <button key={link} onClick={() => { onNav(link); setMenuOpen(false); }}
               className="text-left text-sm font-medium py-2"
-              style={{ color: active === link ? "#ED2939" : "#F5F7FA", fontFamily: "Inter" }}>
+              style={{ color: active === link ? "#ED2939" : "#F5F7FA", fontFamily: "Rajdhani", fontWeight: 600 }}>
               {link}
             </button>
           ))}
@@ -225,57 +225,6 @@ function HeroBg() {
       ctx.fillStyle = scanGrad;
       ctx.fillRect(0, scanY - 8, W, 16);
 
-      // Flashing X in center
-      const cx = W / 2;
-      const cy = H / 2;
-      const size = Math.min(W, H) * 0.26;
-      const thickness = size * 0.12;
-
-      const flashCycle = frame % 90;
-      let xAlpha: number;
-      if (flashCycle < 8) xAlpha = flashCycle / 8;
-      else if (flashCycle < 18) xAlpha = 1;
-      else if (flashCycle < 34) xAlpha = 1 - (flashCycle - 18) / 16;
-      else xAlpha = 0.10 + Math.sin(frame * 0.04) * 0.05;
-
-      // Glow halos
-      [size * 0.9, size * 0.65].forEach((gs, gi) => {
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(Math.PI / 4);
-        ctx.shadowColor = "#ED2939";
-        ctx.shadowBlur = 50 + gi * 20;
-        ctx.fillStyle = `rgba(237,41,57,${xAlpha * (0.07 - gi * 0.02)})`;
-        const gt = thickness * (1.4 - gi * 0.3);
-        ctx.fillRect(-gs / 2, -gt / 2, gs, gt);
-        ctx.fillRect(-gt / 2, -gs / 2, gt, gs);
-        ctx.restore();
-      });
-
-      // Main X
-      ctx.save();
-      ctx.translate(cx, cy);
-      ctx.rotate(Math.PI / 4);
-      ctx.shadowColor = "#ED2939";
-      ctx.shadowBlur = 28 * xAlpha;
-      ctx.fillStyle = `rgba(237,41,57,${xAlpha})`;
-      ctx.fillRect(-size / 2, -thickness / 2, size, thickness);
-      ctx.fillRect(-thickness / 2, -size / 2, thickness, size);
-      ctx.restore();
-
-      // Corner brackets around X
-      const bLen = 28;
-      const bPad = size * 0.54;
-      ctx.strokeStyle = `rgba(237,41,57,${xAlpha * 0.5})`;
-      ctx.lineWidth = 1.5;
-      [[cx - bPad, cy - bPad, 1, 1], [cx + bPad, cy - bPad, -1, 1],
-       [cx - bPad, cy + bPad, 1, -1], [cx + bPad, cy + bPad, -1, -1]].forEach(([bx, by, sx, sy]) => {
-        ctx.beginPath();
-        ctx.moveTo(bx + sx * bLen, by);
-        ctx.lineTo(bx, by);
-        ctx.lineTo(bx, by + sy * bLen);
-        ctx.stroke();
-      });
 
       animId = requestAnimationFrame(draw);
     };
@@ -288,25 +237,6 @@ function HeroBg() {
 }
 
 function HeroSection() {
-  const [flashIntensity, setFlashIntensity] = useState(0.18);
-
-  useEffect(() => {
-    let frame = 0;
-    let animId: number;
-    const tick = () => {
-      frame++;
-      const cycle = frame % 120;
-      let v: number;
-      if (cycle < 10) v = cycle / 10;
-      else if (cycle < 22) v = 1;
-      else if (cycle < 40) v = 1 - (cycle - 22) / 18;
-      else v = 0.12 + Math.sin(frame * 0.03) * 0.06;
-      setFlashIntensity(v);
-      animId = requestAnimationFrame(tick);
-    };
-    animId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(animId);
-  }, []);
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -320,11 +250,11 @@ function HeroSection() {
           style={{ opacity: 0.55 }}
         />
 
-        {/* lighting flash layer — red tint that pulses in sync with the X */}
+        {/* subtle static red ambient glow */}
         <div
-          className="absolute inset-0 transition-none"
+          className="absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse 70% 60% at 50% 60%, rgba(237,41,57,${flashIntensity * 0.28}) 0%, transparent 75%)`,
+            background: "radial-gradient(ellipse 70% 60% at 50% 60%, rgba(237,41,57,0.06) 0%, transparent 75%)",
           }}
         />
 
@@ -346,29 +276,29 @@ function HeroSection() {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
         <div
-          className="inline-block px-3 py-1 text-xs font-semibold tracking-widest uppercase mb-8 border"
-          style={{ color: "#ED2939", borderColor: "rgba(237,41,57,0.4)", background: "rgba(237,41,57,0.08)" }}
+          className="inline-block px-4 py-1.5 text-xs font-semibold tracking-widest uppercase mb-8 border"
+          style={{ color: "#ED2939", borderColor: "rgba(237,41,57,0.4)", background: "rgba(237,41,57,0.08)", fontFamily: "Rajdhani", fontWeight: 600 }}
         >
           Independently Organized TED Event
         </div>
 
         <h1
-          className="text-7xl md:text-9xl font-bold tracking-tight leading-none mb-6 red-glow"
-          style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}
+          className="text-8xl md:text-[11rem] font-bold tracking-tight leading-none mb-6 red-glow"
+          style={{ fontFamily: "'Bebas Neue', sans-serif", color: "#F5F7FA", letterSpacing: "0.06em" }}
         >
           TED<span style={{ color: "#ED2939" }}>x</span>PCU
         </h1>
 
         <p
-          className="text-lg md:text-xl font-light tracking-widest"
-          style={{ color: "#AAB4C0", fontFamily: "Inter", letterSpacing: "0.2em" }}
+          className="text-lg md:text-xl tracking-widest"
+          style={{ color: "#AAB4C0", fontFamily: "Rajdhani", fontWeight: 500, letterSpacing: "0.25em" }}
         >
           x = independently organized TED event
         </p>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-          <span className="text-xs tracking-widest uppercase" style={{ color: "#AAB4C0", fontFamily: "Inter" }}>Scroll</span>
+          <span className="text-xs tracking-widest uppercase" style={{ color: "#AAB4C0", fontFamily: "Rajdhani", fontWeight: 600 }}>Scroll</span>
           <div className="w-px h-16" style={{ background: "linear-gradient(180deg, #ED2939, transparent)" }} />
         </div>
       </div>
@@ -394,9 +324,9 @@ function ThemeSection() {
   return (
     <section id="theme" className="py-28 px-6 max-w-4xl mx-auto">
       <div className="text-center mb-16">
-        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>◆ This Year</span>
-        <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>Our Theme</h2>
-        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Inter" }}>Click to lock on and reveal the full story.</p>
+        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ This Year</span>
+        <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Our Theme</h2>
+        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to lock on and reveal the full story.</p>
       </div>
 
       {/* Single theme card */}
@@ -456,31 +386,31 @@ function ThemeSection() {
 
           <div className="flex items-start justify-between mb-6">
             <div>
-              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>Theme {THEME.code}</span>
-              <h3 className="text-5xl md:text-6xl font-bold mt-2" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>{THEME.title}</h3>
+              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>Theme {THEME.code}</span>
+              <h3 className="text-5xl md:text-6xl font-bold mt-2" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{THEME.title}</h3>
             </div>
             <span className="text-5xl opacity-50 mt-1">{THEME.icon}</span>
           </div>
 
-          <p className="text-lg font-medium mb-4" style={{ color: "#ED2939", fontFamily: "Space Grotesk" }}>"{THEME.tagline}"</p>
+          <p className="text-lg font-medium mb-4" style={{ color: "#ED2939", fontFamily: "Oswald", textTransform: "uppercase", letterSpacing: "0.1em" }}>"{THEME.tagline}"</p>
 
           {!locked && (
-            <p className="text-sm" style={{ color: "#8A96A4", fontFamily: "Inter" }}>Click to reveal →</p>
+            <p className="text-sm" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to reveal →</p>
           )}
 
           {locked && !expanded && (
             <div className="flex items-center gap-2 mt-2">
               <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#ED2939" }} />
-              <span className="text-xs tracking-widest" style={{ color: "#ED2939", fontFamily: "Inter" }}>TARGET LOCKED — EXPANDING...</span>
+              <span className="text-xs tracking-widest" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>TARGET LOCKED — EXPANDING...</span>
             </div>
           )}
 
           {expanded && (
             <div style={{ animation: "expand-target 0.5s ease-out" }}>
               <div className="section-divider my-6 opacity-30" />
-              <p className="text-base leading-relaxed text-lg" style={{ color: "#8A96A4", fontFamily: "Inter" }}>{THEME.description}</p>
+              <p className="text-base leading-relaxed text-lg" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>{THEME.description}</p>
               <div className="mt-8 flex items-center gap-2">
-                <span className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>◆ Target Acquired</span>
+                <span className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>◆ Target Acquired</span>
               </div>
             </div>
           )}
@@ -535,13 +465,13 @@ function AboutSection() {
             const y = Math.sin(angle) * 170 * 0.35;
             return (
               <div key={fact.label} className="absolute text-center" style={{ transform: `translate(${x}px, ${y}px)`, transition: "transform 0.016s linear" }}>
-                <div className="text-xl font-bold" style={{ fontFamily: "Space Grotesk", color: "#ED2939" }}>{fact.value}</div>
-                <div className="text-xs tracking-wide" style={{ fontFamily: "Inter", color: "#AAB4C0" }}>{fact.label}</div>
+                <div className="text-xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{fact.value}</div>
+                <div className="text-xs tracking-wide" style={{ fontFamily: "Rajdhani", color: "#AAB4C0" }}>{fact.label}</div>
               </div>
             );
           })}
           <div className="absolute text-center z-10" style={{ pointerEvents: "none" }}>
-            <span className="text-xs font-bold tracking-widest" style={{ fontFamily: "Space Grotesk", color: "rgba(237,41,57,0.6)" }}>
+            <span className="text-xs font-bold tracking-widest" style={{ fontFamily: "Oswald", color: "rgba(237,41,57,0.6)" }}>
               TED<span style={{ color: "#ED2939" }}>x</span>
             </span>
           </div>
@@ -549,11 +479,11 @@ function AboutSection() {
 
         {/* Text */}
         <div>
-          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>◆ About Us</span>
-          <h2 className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>
+          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
+          <h2 className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
             What is <span style={{ color: "#ED2939" }}>TEDX</span>
           </h2>
-          <p className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+          <p className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             TEDx is a program of independently organized local events, created in the spirit of TED’s mission of “Ideas Worth Spreading.” It brings together inspiring speakers and TED Talks to spark meaningful conversations and share ideas that inspire change.
           </p>
           <p className="text-base leading-relaxed mb-8" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
@@ -562,8 +492,8 @@ function AboutSection() {
           <div className="grid grid-cols-2 gap-6">
             {facts.map((f) => (
               <div key={f.label} className="p-4 card-glass" style={{ borderRadius: "4px" }}>
-                <div className="text-3xl font-bold" style={{ fontFamily: "Space Grotesk", color: "#ED2939" }}>{f.value}</div>
-                <div className="text-sm mt-1" style={{ fontFamily: "Inter", color: "#8A96A4" }}>{f.label}</div>
+                <div className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{f.value}</div>
+                <div className="text-sm mt-1" style={{ fontFamily: "Rajdhani", color: "#8A96A4" }}>{f.label}</div>
               </div>
             ))}
           </div>
@@ -601,14 +531,14 @@ function TimelineConnector({ active }: { active: boolean }) {
 function TimelineProgress({ total, current }: { total: number; current: number }) {
   return (
     <div className="flex items-center gap-3 justify-center mb-12">
-      <span className="text-xs tracking-widest" style={{ color: "#8A96A4", fontFamily: "Inter" }}>{String(current + 1).padStart(2, "0")}</span>
+      <span className="text-xs tracking-widest" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 600 }}>{String(current + 1).padStart(2, "0")}</span>
       <div className="relative h-px flex-1 max-w-xs" style={{ background: "rgba(255,255,255,0.06)" }}>
         <div className="absolute left-0 top-0 h-full transition-all duration-500" style={{
           width: `${((current + 1) / total) * 100}%`,
           background: "linear-gradient(90deg, #ED2939, rgba(237,41,57,0.4))",
         }} />
       </div>
-      <span className="text-xs tracking-widest" style={{ color: "#8A96A4", fontFamily: "Inter" }}>{String(total).padStart(2, "0")}</span>
+      <span className="text-xs tracking-widest" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 600 }}>{String(total).padStart(2, "0")}</span>
     </div>
   );
 }
@@ -636,9 +566,9 @@ function ScrollTimeline() {
   return (
     <section id="timeline" className="py-28 px-6 max-w-6xl mx-auto">
       <div className="text-center mb-16">
-        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>◆ Event Day</span>
-        <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>How It Unfolds</h2>
-        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Event Day</span>
+        <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>How It Unfolds</h2>
+        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
           A full-day journey from first coffee to closing keynote — every moment crafted with intention.
         </p>
       </div>
@@ -663,11 +593,11 @@ function ScrollTimeline() {
                         background: isActive ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
                         color: isActive ? "#ED2939" : "#AAB4C0",
                         border: isActive ? "1px solid rgba(237,41,57,0.3)" : "1px solid rgba(255,255,255,0.06)",
-                        borderRadius: "2px", fontFamily: "Inter",
+                        borderRadius: "2px", fontFamily: "Rajdhani",
                       }}>{item.tag}</div>
-                      <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Inter" }}>{item.time}</div>
-                      <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed ml-auto" style={{ color: "#8A96A4", fontFamily: "Inter", maxWidth: "360px" }}>{item.description}</p>
+                      <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
+                      <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
+                      <p className="text-sm leading-relaxed ml-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani", maxWidth: "360px" }}>{item.description}</p>
                     </div>
                   ) : (
                     <div className={`hidden lg:block flex-1 pl-0 pr-10 transition-all duration-700 ${isActive ? "opacity-100 scale-100" : "opacity-20 scale-95"}`}>
@@ -695,11 +625,11 @@ function ScrollTimeline() {
                         background: isActive ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
                         color: isActive ? "#ED2939" : "#AAB4C0",
                         border: isActive ? "1px solid rgba(237,41,57,0.3)" : "1px solid rgba(255,255,255,0.06)",
-                        borderRadius: "2px", fontFamily: "Inter",
+                        borderRadius: "2px", fontFamily: "Rajdhani",
                       }}>{item.tag}</div>
-                      <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Inter" }}>{item.time}</div>
-                      <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Inter", maxWidth: "360px" }}>{item.description}</p>
+                      <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
+                      <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
+                      <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Rajdhani", maxWidth: "360px" }}>{item.description}</p>
                     </div>
                   )}
                 </div>
@@ -810,7 +740,7 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
             <span
               className="text-xs font-semibold tracking-widest uppercase px-3 py-1"
               style={{
-                color: "#ED2939", fontFamily: "Inter",
+                color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700,
                 background: "rgba(237,41,57,0.08)",
                 border: "1px solid rgba(237,41,57,0.2)",
                 borderRadius: "2px",
@@ -839,8 +769,8 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
               />
             </div>
             <div>
-              <h3 className="text-xl font-bold" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>{contact.name}</h3>
-              <p className="text-sm" style={{ color: "#8A96A4", fontFamily: "Inter" }}>{contact.handle}</p>
+              <h3 className="text-xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{contact.name}</h3>
+              <p className="text-sm" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>{contact.handle}</p>
             </div>
           </div>
 
@@ -862,8 +792,8 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
                   {icon}
                 </div>
                 <div>
-                  <div className="text-xs tracking-widest uppercase mb-0.5" style={{ color: "#ED2939", fontFamily: "Inter", fontSize: "10px" }}>{label}</div>
-                  <div className="text-sm" style={{ color: "#F5F7FA", fontFamily: "Inter" }}>{value}</div>
+                  <div className="text-xs tracking-widest uppercase mb-0.5" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700, fontSize: "10px" }}>{label}</div>
+                  <div className="text-sm" style={{ color: "#F5F7FA", fontFamily: "Rajdhani" }}>{value}</div>
                 </div>
               </div>
             ))}
@@ -950,9 +880,9 @@ function ContactSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>◆ Reach Us</span>
-          <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>Contact Us</h2>
-          <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Reach Us</span>
+          <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Contact Us</h2>
+          <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             Every great idea begins with a conversation. Reach out directly to our team.
           </p>
         </div>
@@ -970,8 +900,8 @@ function ContactSection() {
             <div key={label} className="flex items-center gap-3">
               <span className="text-xl">{icon}</span>
               <div>
-                <div className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter", fontSize: "10px" }}>{label}</div>
-                <div className="text-sm font-medium" style={{ color: "#F5F7FA", fontFamily: "Inter" }}>{value}</div>
+                <div className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700, fontSize: "10px" }}>{label}</div>
+                <div className="text-sm font-medium" style={{ color: "#F5F7FA", fontFamily: "Rajdhani" }}>{value}</div>
               </div>
             </div>
           ))}
@@ -996,35 +926,35 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
-            <div className="text-2xl font-bold tracking-widest mb-4" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>
+            <div className="text-2xl font-bold tracking-widest mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
               TED<span style={{ color: "#ED2939" }}>x</span>PCU
             </div>
-            <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+            <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
               An independently organized TED event bringing ideas worth spreading to PCU and beyond.
             </p>
           </div>
           <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#ED2939", fontFamily: "Inter" }}>Navigation</div>
+            <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>Navigation</div>
             <div className="grid grid-cols-2 gap-2">
               {NAV_LINKS.filter((l) => l !== "Apply Now").map((link) => (
                 <button key={link} onClick={() => onNav(link)}
                   className="text-left text-sm transition-colors duration-200 hover:text-red-400"
-                  style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+                  style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
                   {link}
                 </button>
               ))}
             </div>
           </div>
           <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#ED2939", fontFamily: "Inter" }}>Connect</div>
+            <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>Connect</div>
             {["Instagram", "Twitter / X", "LinkedIn", "YouTube"].map((s) => (
-              <div key={s} className="text-sm mb-2" style={{ color: "#8A96A4", fontFamily: "Inter" }}>@tedxpcu — {s}</div>
+              <div key={s} className="text-sm mb-2" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>@tedxpcu — {s}</div>
             ))}
           </div>
         </div>
         <div className="section-divider mb-6" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs" style={{ color: "rgba(237,41,57,0.6)", fontFamily: "Inter" }}>Ideas Manifested ◆ Pune, India</p>
+          <p className="text-xs" style={{ color: "rgba(237,41,57,0.6)", fontFamily: "Rajdhani", fontWeight: 600 }}>Ideas Manifested ◆ Pune, India</p>
         </div>
       </div>
     </footer>
@@ -1047,12 +977,12 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
             style={{ background: "rgba(237,41,57,0.15)", border: "2px solid #ED2939" }}>
             <span className="text-3xl">✓</span>
           </div>
-          <h2 className="text-4xl font-bold mb-4" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>Application Received!</h2>
-          <p className="mb-8" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+          <h2 className="text-4xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Application Received!</h2>
+          <p className="mb-8" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             Thank you for applying to TEDxPCU. Our team will review your application and get back to you within 7 days.
           </p>
           <button onClick={onBack} className="px-8 py-3 text-sm font-semibold tracking-widest uppercase"
-            style={{ background: "#ED2939", color: "#F5F7FA", fontFamily: "Space Grotesk", borderRadius: "2px" }}>
+            style={{ background: "#ED2939", color: "#F5F7FA", fontFamily: "Oswald", borderRadius: "2px", textTransform: "uppercase" }}>
             Back to Home
           </button>
         </div>
@@ -1064,12 +994,12 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-2xl mx-auto">
         <button onClick={onBack} className="text-sm mb-8 flex items-center gap-2 transition-colors hover:text-red-400"
-          style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+          style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
           ← Back to Home
         </button>
-        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>◆ Join The Movement</span>
-        <h1 className="text-5xl font-bold mt-4 mb-4" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>Apply Now</h1>
-        <p className="mb-10" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>◆ Join The Movement</span>
+        <h1 className="text-5xl font-bold mt-4 mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Apply Now</h1>
+        <p className="mb-10" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
           Applications are reviewed by our curation team. Seats are limited. Tell us your story.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -1080,11 +1010,11 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
             { field: "college", label: "College / Institution", type: "text", placeholder: "Where do you study/work?" },
           ].map(({ field, label, type, placeholder }) => (
             <div key={field}>
-              <label className="block text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: "#8A96A4", fontFamily: "Inter" }}>{label}</label>
+              <label className="block text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 700 }}>{label}</label>
               <input type={type} placeholder={placeholder} value={form[field as keyof typeof form]}
                 onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
                 className="w-full px-4 py-3 bg-transparent outline-none"
-                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "Inter", borderRadius: "2px" }}
+                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "Rajdhani", borderRadius: "2px" }}
                 onFocus={(e) => (e.target.style.borderColor = "rgba(237,41,57,0.5)")}
                 onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")} />
             </div>
@@ -1094,17 +1024,17 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
             { field: "idea", label: "What idea excites you most right now?", placeholder: "An idea worth sharing..." },
           ].map(({ field, label, placeholder }) => (
             <div key={field}>
-              <label className="block text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: "#8A96A4", fontFamily: "Inter" }}>{label}</label>
+              <label className="block text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 700 }}>{label}</label>
               <textarea rows={4} placeholder={placeholder} value={form[field as keyof typeof form]}
                 onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
                 className="w-full px-4 py-3 bg-transparent outline-none resize-none"
-                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "Inter", borderRadius: "2px" }}
+                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "Rajdhani", borderRadius: "2px" }}
                 onFocus={(e) => (e.target.style.borderColor = "rgba(237,41,57,0.5)")}
                 onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")} />
             </div>
           ))}
           <button type="submit" className="px-10 py-4 text-sm font-semibold tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] animate-glow-pulse mt-2"
-            style={{ background: "#ED2939", color: "#F5F7FA", fontFamily: "Space Grotesk", borderRadius: "2px" }}>
+            style={{ background: "#ED2939", color: "#F5F7FA", fontFamily: "Oswald", borderRadius: "2px", textTransform: "uppercase" }}>
             Submit Application →
           </button>
         </form>
