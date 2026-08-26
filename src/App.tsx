@@ -1,5 +1,59 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import heroBg from "./imports/1234.png";
+
+// ─── Parallax Hook for Hero ───────────────────────────────────────────────────
+
+function useParallax(speed = 0.3, baseScale = 0.85) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!ref.current) return;
+      const scrollY = window.scrollY;
+      ref.current.style.transform = `translateY(${scrollY * speed}px) scale(${baseScale})`;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [speed, baseScale]);
+
+  return ref;
+}
+
+// ─── Decorative Graphics Component ────────────────────────────────────────────
+
+function DecoCorner({ position, size = 40 }: { position: "tl" | "tr" | "bl" | "br"; size?: number }) {
+  const styles: Record<string, React.CSSProperties> = {
+    tl: { top: 0, left: 0 },
+    tr: { top: 0, right: 0, transform: "scaleX(-1)" },
+    bl: { bottom: 0, left: 0, transform: "scaleY(-1)" },
+    br: { bottom: 0, right: 0, transform: "scale(-1)" },
+  };
+  return (
+    <svg
+      width={size} height={size}
+      viewBox="0 0 40 40"
+      className="absolute pointer-events-none deco-breathe"
+      style={styles[position]}
+    >
+      <line x1="0" y1="0" x2="0" y2="20" className="deco-line" />
+      <line x1="0" y1="0" x2="20" y2="0" className="deco-line" />
+      <circle cx="0" cy="0" r="2" fill="#ED2939" opacity="0.5" />
+    </svg>
+  );
+}
+
+function SectionDeco() {
+  return (
+    <div className="relative w-full flex justify-center py-4">
+      <svg width="200" height="20" viewBox="0 0 200 20" className="overflow-visible">
+        <line x1="0" y1="10" x2="80" y2="10" className="deco-line" opacity="0.3" />
+        <circle cx="100" cy="10" r="3" fill="none" stroke="#ED2939" strokeWidth="1" opacity="0.5" />
+        <circle cx="100" cy="10" r="1.5" fill="#ED2939" opacity="0.4" className="deco-breathe" />
+        <line x1="120" y1="10" x2="200" y2="10" className="deco-line" opacity="0.3" />
+      </svg>
+    </div>
+  );
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -7,7 +61,7 @@ const NAV_LINKS = ["Home", "Theme", "About", "Contact"];
 
 const THEME = {
   code: " ",
-  title: "AVIRBHAVA",
+  title: "आविर्भावः ",
   tagline: "Idea Manifested",
   description:
     " Avirbhava means the emergence or coming into existence of something meaningful. The theme represents how a simple idea, when supported by passion, determination, and action, can grow into something that creates a real impact. Every innovation, achievement, and change begins with an idea. Through this theme, TEDxPCU aims to showcase inspiring stories and perspectives that encourage people to turn their ideas into reality.",
@@ -124,8 +178,8 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "nav-glass" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-        <button onClick={() => onNav("Home")} className="text-xl font-bold tracking-widest" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
-          TED<span style={{ color: "#ED2939" }}>x</span>PCU
+        <button onClick={() => onNav("Home")} className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Bebas Neue', sans-serif", textTransform: "uppercase", letterSpacing: "0.04em" }}>
+          <span style={{ color: "#ED2939" }}>TED</span><span style={{ color: "#ED2939", fontSize: "0.6em", position: "relative", top: "-0.25em" }}>x</span><span style={{ color: "#F5F7FA" }}>PCU</span>
         </button>
 
         <div className="hidden md:flex items-center gap-1">
@@ -239,38 +293,48 @@ function HeroBg() {
 function HeroSection() {
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden animate-cinematic-fade">
       {/* PCU wireframe image background */}
       <div className="absolute inset-0 z-0">
-        {/* base image */}
         <img
           src={heroBg}
           alt="PCU Building"
-          className="absolute inset-0 w-full h-full object-cover object-center"
-          style={{ opacity: 0.55 }}
+          className="absolute inset-0 w-full h-full object-cover spooky-effect"
+          style={{ opacity: 0.6 }}
         />
 
-        {/* subtle static red ambient glow */}
+        {/* Red ambient glow */}
         <div
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(ellipse 70% 60% at 50% 60%, rgba(237,41,57,0.06) 0%, transparent 75%)",
+            background: "radial-gradient(ellipse 60% 50% at 50% 65%, rgba(237,41,57,0.12) 0%, transparent 70%)",
           }}
         />
 
-        {/* canvas overlay: particles + scanlines + X */}
+        {/* canvas overlay: particles + scanlines */}
         <HeroBg />
+
+        {/* Film grain overlay */}
+        <div className="grain-overlay" />
 
         {/* bottom fade into page */}
         <div className="absolute inset-0 hero-gradient" />
 
-        {/* deep dark vignette edges */}
+        {/* vignette */}
         <div
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(ellipse 100% 100% at 50% 50%, transparent 30%, rgba(3,8,15,0.7) 100%)",
+            background: "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 25%, rgba(3,8,15,0.8) 100%)",
           }}
         />
+      </div>
+
+      {/* Decorative corner brackets */}
+      <div className="absolute inset-8 z-10 pointer-events-none hidden md:block">
+        <DecoCorner position="tl" size={48} />
+        <DecoCorner position="tr" size={48} />
+        <DecoCorner position="bl" size={48} />
+        <DecoCorner position="br" size={48} />
       </div>
 
       {/* Content */}
@@ -284,21 +348,20 @@ function HeroSection() {
 
         <h1
           className="text-8xl md:text-[11rem] font-bold tracking-tight leading-none mb-6 red-glow"
-          style={{ fontFamily: "'Bebas Neue', sans-serif", color: "#F5F7FA", letterSpacing: "0.06em" }}
+          style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}
         >
-          TED<span style={{ color: "#ED2939" }}>x</span>PCU
+          <span style={{ color: "#ED2939" }}>TED</span><span style={{ color: "#ED2939", fontSize: "0.55em", position: "relative", top: "-0.3em" }}>x</span><span style={{ color: "#F5F7FA" }}>PCU</span>
         </h1>
 
         <p
           className="text-lg md:text-xl tracking-widest"
           style={{ color: "#AAB4C0", fontFamily: "Rajdhani", fontWeight: 500, letterSpacing: "0.25em" }}
         >
-          x = independently organized TED event
+          <span style={{ color: "#ED2939" }}>x</span> = independently organized TED event
         </p>
 
         {/* Scroll indicator */}
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-          <span className="text-xs tracking-widest uppercase" style={{ color: "#AAB4C0", fontFamily: "Rajdhani", fontWeight: 600 }}>Scroll</span>
           <div className="w-px h-16" style={{ background: "linear-gradient(180deg, #ED2939, transparent)" }} />
         </div>
       </div>
@@ -324,13 +387,14 @@ function ThemeSection() {
   return (
     <section id="theme" className="py-28 px-6 max-w-4xl mx-auto">
       <div className="text-center mb-16">
-        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ This Year</span>
-        <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Our Theme</h2>
-        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to lock on and reveal the full story.</p>
+        <span data-aos="fade-in" data-aos-duration="600" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ This Year</span>
+        <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Our Theme</h2>
+        <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to lock on and reveal the full story.</p>
       </div>
 
       {/* Single theme card */}
       <div
+        data-aos="zoom-in" data-aos-delay="300"
         onClick={handleClick}
         className="relative cursor-pointer transition-all duration-700"
         style={{
@@ -387,7 +451,7 @@ function ThemeSection() {
           <div className="flex items-start justify-between mb-6">
             <div>
               <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>Theme {THEME.code}</span>
-              <h3 className="text-5xl md:text-6xl font-bold mt-2" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{THEME.title}</h3>
+              <h3 className="text-5xl md:text-7xl font-bold mt-2" style={{ fontFamily: "'Rozha One', serif", color: "#F5F7FA", letterSpacing: "0.02em", textShadow: "0 0 25px rgba(237,41,57,0.3)" }}>{THEME.title}</h3>
             </div>
             <span className="text-5xl opacity-50 mt-1">{THEME.icon}</span>
           </div>
@@ -441,6 +505,7 @@ function AboutSection() {
     <section id="about" className="py-28 px-6 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Black hole visual */}
+        {/* (data-reveal on the text side only to preserve the animated orbiting visual) */}
         <div className="relative flex items-center justify-center" style={{ height: "480px" }}>
           <div className="absolute rounded-full" style={{ width: "420px", height: "420px", background: "radial-gradient(ellipse, rgba(237,41,57,0.03) 0%, transparent 70%)" }} />
           {[380, 320, 260, 200].map((size, i) => (
@@ -479,17 +544,17 @@ function AboutSection() {
 
         {/* Text */}
         <div>
-          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
-          <h2 className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
+          <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
+          <h2 data-aos="fade-right" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
             What is <span style={{ color: "#ED2939" }}>TEDX</span>
           </h2>
-          <p className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+          <p data-aos="fade-right" data-aos-delay="200" className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             TEDx is a program of independently organized local events, created in the spirit of TED’s mission of “Ideas Worth Spreading.” It brings together inspiring speakers and TED Talks to spark meaningful conversations and share ideas that inspire change.
           </p>
-          <p className="text-base leading-relaxed mb-8" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
+          <p data-aos="fade-right" data-aos-delay="300" className="text-base leading-relaxed mb-8" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             TEDxPCU is an independently organized TEDx event operated under license from TED.
           </p>
-          <div className="grid grid-cols-2 gap-6">
+          <div data-aos="fade-up" data-aos-delay="350" className="grid grid-cols-2 gap-6">
             {facts.map((f) => (
               <div key={f.label} className="p-4 card-glass" style={{ borderRadius: "4px" }}>
                 <div className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{f.value}</div>
@@ -566,9 +631,9 @@ function ScrollTimeline() {
   return (
     <section id="timeline" className="py-28 px-6 max-w-6xl mx-auto">
       <div className="text-center mb-16">
-        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Event Day</span>
-        <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>How It Unfolds</h2>
-        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+        <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Event Day</span>
+        <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>How It Unfolds</h2>
+        <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
           A full-day journey from first coffee to closing keynote — every moment crafted with intention.
         </p>
       </div>
@@ -777,7 +842,6 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
           {/* Contact lines */}
           <div className="flex flex-col gap-4">
             {[
-              { icon: "✉", label: "Email", value: contact.email },
               { icon: "📞", label: "Phone", value: contact.phone },
             ].map(({ icon, label, value }) => (
               <div key={label} className="flex items-center gap-4">
@@ -880,15 +944,16 @@ function ContactSection() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Reach Us</span>
-          <h2 className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Contact Us</h2>
-          <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+          <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Reach Us</span>
+          <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Contact Us</h2>
+          <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             Every great idea begins with a conversation. Reach out directly to our team.
           </p>
         </div>
 
         {/* General info bar */}
         <div
+          data-aos="zoom-in" data-aos-delay="250"
           className="flex flex-wrap justify-center gap-8 mb-14 p-6"
           style={{ background: "rgba(5,12,22,0.7)", border: "1px solid rgba(237,41,57,0.15)", borderRadius: "4px", backdropFilter: "blur(12px)" }}
         >
@@ -908,7 +973,7 @@ function ContactSection() {
         </div>
 
         {/* Contact cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div data-aos="fade-up" data-aos-delay="350" className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {CONTACTS.map((contact, i) => (
             <ContactCard key={contact.name} contact={contact} index={i} />
           ))}
@@ -926,8 +991,8 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
-            <div className="text-2xl font-bold tracking-widest mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
-              TED<span style={{ color: "#ED2939" }}>x</span>PCU
+            <div className="text-2xl font-bold tracking-wide mb-4" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
+              <span style={{ color: "#ED2939" }}>TED</span><span style={{ color: "#ED2939", fontSize: "0.6em", position: "relative", top: "-0.25em" }}>x</span><span style={{ color: "#F5F7FA" }}>PCU</span>
             </div>
             <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
               An independently organized TED event bringing ideas worth spreading to PCU and beyond.
@@ -1048,6 +1113,16 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && (window as any).AOS) {
+      (window as any).AOS.init({
+        duration: 800,
+        easing: "ease-out-cubic",
+        once: true,
+      });
+    }
+  }, []);
+
   const handleNav = (page: string) => {
     setActivePage(page);
     if (page === "Home") {
@@ -1069,10 +1144,13 @@ export default function App() {
       <Navbar active={activePage} onNav={handleNav} />
       <HeroSection />
       <div className="section-divider" />
+      <SectionDeco />
       <ThemeSection />
       <div className="section-divider" />
+      <SectionDeco />
       <AboutSection />
       <div className="section-divider" />
+      <SectionDeco />
       <ContactSection />
       <Footer onNav={handleNav} />
     </div>
