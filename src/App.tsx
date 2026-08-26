@@ -339,12 +339,6 @@ function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-        <div
-          className="inline-block px-4 py-1.5 text-xs font-semibold tracking-widest uppercase mb-8 border"
-          style={{ color: "#ED2939", borderColor: "rgba(237,41,57,0.4)", background: "rgba(237,41,57,0.08)", fontFamily: "Rajdhani", fontWeight: 600 }}
-        >
-          Independently Organized TED Event
-        </div>
 
         <h1
           className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
@@ -988,14 +982,14 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#EB0028", fontFamily: "Rajdhani", fontWeight: 700 }}>Connect</div>
             {[
-              { name: "Instagram", url: "https://www.instagram.com/tedxpcu", icon: "📸" },
-              { name: "LinkedIn", url: "https://www.linkedin.com/company/tedxpcu", icon: "💼" },
-              { name: "YouTube", url: "https://www.youtube.com/@tedxpcu", icon: "▶️" },
-            ].map(({ name, url, icon }) => (
+              { name: "Instagram", url: "https://www.instagram.com/tedxpcu" },
+              { name: "LinkedIn", url: "https://www.linkedin.com/company/tedxpcu" },
+              { name: "YouTube", url: "https://www.youtube.com/@tedxpcu" },
+            ].map(({ name, url }) => (
               <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm mb-3 transition-colors duration-200 hover:text-red-400"
+                className="block text-sm mb-3 transition-colors duration-200 hover:text-red-400"
                 style={{ color: "#8A96A4", fontFamily: "Rajdhani", textDecoration: "none" }}>
-                <span>{icon}</span> {name}
+                {name}
               </a>
             ))}
           </div>
