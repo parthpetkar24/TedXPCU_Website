@@ -1,0 +1,10 @@
+{
+  "description": "Connect with a vibrant community through TEDxPCU, featuring dynamic talks, inspiring speakers, and opportunities for deep discussion and collaboration.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
