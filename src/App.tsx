@@ -928,7 +928,7 @@ function ContactSection() {
         >
           {[
             { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ED2939" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>, label: "Location", value: "Auditorium, 3rd Floor, Admin, PCU Campus, Pune, Maharashtra" },
-            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ED2939" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>, label: "General Enquiries", value: "Tedxpcu@gmail.com" },
+            { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ED2939" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>, label: "General Enquiries", value: "tedxpcu@gmail.com" },
             { icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ED2939" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>, label: "Social", value: "@tedxpcu" },
           ].map(({ icon, label, value }) => (
             <div key={label} className="flex items-center gap-3">
