@@ -178,8 +178,8 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "nav-glass" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-        <button onClick={() => onNav("Home")} className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Bebas Neue', sans-serif", textTransform: "uppercase", letterSpacing: "0.04em" }}>
-          <span style={{ color: "#ED2939" }}>TED</span><span style={{ color: "#ED2939", fontSize: "0.6em", position: "relative", top: "-0.25em" }}>x</span><span style={{ color: "#F5F7FA" }}>PCU</span>
+        <button onClick={() => onNav("Home")} className="text-xl font-bold" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
+          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.45em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
         </button>
 
         <div className="hidden md:flex items-center gap-1">
@@ -347,17 +347,17 @@ function HeroSection() {
         </div>
 
         <h1
-          className="text-8xl md:text-[11rem] font-bold tracking-tight leading-none mb-6 red-glow"
-          style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}
+          className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
+          style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", letterSpacing: "-0.03em" }}
         >
-          <span style={{ color: "#ED2939" }}>TED</span><span style={{ color: "#ED2939", fontSize: "0.55em", position: "relative", top: "-0.3em" }}>x</span><span style={{ color: "#F5F7FA" }}>PCU</span>
+          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.55em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
         </h1>
 
         <p
           className="text-lg md:text-xl tracking-widest"
-          style={{ color: "#AAB4C0", fontFamily: "Rajdhani", fontWeight: 500, letterSpacing: "0.25em" }}
+          style={{ color: "#AAB4C0", fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 500, letterSpacing: "0.25em" }}
         >
-          <span style={{ color: "#ED2939" }}>x</span> = independently organized TED event
+          <span style={{ color: "#EB0028" }}>x</span> = independently organized TED event
         </p>
 
         {/* Scroll indicator */}
@@ -545,8 +545,8 @@ function AboutSection() {
         {/* Text */}
         <div>
           <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
-          <h2 data-aos="fade-right" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
-            What is <span style={{ color: "#ED2939" }}>TEDX</span>
+          <h2 data-aos="fade-right" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
+            What is <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.45em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.45em", padding: "0 0.08em" }}>x</sup>
           </h2>
           <p data-aos="fade-right" data-aos-delay="200" className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
             TEDx is a program of independently organized local events, created in the spirit of TED’s mission of “Ideas Worth Spreading.” It brings together inspiring speakers and TED Talks to spark meaningful conversations and share ideas that inspire change.
@@ -723,7 +723,7 @@ const CONTACTS = [
   },
   {
     role: "Co-Organiser",
-    name: "Shraddha Solanke",
+    name: "Shradha Solanke",
     phone: "+91 9326843844",
   },
   {
@@ -809,31 +809,9 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
             </span>
           </div>
 
-          {/* Avatar + name */}
-          <div className="flex items-center gap-5 mb-7">
-            <div className="relative flex-shrink-0">
-              <div
-                className="w-16 h-16 rounded-full overflow-hidden flex items-center justify-center transition-all duration-500"
-                style={{
-                  border: hovered ? "2px solid #ED2939" : "2px solid rgba(255,255,255,0.1)",
-                  boxShadow: hovered ? "0 0 20px rgba(237,41,57,0.35)" : "none",
-                  background: hovered ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
-                }}
-              >
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="8" r="4" stroke={hovered ? "#ED2939" : "#8A96A4"} strokeWidth="1.5" fill="none" className="transition-all duration-300" />
-                  <path d="M4 20c0-3.314 3.582-6 8-6s8 2.686 8 6" stroke={hovered ? "#ED2939" : "#8A96A4"} strokeWidth="1.5" strokeLinecap="round" fill="none" className="transition-all duration-300" />
-                </svg>
-              </div>
-              {/* Live indicator */}
-              <div
-                className="absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 animate-pulse"
-                style={{ background: "#ED2939", borderColor: "#03080F" }}
-              />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{contact.name}</h3>
-            </div>
+          {/* Name */}
+          <div className="mb-7">
+            <h3 className="text-xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{contact.name}</h3>
           </div>
 
           {/* Contact lines */}
@@ -988,8 +966,8 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
-            <div className="text-2xl font-bold tracking-wide mb-4" style={{ fontFamily: "'Bebas Neue', sans-serif", letterSpacing: "0.04em" }}>
-              <span style={{ color: "#ED2939" }}>TED</span><span style={{ color: "#ED2939", fontSize: "0.6em", position: "relative", top: "-0.25em" }}>x</span><span style={{ color: "#F5F7FA" }}>PCU</span>
+            <div className="text-2xl font-bold mb-4" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", letterSpacing: "-0.02em" }}>
+              <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "super", position: "relative", top: "-0.45em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
             </div>
             <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
               An independently organized TED event bringing ideas worth spreading to PCU and beyond.
@@ -1008,9 +986,17 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
             </div>
           </div>
           <div>
-            <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>Connect</div>
-            {["Instagram", "Twitter / X", "LinkedIn", "YouTube"].map((s) => (
-              <div key={s} className="text-sm mb-2" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>@tedxpcu — {s}</div>
+            <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#EB0028", fontFamily: "Rajdhani", fontWeight: 700 }}>Connect</div>
+            {[
+              { name: "Instagram", url: "https://www.instagram.com/tedxpcu", icon: "📸" },
+              { name: "LinkedIn", url: "https://www.linkedin.com/company/tedxpcu", icon: "💼" },
+              { name: "YouTube", url: "https://www.youtube.com/@tedxpcu", icon: "▶️" },
+            ].map(({ name, url, icon }) => (
+              <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sm mb-3 transition-colors duration-200 hover:text-red-400"
+                style={{ color: "#8A96A4", fontFamily: "Rajdhani", textDecoration: "none" }}>
+                <span>{icon}</span> {name}
+              </a>
             ))}
           </div>
         </div>
