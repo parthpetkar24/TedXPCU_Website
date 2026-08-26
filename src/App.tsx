@@ -6,12 +6,11 @@ import heroBg from "./imports/PCU_tedwireframeimage1.png";
 const NAV_LINKS = ["Home", "Theme", "About", "Contact"];
 
 const THEME = {
-  code: "01",
-  title: "Add Your Theme Title",
-  tagline: "Add your theme tagline here",
+  code: " ",
+  title: "AVIRBHAVA",
+  tagline: "Idea Manifested",
   description:
-    "Add your theme description here. This is where you describe what your theme is about, what ideas it explores, and what attendees can expect from this year's TEDxPCU experience.",
-  icon: "⚡",
+    " Avirbhava means the emergence or coming into existence of something meaningful. The theme represents how a simple idea, when supported by passion, determination, and action, can grow into something that creates a real impact. Every innovation, achievement, and change begins with an idea. Through this theme, TEDxPCU aims to showcase inspiring stories and perspectives that encourage people to turn their ideas into reality.",
 };
 
 const TEAM = [
@@ -436,7 +435,7 @@ function ThemeSection() {
 
         <div className="p-10 md:p-14">
           {/* Theme logo */}
-          <div className="mb-8">
+          <div className="mb-8 flex justify-center">
             <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
               {/* Outer ring */}
               <circle cx="36" cy="36" r="34" stroke="#ED2939" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.5" />
@@ -502,10 +501,10 @@ function AboutSection() {
   }, []);
 
   const facts = [
-    { label: "Speakers", value: "20+" },
-    { label: "Attendees", value: "500+" },
-    { label: "Ideas Shared", value: "60+" },
-    { label: "Years Running", value: "4" },
+    { label: "Events Held", value: "49,000+" },
+    { label: "Countries", value: "180" },
+    { label: "Events Annually", value: "4000+" },
+    { label: "Years Running", value: "15+" },
   ];
 
   return (
@@ -543,7 +542,7 @@ function AboutSection() {
           })}
           <div className="absolute text-center z-10" style={{ pointerEvents: "none" }}>
             <span className="text-xs font-bold tracking-widest" style={{ fontFamily: "Space Grotesk", color: "rgba(237,41,57,0.6)" }}>
-              TED<span style={{ color: "#ED2939" }}>x</span>PCU
+              TED<span style={{ color: "#ED2939" }}>x</span>
             </span>
           </div>
         </div>
@@ -552,13 +551,13 @@ function AboutSection() {
         <div>
           <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Inter" }}>◆ About Us</span>
           <h2 className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Space Grotesk", color: "#F5F7FA" }}>
-            A Universe of <span style={{ color: "#ED2939" }}>Ideas</span>
+            What is <span style={{ color: "#ED2939" }}>TEDX</span>
           </h2>
           <p className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
-            TEDxPCU is a locally organized, independently run TED event hosted at PCU. We bring together the most curious, creative, and courageous minds in our community to share ideas worth spreading.
+            TEDx is a program of independently organized local events, created in the spirit of TED’s mission of “Ideas Worth Spreading.” It brings together inspiring speakers and TED Talks to spark meaningful conversations and share ideas that inspire change.
           </p>
           <p className="text-base leading-relaxed mb-8" style={{ color: "#8A96A4", fontFamily: "Inter" }}>
-            From live speakers and TED Talk screenings to intimate discussions and lasting connections — TEDxPCU creates a gravitational pull toward ideas that matter. Our events are small by design, powerful by intent.
+            TEDxPCU is an independently organized TEDx event operated under license from TED.
           </p>
           <div className="grid grid-cols-2 gap-6">
             {facts.map((f) => (
@@ -724,27 +723,24 @@ function ScrollTimeline() {
 const CONTACTS = [
   {
     role: "Organiser",
-    name: "Rhea Sharma",
-    email: "rhea@tedxpcu.com",
-    phone: "+91 98765 43210",
+    name: "Aryan Raj",
+    phone: "+91 8252900353",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&auto=format",
-    handle: "@rhea_tedxpcu",
-  },
-  {
-    role: "Co-Organiser",
-    name: "Aryan Kapoor",
-    email: "aryan@tedxpcu.com",
-    phone: "+91 91234 56789",
-    image: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=300&h=300&fit=crop&auto=format",
     handle: "@aryan_tedxpcu",
   },
   {
+    role: "Co-Organiser",
+    name: "Shraddha Solanke",
+    phone: "+91 9326843844",
+    image: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=300&h=300&fit=crop&auto=format",
+    handle: "@shraddha_tedxpcu",
+  },
+  {
     role: "Operations",
-    name: "Dev Mehta",
-    email: "operations@tedxpcu.com",
-    phone: "+91 87654 32100",
+    name: "Swapnil Adlinge",
+    phone: "+91 7887472023",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&auto=format",
-    handle: "@dev_tedxpcu",
+    handle: "@swapnil_tedxpcu",
   },
 ];
 
@@ -967,9 +963,9 @@ function ContactSection() {
           style={{ background: "rgba(5,12,22,0.7)", border: "1px solid rgba(237,41,57,0.15)", borderRadius: "4px", backdropFilter: "blur(12px)" }}
         >
           {[
-            { icon: "📍", label: "Location", value: "PCU Campus, Nagpur, Maharashtra" },
-            { icon: "✉️", label: "General Enquiries", value: "hello@tedxpcu.com" },
-            { icon: "🌐", label: "Social", value: "@TEDxPCU on all platforms" },
+            { icon: "📍", label: "Location", value: "Auditorium, 3rd Floor, Admin, PCU Campus, Pune, Maharashtra" },
+            { icon: "✉️", label: "General Enquiries", value: "Tedxpcu@gmail.com" },
+            { icon: "🌐", label: "Social", value: "@tedxpcu" },
           ].map(({ icon, label, value }) => (
             <div key={label} className="flex items-center gap-3">
               <span className="text-xl">{icon}</span>
@@ -1022,14 +1018,13 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
           <div>
             <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#ED2939", fontFamily: "Inter" }}>Connect</div>
             {["Instagram", "Twitter / X", "LinkedIn", "YouTube"].map((s) => (
-              <div key={s} className="text-sm mb-2" style={{ color: "#8A96A4", fontFamily: "Inter" }}>@TEDxPCU — {s}</div>
+              <div key={s} className="text-sm mb-2" style={{ color: "#8A96A4", fontFamily: "Inter" }}>@tedxpcu — {s}</div>
             ))}
           </div>
         </div>
         <div className="section-divider mb-6" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs" style={{ color: "#8A96A4", fontFamily: "Inter" }}>© 2025 TEDxPCU. This independent TEDx event is operated under license from TED.</p>
-          <p className="text-xs" style={{ color: "rgba(237,41,57,0.6)", fontFamily: "Inter" }}>Ideas Worth Spreading ◆ Nagpur, India</p>
+          <p className="text-xs" style={{ color: "rgba(237,41,57,0.6)", fontFamily: "Inter" }}>Ideas Manifested ◆ Pune, India</p>
         </div>
       </div>
     </footer>
