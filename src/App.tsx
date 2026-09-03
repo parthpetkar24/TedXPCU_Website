@@ -1,6 +1,13 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
+import Particles, { ParticlesProvider } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
 import heroBg from "./imports/1234.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 // ─── Parallax Hook for Hero ───────────────────────────────────────────────────
 
@@ -221,7 +228,11 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
   return (
     <>
       {/* ── Desktop + Mobile: Floating Pill ── */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ type: "spring", stiffness: 200, damping: 28, delay: 0.3 }}
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
         style={{ paddingTop: scrolled ? "12px" : "18px", transition: "padding-top 0.5s cubic-bezier(0.16,1,0.3,1)" }}
       >
         <div
@@ -296,7 +307,7 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
             </div>
           </button>
         </div>
-      </nav>
+      </motion.nav>
 
       {/* ── Mobile Dropdown ── */}
       <AnimatePresence>
@@ -361,82 +372,97 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
 
 // ─── Hero ──────────────────────────────────────────────────────────────────────
 
-function HeroBg() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+// ─── Ambient Particles (tsParticles) ──────────────────────────────────────────
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let animId: number;
-    let frame = 0;
-
-    const resize = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-    resize();
-    window.addEventListener("resize", resize);
-
-    const particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number }[] = [];
-    for (let i = 0; i < 50; i++) {
-      particles.push({
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        vx: (Math.random() - 0.5) * 0.25,
-        vy: (Math.random() - 0.5) * 0.25,
-        size: Math.random() * 1.2 + 0.3,
-        opacity: Math.random() * 0.35 + 0.08,
-      });
-    }
-
-    const draw = () => {
-      const W = canvas.width;
-      const H = canvas.height;
-      frame++;
-
-      ctx.clearRect(0, 0, W, H);
-
-      // Particles
-      particles.forEach((p) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0) p.x = W;
-        if (p.x > W) p.x = 0;
-        if (p.y < 0) p.y = H;
-        if (p.y > H) p.y = 0;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(237,41,57,${p.opacity})`;
-        ctx.fill();
-      });
-
-      // Scanline sweep
-      const scanY = ((frame * 1.0) % (H + 40)) - 20;
-      const scanGrad = ctx.createLinearGradient(0, scanY - 8, 0, scanY + 8);
-      scanGrad.addColorStop(0, "transparent");
-      scanGrad.addColorStop(0.5, "rgba(237,41,57,0.05)");
-      scanGrad.addColorStop(1, "transparent");
-      ctx.fillStyle = scanGrad;
-      ctx.fillRect(0, scanY - 8, W, 16);
-
-
-      animId = requestAnimationFrame(draw);
-    };
-
-    draw();
-    return () => { cancelAnimationFrame(animId); window.removeEventListener("resize", resize); };
+function AmbientParticles() {
+  const particlesInit = useCallback(async (engine: any) => {
+    await loadSlim(engine);
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />;
+  return (
+    <ParticlesProvider init={particlesInit}>
+      <Particles
+        id="ambient-sparks"
+        options={{
+          fullScreen: { enable: true, zIndex: 0 },
+          fpsLimit: 60,
+          particles: {
+            number: { value: 55, density: { enable: true, width: 1920, height: 1080 } },
+            color: { value: ["#ED2939", "#FF4D5A", "#C41E2A", "#FF6B6B"] },
+            shape: { type: "circle" },
+            opacity: {
+              value: { min: 0.06, max: 0.3 },
+            },
+            size: {
+              value: { min: 0.5, max: 2.2 },
+            },
+            move: {
+              enable: true,
+              speed: { min: 0.15, max: 0.5 },
+              direction: "none" as const,
+              random: true,
+              straight: false,
+              outModes: { default: "out" as const },
+            },
+            links: {
+              enable: true,
+              distance: 130,
+              color: "#ED2939",
+              opacity: 0.045,
+              width: 0.5,
+            },
+          },
+          interactivity: {
+            events: {
+              onHover: { enable: true, mode: "repulse" },
+            },
+            modes: {
+              repulse: { distance: 120, duration: 0.4, speed: 0.5 },
+            },
+          },
+          detectRetina: true,
+        }}
+      />
+    </ParticlesProvider>
+  );
 }
 
 function HeroSection() {
+  const heroRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const scrollIndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!heroRef.current) return;
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.4 });
+      tl.from(titleRef.current, {
+        opacity: 0,
+        y: 70,
+        scale: 0.92,
+        filter: "blur(12px)",
+        duration: 1.4,
+        ease: "power3.out",
+      })
+      .from(subtitleRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 0.9,
+        ease: "power3.out",
+      }, "-=0.5")
+      .from(scrollIndRef.current, {
+        opacity: 0,
+        y: -15,
+        duration: 0.7,
+        ease: "power2.out",
+      }, "-=0.3");
+    }, heroRef);
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden animate-cinematic-fade">
+    <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       {/* PCU wireframe image background */}
       <div className="absolute inset-0 z-0">
         <img
@@ -453,9 +479,6 @@ function HeroSection() {
             background: "radial-gradient(ellipse 60% 50% at 50% 65%, rgba(237,41,57,0.12) 0%, transparent 70%)",
           }}
         />
-
-        {/* canvas overlay: particles + scanlines */}
-        <HeroBg />
 
         {/* Film grain overlay */}
         <div className="grain-overlay" />
@@ -484,6 +507,7 @@ function HeroSection() {
       <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
 
         <h1
+          ref={titleRef}
           className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
           style={{ fontFamily: "Inter", letterSpacing: "-0.03em" }}
         >
@@ -491,6 +515,7 @@ function HeroSection() {
         </h1>
 
         <p
+          ref={subtitleRef}
           className="text-lg md:text-xl tracking-widest"
           style={{ color: "#AAB4C0", fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.25em" }}
         >
@@ -498,7 +523,7 @@ function HeroSection() {
         </p>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+        <div ref={scrollIndRef} className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
           <div className="w-px h-16" style={{ background: "linear-gradient(180deg, #ED2939, transparent)" }} />
         </div>
       </div>
@@ -511,6 +536,30 @@ function HeroSection() {
 function ThemeSection() {
   const [locked, setLocked] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".theme-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".theme-label", start: "top 88%" },
+      });
+      gsap.from(".theme-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".theme-heading", start: "top 88%" },
+      });
+      gsap.from(".theme-subtitle", {
+        opacity: 0, y: 30, duration: 0.7, delay: 0.1, ease: "power3.out",
+        scrollTrigger: { trigger: ".theme-subtitle", start: "top 88%" },
+      });
+      gsap.from(".theme-card", {
+        opacity: 0, scale: 0.92, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: ".theme-card", start: "top 85%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   const handleClick = () => {
     if (!locked) {
@@ -522,18 +571,17 @@ function ThemeSection() {
   };
 
   return (
-    <section id="theme" className="py-28 px-6 max-w-4xl mx-auto">
+    <section ref={sectionRef} id="theme" className="py-28 px-6 max-w-4xl mx-auto">
       <div className="text-center mb-16">
-        <span data-aos="fade-in" data-aos-duration="600" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ This Year</span>
-        <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Our Theme</h2>
-        <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to lock on and reveal the full story.</p>
+        <span className="theme-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ This Year</span>
+        <h2 className="theme-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Our Theme</h2>
+        <p className="theme-subtitle mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to lock on and reveal the full story.</p>
       </div>
 
       {/* Single theme card */}
       <div
-        data-aos="zoom-in" data-aos-delay="300"
+        className="theme-card relative cursor-pointer transition-all duration-700"
         onClick={handleClick}
-        className="relative cursor-pointer transition-all duration-700"
         style={{
           border: locked ? "1px solid rgba(237,41,57,0.5)" : "1px solid rgba(255,255,255,0.07)",
           background: expanded ? "rgba(5,12,22,0.98)" : "rgba(5,12,22,0.7)",
@@ -568,16 +616,11 @@ function ThemeSection() {
           {/* Theme logo */}
           <div className="mb-8 flex justify-center">
             <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-              {/* Outer ring */}
               <circle cx="36" cy="36" r="34" stroke="#ED2939" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.5" />
-              {/* Inner ring */}
               <circle cx="36" cy="36" r="26" stroke="#ED2939" strokeWidth="1" opacity="0.3" />
-              {/* Core circle */}
               <circle cx="36" cy="36" r="18" fill="rgba(237,41,57,0.08)" stroke="#ED2939" strokeWidth="1.5" />
-              {/* X mark */}
               <line x1="25" y1="25" x2="47" y2="47" stroke="#ED2939" strokeWidth="2.5" strokeLinecap="round" />
               <line x1="47" y1="25" x2="25" y2="47" stroke="#ED2939" strokeWidth="2.5" strokeLinecap="round" />
-              {/* 4 corner tick marks */}
               <line x1="36" y1="2" x2="36" y2="8" stroke="#ED2939" strokeWidth="1.5" strokeLinecap="round" />
               <line x1="36" y1="64" x2="36" y2="70" stroke="#ED2939" strokeWidth="1.5" strokeLinecap="round" />
               <line x1="2" y1="36" x2="8" y2="36" stroke="#ED2939" strokeWidth="1.5" strokeLinecap="round" />
@@ -606,15 +649,22 @@ function ThemeSection() {
             </div>
           )}
 
-          {expanded && (
-            <div style={{ animation: "expand-target 0.5s ease-out" }}>
-              <div className="section-divider my-6 opacity-30" />
-              <p className="text-base leading-relaxed text-lg" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>{THEME.description}</p>
-              <div className="mt-8 flex items-center gap-2">
-                <span className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>◆ Target Acquired</span>
-              </div>
-            </div>
-          )}
+          <AnimatePresence>
+            {expanded && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <div className="section-divider my-6 opacity-30" />
+                <p className="text-base leading-relaxed text-lg" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>{THEME.description}</p>
+                <div className="mt-8 flex items-center gap-2">
+                  <span className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>◆ Target Acquired</span>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </section>
@@ -625,10 +675,34 @@ function ThemeSection() {
 
 function AboutSection() {
   const [rotation, setRotation] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const interval = setInterval(() => setRotation((r) => r + 0.3), 16);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".about-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".about-label", start: "top 88%" },
+      });
+      gsap.from(".about-heading", {
+        opacity: 0, x: -50, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: ".about-heading", start: "top 88%" },
+      });
+      gsap.from(".about-text", {
+        opacity: 0, x: -40, duration: 0.8, delay: 0.15, ease: "power3.out",
+        scrollTrigger: { trigger: ".about-text", start: "top 88%" },
+      });
+      gsap.from(".about-stat", {
+        opacity: 0, y: 40, duration: 0.7, stagger: 0.12, ease: "power3.out",
+        scrollTrigger: { trigger: ".about-stat", start: "top 90%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
   }, []);
 
   const facts = [
@@ -639,7 +713,7 @@ function AboutSection() {
   ];
 
   return (
-    <section id="about" className="py-28 px-6 max-w-7xl mx-auto">
+    <section ref={sectionRef} id="about" className="py-28 px-6 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
         {/* Black hole visual */}
         {/* (data-reveal on the text side only to preserve the animated orbiting visual) */}
@@ -681,16 +755,16 @@ function AboutSection() {
 
         {/* Text */}
         <div>
-          <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
-          <h2 data-aos="fade-right" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Inter", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
+          <span className="about-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
+          <h2 className="about-heading text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Inter", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
             What is <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.45em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup>
           </h2>
-          <p data-aos="fade-right" data-aos-delay="200" className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
+          <p className="about-text text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
             In the spirit of discovering and spreading ideas, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TED Talks video and live speakers combine to spark deep discussion and connection. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized. (Subject to certain rules and regulations.)
           </p>
-          <div data-aos="fade-up" data-aos-delay="350" className="grid grid-cols-2 gap-6">
+          <div className="grid grid-cols-2 gap-6">
             {facts.map((f) => (
-              <div key={f.label} className="p-4 card-glass" style={{ borderRadius: "4px" }}>
+              <div key={f.label} className="about-stat p-4 card-glass" style={{ borderRadius: "4px" }}>
                 <div className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{f.value}</div>
                 <div className="text-sm mt-1" style={{ fontFamily: "Rajdhani", color: "#8A96A4" }}>{f.label}</div>
               </div>
@@ -745,6 +819,7 @@ function TimelineProgress({ total, current }: { total: number; current: number }
 function ScrollTimeline() {
   const [activeIndex, setActiveIndex] = useState(0);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const timelineSectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -762,12 +837,31 @@ function ScrollTimeline() {
     return () => observer.disconnect();
   }, []);
 
+  useEffect(() => {
+    if (!timelineSectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".tl-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".tl-label", start: "top 88%" },
+      });
+      gsap.from(".tl-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".tl-heading", start: "top 88%" },
+      });
+      gsap.from(".tl-subtitle", {
+        opacity: 0, y: 30, duration: 0.7, delay: 0.1, ease: "power3.out",
+        scrollTrigger: { trigger: ".tl-subtitle", start: "top 88%" },
+      });
+    }, timelineSectionRef);
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section id="timeline" className="py-28 px-6 max-w-6xl mx-auto">
+    <section ref={timelineSectionRef} id="timeline" className="py-28 px-6 max-w-6xl mx-auto">
       <div className="text-center mb-16">
-        <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Event Day</span>
-        <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>How It Unfolds</h2>
-        <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
+        <span className="tl-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Event Day</span>
+        <h2 className="tl-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>How It Unfolds</h2>
+        <p className="tl-subtitle mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
           A full-day journey from first coffee to closing keynote — every moment crafted with intention.
         </p>
       </div>
@@ -979,6 +1073,34 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
 
 function ContactSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".contact-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".contact-label", start: "top 90%" },
+      });
+      gsap.from(".contact-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".contact-heading", start: "top 90%" },
+      });
+      gsap.from(".contact-subtitle", {
+        opacity: 0, y: 30, duration: 0.7, delay: 0.1, ease: "power3.out",
+        scrollTrigger: { trigger: ".contact-subtitle", start: "top 90%" },
+      });
+      gsap.from(".contact-info", {
+        opacity: 0, scale: 0.95, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".contact-info", start: "top 90%" },
+      });
+      gsap.from(".contact-cards > div", {
+        opacity: 0, y: 40, duration: 0.7, stagger: 0.15, ease: "power3.out",
+        scrollTrigger: { trigger: ".contact-cards", start: "top 90%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -1047,23 +1169,22 @@ function ContactSection() {
   }, []);
 
   return (
-    <section id="contact" className="py-28 px-6 relative overflow-hidden">
+    <section ref={sectionRef} id="contact" className="py-28 px-6 relative overflow-hidden">
       {/* Animated network canvas bg */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" style={{ opacity: 0.4 }} />
 
       <div className="relative z-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Reach Us</span>
-          <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Contact Us</h2>
-          <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
+          <span className="contact-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Reach Us</span>
+          <h2 className="contact-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Contact Us</h2>
+          <p className="contact-subtitle mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
             Every great idea begins with a conversation. Reach out directly to our team.
           </p>
         </div>
 
         {/* General info bar */}
         <div
-          data-aos="zoom-in" data-aos-delay="250"
-          className="flex flex-wrap justify-center gap-8 mb-14 p-6"
+          className="contact-info flex flex-wrap justify-center gap-8 mb-14 p-6"
           style={{ background: "rgba(5,12,22,0.7)", border: "1px solid rgba(237,41,57,0.15)", borderRadius: "4px", backdropFilter: "blur(12px)" }}
         >
           {[
@@ -1082,7 +1203,7 @@ function ContactSection() {
         </div>
 
         {/* Contact cards */}
-        <div data-aos="fade-up" data-aos-delay="350" className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="contact-cards grid grid-cols-1 md:grid-cols-3 gap-6">
           {CONTACTS.map((contact, i) => (
             <ContactCard key={contact.name} contact={contact} index={i} />
           ))}
@@ -1229,21 +1350,32 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
 
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
+  const lenisRef = useRef<Lenis | null>(null);
 
+  // ── Lenis smooth scroll + GSAP ScrollTrigger sync ──
   useEffect(() => {
-    if (typeof window !== "undefined" && (window as any).AOS) {
-      (window as any).AOS.init({
-        duration: 800,
-        easing: "ease-out-cubic",
-        once: true,
-      });
-    }
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+    });
+    lenisRef.current = lenis;
+
+    // Sync Lenis scroll position with GSAP ScrollTrigger
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add((time: number) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+
+    return () => {
+      lenis.destroy();
+      gsap.ticker.remove((time: number) => lenis.raf(time * 1000));
+    };
   }, []);
 
   const handleNav = (page: string) => {
     setActivePage(page);
     if (page === "Home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      lenisRef.current?.scrollTo(0, { duration: 1.2 });
       return;
     }
     const idMap: Record<string, string> = {
@@ -1251,25 +1383,28 @@ export default function App() {
       About: "about",
       Contact: "contact",
     };
-    const el = document.getElementById(idMap[page]);
-    if (el) setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    const target = document.getElementById(idMap[page]);
+    if (target) lenisRef.current?.scrollTo(target, { offset: -20, duration: 1.4 });
     setActivePage("Home");
   };
 
   return (
-    <div style={{ background: "#03080F", minHeight: "100vh" }}>
-      <Navbar active={activePage} onNav={handleNav} />
-      <HeroSection />
-      <div className="section-divider" />
-      <SectionDeco />
-      <ThemeSection />
-      <div className="section-divider" />
-      <SectionDeco />
-      <AboutSection />
-      <div className="section-divider" />
-      <SectionDeco />
-      <ContactSection />
-      <Footer onNav={handleNav} />
+    <div style={{ background: "#03080F", minHeight: "100vh", position: "relative" }}>
+      <AmbientParticles />
+      <div style={{ position: "relative", zIndex: 1 }}>
+        <Navbar active={activePage} onNav={handleNav} />
+        <HeroSection />
+        <div className="section-divider" />
+        <SectionDeco />
+        <ThemeSection />
+        <div className="section-divider" />
+        <SectionDeco />
+        <AboutSection />
+        <div className="section-divider" />
+        <SectionDeco />
+        <ContactSection />
+        <Footer onNav={handleNav} />
+      </div>
     </div>
   );
 }
