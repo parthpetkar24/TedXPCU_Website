@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
@@ -60,6 +60,92 @@ function SectionDeco() {
         <line x1="120" y1="10" x2="200" y2="10" className="deco-line" opacity="0.3" />
       </svg>
     </div>
+  );
+}
+
+// ─── Interaction Components ───────────────────────────────────────────────────
+
+function TypewriterText({ text, delay = 0 }: { text: string, delay?: number }) {
+  const [displayedText, setDisplayedText] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+
+  useEffect(() => {
+    let timeout: ReturnType<typeof setTimeout>;
+    
+    timeout = setTimeout(() => {
+      setIsTyping(true);
+      let currentIndex = 0;
+      
+      const interval = setInterval(() => {
+        if (currentIndex < text.length) {
+          setDisplayedText(text.slice(0, currentIndex + 1));
+          currentIndex++;
+        } else {
+          clearInterval(interval);
+          setIsTyping(false);
+          setIsDone(true);
+        }
+      }, 50);
+      
+      return () => clearInterval(interval);
+    }, delay);
+
+    return () => clearTimeout(timeout);
+  }, [text, delay]);
+
+  return (
+    <>
+      {displayedText}
+      <span className={`typewriter-cursor ${isDone ? 'done' : ''}`} style={{ opacity: isTyping || isDone ? undefined : 0 }} />
+    </>
+  );
+}
+
+function TiltCard({ children, locked = false }: { children: React.ReactNode, locked?: boolean }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (locked) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+    e.currentTarget.style.setProperty("--shine-x", `${(mouseX / width) * 100}%`);
+    e.currentTarget.style.setProperty("--shine-y", `${(mouseY / height) * 100}%`);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.div
+      className="tilt-card-wrapper w-full h-full"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <motion.div
+        className="tilt-card relative w-full h-full"
+        style={{ rotateX: locked ? 0 : rotateX, rotateY: locked ? 0 : rotateY }}
+      >
+        <div className="tilt-shine" />
+        {children}
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -387,18 +473,18 @@ function AmbientParticles() {
           fullScreen: { enable: true, zIndex: 0 },
           fpsLimit: 60,
           particles: {
-            number: { value: 55, density: { enable: true, width: 1920, height: 1080 } },
-            color: { value: ["#ED2939", "#FF4D5A", "#C41E2A", "#FF6B6B"] },
-            shape: { type: "circle" },
+            number: { value: 65, density: { enable: true, width: 1920, height: 1080 } },
+            color: { value: ["#ED2939", "#FF4D5A", "#FFC000", "#FF6B6B"] },
+            shape: { type: ["circle", "star"] },
             opacity: {
-              value: { min: 0.06, max: 0.3 },
+              value: { min: 0.1, max: 0.4 },
             },
             size: {
-              value: { min: 0.5, max: 2.2 },
+              value: { min: 0.5, max: 2.5 },
             },
             move: {
               enable: true,
-              speed: { min: 0.15, max: 0.5 },
+              speed: { min: 0.2, max: 0.8 },
               direction: "none" as const,
               random: true,
               straight: false,
@@ -406,18 +492,19 @@ function AmbientParticles() {
             },
             links: {
               enable: true,
-              distance: 130,
+              distance: 140,
               color: "#ED2939",
-              opacity: 0.045,
-              width: 0.5,
+              opacity: 0.25,
+              width: 2.5,
             },
           },
           interactivity: {
             events: {
-              onHover: { enable: true, mode: "repulse" },
+              onHover: { enable: true, mode: ["grab", "trail"] },
             },
             modes: {
-              repulse: { distance: 120, duration: 0.4, speed: 0.5 },
+              grab: { distance: 200, links: { opacity: 0.7 } },
+              trail: { delay: 0.02, quantity: 6, particles: { color: { value: ["#FFC000", "#ED2939", "#FFFFFF"] }, size: { value: { min: 2, max: 5 } }, move: { speed: 4, outModes: "destroy" as const } } }
             },
           },
           detectRetina: true,
@@ -469,8 +556,16 @@ function HeroSection() {
           src={heroBg}
           alt="PCU Building"
           className="absolute inset-0 w-full h-full object-cover spooky-effect"
-          style={{ opacity: 0.6 }}
+          style={{ 
+            opacity: 0.6, 
+            objectPosition: "center 60%", 
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 5%, black 25%, black 80%, transparent 100%)",
+            maskImage: "linear-gradient(to bottom, transparent 5%, black 25%, black 80%, transparent 100%)"
+          }}
         />
+
+        {/* Spooky Lightning Flash */}
+        <div className="spooky-lightning" />
 
         {/* Red ambient glow */}
         <div
@@ -516,10 +611,10 @@ function HeroSection() {
 
         <p
           ref={subtitleRef}
-          className="text-lg md:text-xl tracking-widest"
+          className="text-lg md:text-xl tracking-widest h-8"
           style={{ color: "#AAB4C0", fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.25em" }}
         >
-          <span style={{ color: "#EB0028" }}>x</span> = independently organized TED event
+          <span style={{ color: "#EB0028" }}>x</span> = <TypewriterText text="independently organized TED event" delay={1500} />
         </p>
 
         {/* Scroll indicator */}
@@ -579,28 +674,29 @@ function ThemeSection() {
       </div>
 
       {/* Single theme card */}
-      <div
-        className="theme-card relative cursor-pointer transition-all duration-700"
-        onClick={handleClick}
-        style={{
-          border: locked ? "1px solid rgba(237,41,57,0.5)" : "1px solid rgba(255,255,255,0.07)",
-          background: expanded ? "rgba(5,12,22,0.98)" : "rgba(5,12,22,0.7)",
-          borderRadius: "4px",
-          backdropFilter: "blur(12px)",
-          transform: expanded ? "scale(1.01)" : "scale(1)",
-          boxShadow: locked ? "0 0 40px rgba(237,41,57,0.12)" : "none",
-        }}
-      >
-        {/* Hover reticle */}
-        {!locked && (
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-            <div className="w-16 h-16 border-2 rounded-full" style={{ borderColor: "#ED2939", animation: "pulse-ring 1.5s ease-in-out infinite" }} />
-            <div className="absolute w-8 h-8 border rounded-full" style={{ borderColor: "#ED2939" }} />
-            <div className="absolute w-2 h-2 rounded-full" style={{ background: "#ED2939" }} />
-            <div className="absolute w-24 h-px" style={{ background: "rgba(237,41,57,0.5)" }} />
-            <div className="absolute h-24 w-px" style={{ background: "rgba(237,41,57,0.5)" }} />
-          </div>
-        )}
+      <TiltCard locked={locked}>
+        <div
+          className="theme-card relative cursor-pointer transition-all duration-700 w-full h-full"
+          onClick={handleClick}
+          style={{
+            border: locked ? "1px solid rgba(237,41,57,0.5)" : "1px solid rgba(255,255,255,0.07)",
+            background: expanded ? "rgba(5,12,22,0.98)" : "rgba(5,12,22,0.7)",
+            borderRadius: "4px",
+            backdropFilter: "blur(12px)",
+            transform: expanded ? "scale(1.01)" : "scale(1)",
+            boxShadow: locked ? "0 0 40px rgba(237,41,57,0.12)" : "none",
+          }}
+        >
+          {/* Hover reticle */}
+          {!locked && (
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+              <div className="w-16 h-16 border-2 rounded-full" style={{ borderColor: "#ED2939", animation: "pulse-ring 1.5s ease-in-out infinite" }} />
+              <div className="absolute w-8 h-8 border rounded-full" style={{ borderColor: "#ED2939" }} />
+              <div className="absolute w-2 h-2 rounded-full" style={{ background: "#ED2939" }} />
+              <div className="absolute w-24 h-px" style={{ background: "rgba(237,41,57,0.5)" }} />
+              <div className="absolute h-24 w-px" style={{ background: "rgba(237,41,57,0.5)" }} />
+            </div>
+          )}
 
         {/* Corner brackets when locked */}
         {locked && (
@@ -667,6 +763,7 @@ function ThemeSection() {
           </AnimatePresence>
         </div>
       </div>
+      </TiltCard>
     </section>
   );
 }
@@ -715,9 +812,28 @@ function AboutSection() {
   return (
     <section ref={sectionRef} id="about" className="py-28 px-6 max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        {/* Text */}
+        <div className="order-2 lg:order-1">
+          <span className="about-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
+          <h2 className="about-heading text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Inter", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
+            What is <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.45em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup>
+          </h2>
+          <p className="about-text text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
+            In the spirit of discovering and spreading ideas, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TED Talks video and live speakers combine to spark deep discussion and connection. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized. (Subject to certain rules and regulations.)
+          </p>
+          <div className="grid grid-cols-2 gap-6">
+            {facts.map((f) => (
+              <div key={f.label} className="about-stat p-4 card-glass" style={{ borderRadius: "4px" }}>
+                <div className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{f.value}</div>
+                <div className="text-sm mt-1" style={{ fontFamily: "Rajdhani", color: "#8A96A4" }}>{f.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Black hole visual */}
         {/* (data-reveal on the text side only to preserve the animated orbiting visual) */}
-        <div className="relative flex items-center justify-center" style={{ height: "480px" }}>
+        <div className="relative flex items-center justify-center order-1 lg:order-2" style={{ height: "480px" }}>
           <div className="absolute rounded-full" style={{ width: "420px", height: "420px", background: "radial-gradient(ellipse, rgba(237,41,57,0.03) 0%, transparent 70%)" }} />
           {[380, 320, 260, 200].map((size, i) => (
             <div key={size} className="absolute rounded-full" style={{
@@ -750,25 +866,6 @@ function AboutSection() {
             <span className="text-xs font-bold tracking-widest" style={{ fontFamily: "Oswald", color: "rgba(237,41,57,0.6)" }}>
               TED<span style={{ color: "#ED2939" }}>x</span>
             </span>
-          </div>
-        </div>
-
-        {/* Text */}
-        <div>
-          <span className="about-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
-          <h2 className="about-heading text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Inter", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
-            What is <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.45em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup>
-          </h2>
-          <p className="about-text text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
-            In the spirit of discovering and spreading ideas, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TED Talks video and live speakers combine to spark deep discussion and connection. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized. (Subject to certain rules and regulations.)
-          </p>
-          <div className="grid grid-cols-2 gap-6">
-            {facts.map((f) => (
-              <div key={f.label} className="about-stat p-4 card-glass" style={{ borderRadius: "4px" }}>
-                <div className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{f.value}</div>
-                <div className="text-sm mt-1" style={{ fontFamily: "Rajdhani", color: "#8A96A4" }}>{f.label}</div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
@@ -1346,6 +1443,57 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
   );
 }
 
+// ─── Event Date Panel ────────────────────────────────────────────────────────────
+
+function EventDatePanel() {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
+  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <section className="py-20 px-6 max-w-6xl mx-auto event-date-panel">
+      <motion.div
+        className="event-date-card p-12 md:p-20 flex flex-col items-center justify-center text-center cursor-default"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ rotateX, rotateY }}
+      >
+        <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#FFFFFF", textTransform: "uppercase", letterSpacing: "0.02em" }}>
+          TED<sup style={{ fontSize: "0.5em" }}>x</sup>PCU
+        </h2>
+        <div className="text-6xl md:text-8xl font-bold tracking-tighter mb-6 red-glow" style={{ fontFamily: "Inter", color: "#F5F7FA" }}>
+          XX.XX.XXXX
+        </div>
+        <p className="text-lg md:text-xl font-medium tracking-widest" style={{ color: "rgba(255,255,255,0.8)", fontFamily: "Rajdhani", textTransform: "uppercase" }}>
+          Save The Date
+        </p>
+      </motion.div>
+    </section>
+  );
+}
+
 // ─── App ───────────────────────────────────────────────────────────────────────
 
 export default function App() {
@@ -1401,6 +1549,7 @@ export default function App() {
         <SectionDeco />
         <AboutSection />
         <div className="section-divider" />
+        <EventDatePanel />
         <SectionDeco />
         <ContactSection />
         <Footer onNav={handleNav} />
