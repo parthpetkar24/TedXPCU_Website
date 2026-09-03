@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rozha+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Rozha+One&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
 
 @theme {
@@ -10,7 +10,7 @@
   --color-border: rgba(255, 255, 255, 0.05);
   --font-heading: 'Oswald', sans-serif;
   --font-display: 'Bebas Neue', sans-serif;
-  --font-body: 'Rajdhani', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
   --font-ui: 'Inter', sans-serif;
 }
 
@@ -25,7 +25,7 @@ html {
 body {
   background-color: #07111F;
   color: #F5F7FA;
-  font-family: 'Rajdhani', sans-serif;
+  font-family: 'IBM Plex Sans', sans-serif;
   margin: 0;
   padding: 0;
   overflow-x: hidden;

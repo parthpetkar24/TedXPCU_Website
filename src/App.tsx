@@ -178,7 +178,7 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "nav-glass" : "bg-transparent"}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-        <button onClick={() => onNav("Home")} className="text-xl font-bold" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
+        <button onClick={() => onNav("Home")} className="text-xl font-bold" style={{ fontFamily: "Inter", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
           <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
         </button>
 
@@ -342,14 +342,14 @@ function HeroSection() {
 
         <h1
           className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
-          style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", letterSpacing: "-0.03em" }}
+          style={{ fontFamily: "Inter", letterSpacing: "-0.03em" }}
         >
           <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 400 }}>PCU</span>
         </h1>
 
         <p
           className="text-lg md:text-xl tracking-widest"
-          style={{ color: "#AAB4C0", fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", fontWeight: 500, letterSpacing: "0.25em" }}
+          style={{ color: "#AAB4C0", fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.25em" }}
         >
           <span style={{ color: "#EB0028" }}>x</span> = independently organized TED event
         </p>
@@ -466,7 +466,7 @@ function ThemeSection() {
           {expanded && (
             <div style={{ animation: "expand-target 0.5s ease-out" }}>
               <div className="section-divider my-6 opacity-30" />
-              <p className="text-base leading-relaxed text-lg" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>{THEME.description}</p>
+              <p className="text-base leading-relaxed text-lg" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>{THEME.description}</p>
               <div className="mt-8 flex items-center gap-2">
                 <span className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>◆ Target Acquired</span>
               </div>
@@ -539,14 +539,11 @@ function AboutSection() {
         {/* Text */}
         <div>
           <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ About Us</span>
-          <h2 data-aos="fade-right" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
+          <h2 data-aos="fade-right" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4 mb-6" style={{ fontFamily: "Inter", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
             What is <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.45em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup>
           </h2>
-          <p data-aos="fade-right" data-aos-delay="200" className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
-            TEDx is a program of independently organized local events, created in the spirit of TED’s mission of “Ideas Worth Spreading.” It brings together inspiring speakers and TED Talks to spark meaningful conversations and share ideas that inspire change.
-          </p>
-          <p data-aos="fade-right" data-aos-delay="300" className="text-base leading-relaxed mb-8" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
-            TEDxPCU is an independently organized TEDx event operated under license from TED.
+          <p data-aos="fade-right" data-aos-delay="200" className="text-base leading-relaxed mb-6" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
+            In the spirit of discovering and spreading ideas, TEDx is a program of local, self-organized events that bring people together to share a TED-like experience. At a TEDx event, TED Talks video and live speakers combine to spark deep discussion and connection. These local, self-organized events are branded TEDx, where x = independently organized TED event. The TED Conference provides general guidance for the TEDx program, but individual TEDx events are self-organized. (Subject to certain rules and regulations.)
           </p>
           <div data-aos="fade-up" data-aos-delay="350" className="grid grid-cols-2 gap-6">
             {facts.map((f) => (
@@ -627,7 +624,7 @@ function ScrollTimeline() {
       <div className="text-center mb-16">
         <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Event Day</span>
         <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>How It Unfolds</h2>
-        <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+        <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
           A full-day journey from first coffee to closing keynote — every moment crafted with intention.
         </p>
       </div>
@@ -656,7 +653,7 @@ function ScrollTimeline() {
                       }}>{item.tag}</div>
                       <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
                       <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed ml-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani", maxWidth: "360px" }}>{item.description}</p>
+                      <p className="text-sm leading-relaxed ml-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans", maxWidth: "360px" }}>{item.description}</p>
                     </div>
                   ) : (
                     <div className={`hidden lg:block flex-1 pl-0 pr-10 transition-all duration-700 ${isActive ? "opacity-100 scale-100" : "opacity-20 scale-95"}`}>
@@ -688,7 +685,7 @@ function ScrollTimeline() {
                       }}>{item.tag}</div>
                       <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
                       <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Rajdhani", maxWidth: "360px" }}>{item.description}</p>
+                      <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans", maxWidth: "360px" }}>{item.description}</p>
                     </div>
                   )}
                 </div>
@@ -826,7 +823,7 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
                 </div>
                 <div>
                   <div className="text-xs tracking-widest uppercase mb-0.5" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700, fontSize: "10px" }}>{label}</div>
-                  <div className="text-sm" style={{ color: "#F5F7FA", fontFamily: "Rajdhani" }}>{value}</div>
+                  <div className="text-sm" style={{ color: "#F5F7FA", fontFamily: "IBM Plex Sans" }}>{value}</div>
                 </div>
               </div>
             ))}
@@ -915,7 +912,7 @@ function ContactSection() {
         <div className="text-center mb-16">
           <span data-aos="fade-in" className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Reach Us</span>
           <h2 data-aos="fade-up" data-aos-delay="100" className="text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Contact Us</h2>
-          <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+          <p data-aos="fade-up" data-aos-delay="200" className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
             Every great idea begins with a conversation. Reach out directly to our team.
           </p>
         </div>
@@ -935,7 +932,7 @@ function ContactSection() {
               <span className="text-xl">{icon}</span>
               <div>
                 <div className="text-xs tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700, fontSize: "10px" }}>{label}</div>
-                <div className="text-sm font-medium" style={{ color: "#F5F7FA", fontFamily: "Rajdhani" }}>{value}</div>
+                <div className="text-sm font-medium" style={{ color: "#F5F7FA", fontFamily: "IBM Plex Sans" }}>{value}</div>
               </div>
             </div>
           ))}
@@ -960,10 +957,10 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
           <div>
-            <div className="text-2xl font-bold mb-4" style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif", letterSpacing: "-0.02em" }}>
+            <div className="text-2xl font-bold mb-4" style={{ fontFamily: "Inter", letterSpacing: "-0.02em" }}>
               <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
             </div>
-            <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+            <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
               An independently organized TED event bringing ideas worth spreading to PCU and beyond.
             </p>
           </div>
@@ -996,7 +993,7 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
         </div>
         <div className="section-divider mb-6" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs" style={{ color: "rgba(237,41,57,0.6)", fontFamily: "Rajdhani", fontWeight: 600 }}>Ideas Manifested ◆ Pune, India</p>
+          <p className="text-xs" style={{ color: "rgba(237,41,57,0.6)", fontFamily: "IBM Plex Sans", fontWeight: 600 }}>This independent TEDx event is operated under license from TED.</p>
         </div>
       </div>
     </footer>
@@ -1020,7 +1017,7 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
             <span className="text-3xl">✓</span>
           </div>
           <h2 className="text-4xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Application Received!</h2>
-          <p className="mb-8" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+          <p className="mb-8" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
             Thank you for applying to TEDxPCU. Our team will review your application and get back to you within 7 days.
           </p>
           <button onClick={onBack} className="px-8 py-3 text-sm font-semibold tracking-widest uppercase"
@@ -1036,12 +1033,12 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
     <div className="min-h-screen pt-24 pb-16 px-6">
       <div className="max-w-2xl mx-auto">
         <button onClick={onBack} className="text-sm mb-8 flex items-center gap-2 transition-colors hover:text-red-400"
-          style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+          style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
           ← Back to Home
         </button>
         <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>◆ Join The Movement</span>
         <h1 className="text-5xl font-bold mt-4 mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Apply Now</h1>
-        <p className="mb-10" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+        <p className="mb-10" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
           Applications are reviewed by our curation team. Seats are limited. Tell us your story.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -1056,7 +1053,7 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
               <input type={type} placeholder={placeholder} value={form[field as keyof typeof form]}
                 onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
                 className="w-full px-4 py-3 bg-transparent outline-none"
-                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "Rajdhani", borderRadius: "2px" }}
+                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "IBM Plex Sans", borderRadius: "2px" }}
                 onFocus={(e) => (e.target.style.borderColor = "rgba(237,41,57,0.5)")}
                 onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")} />
             </div>
@@ -1070,7 +1067,7 @@ function ApplyPage({ onBack }: { onBack: () => void }) {
               <textarea rows={4} placeholder={placeholder} value={form[field as keyof typeof form]}
                 onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
                 className="w-full px-4 py-3 bg-transparent outline-none resize-none"
-                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "Rajdhani", borderRadius: "2px" }}
+                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "IBM Plex Sans", borderRadius: "2px" }}
                 onFocus={(e) => (e.target.style.borderColor = "rgba(237,41,57,0.5)")}
                 onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")} />
             </div>
