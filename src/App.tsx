@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import heroBg from "./imports/1234.png";
 
 // ─── Parallax Hook for Hero ───────────────────────────────────────────────────
@@ -163,6 +164,47 @@ const EVENT_TIMELINE = [
   },
 ];
 
+// ─── Magnetic Button Wrapper ───────────────────────────────────────────────────
+
+function MagneticButton({ children, className = "", style = {}, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { children: React.ReactNode }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!ref.current) return;
+    const rect = ref.current.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) * 0.2;
+    const dy = (e.clientY - cy) * 0.25;
+    const maxPull = 4;
+    setOffset({
+      x: Math.max(-maxPull, Math.min(maxPull, dx)),
+      y: Math.max(-maxPull, Math.min(maxPull, dy)),
+    });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setOffset({ x: 0, y: 0 });
+  }, []);
+
+  return (
+    <button
+      ref={ref}
+      className={`magnetic-wrap ${className}`}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        ...style,
+        transform: `translate(${offset.x}px, ${offset.y}px)`,
+      }}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
 // ─── Navbar ────────────────────────────────────────────────────────────────────
 
 function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void }) {
@@ -171,48 +213,149 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
 
   useEffect(() => {
     const handler = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handler);
+    window.addEventListener("scroll", handler, { passive: true });
+    handler();
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "nav-glass" : "bg-transparent"}`}>
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
-        <button onClick={() => onNav("Home")} className="text-xl font-bold" style={{ fontFamily: "Inter", textTransform: "uppercase", letterSpacing: "-0.02em" }}>
-          <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.5em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.1em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 700 }}>PCU</span>
-        </button>
+    <>
+      {/* ── Desktop + Mobile: Floating Pill ── */}
+      <nav className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none"
+        style={{ paddingTop: scrolled ? "12px" : "18px", transition: "padding-top 0.5s cubic-bezier(0.16,1,0.3,1)" }}
+      >
+        <div
+          className={`nav-pill pointer-events-auto flex items-center ${scrolled ? "scrolled" : ""}`}
+          style={{
+            padding: scrolled ? "6px 8px 6px 14px" : "8px 10px 8px 18px",
+            maxWidth: scrolled ? "520px" : "600px",
+            transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+          }}
+        >
+          {/* Logo */}
+          <MagneticButton
+            onClick={() => onNav("Home")}
+            className="flex items-center flex-shrink-0"
+            style={{ fontFamily: "Inter", textTransform: "uppercase" as const, letterSpacing: "-0.02em", background: "none", border: "none", cursor: "pointer" }}
+          >
+            <span style={{ color: "#EB0028", fontWeight: 700, fontSize: scrolled ? "14px" : "16px", transition: "font-size 0.5s cubic-bezier(0.16,1,0.3,1)" }}>TED</span>
+            <sup style={{ color: "#EB0028", fontSize: scrolled ? "7px" : "8px", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: scrolled ? "-8px" : "-9px", padding: "0 0.08em", transition: "all 0.5s" }}>x</sup>
+            <span style={{ color: "#FFFFFF", fontWeight: 700, fontSize: scrolled ? "14px" : "16px", transition: "font-size 0.5s cubic-bezier(0.16,1,0.3,1)" }}>PCU</span>
+          </MagneticButton>
 
-        <div className="hidden md:flex items-center gap-1">
-          {NAV_LINKS.map((link) => (
-            <button key={link} onClick={() => onNav(link)}
-              className="px-4 py-2 text-sm font-medium transition-colors duration-200"
-              style={{ color: active === link ? "#ED2939" : "#AAB4C0", fontFamily: "Rajdhani", fontWeight: 600 }}>
-              {link}
-            </button>
-          ))}
-        </div>
+          {/* Vertical divider */}
+          <div className="hidden md:block flex-shrink-0 mx-3" style={{ width: "1px", height: "20px", background: "rgba(237,41,57,0.2)" }} />
 
-        <button className="md:hidden text-white p-2" onClick={() => setMenuOpen(!menuOpen)}>
-          <div className="w-6 flex flex-col gap-1.5">
-            <span className={`block h-0.5 bg-white transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block h-0.5 bg-white transition-all ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block h-0.5 bg-white transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+          {/* Desktop links */}
+          <div className="hidden md:flex items-center gap-0.5 relative">
+            {NAV_LINKS.map((link) => (
+              <MagneticButton
+                key={link}
+                onClick={() => onNav(link)}
+                className="relative z-10"
+                style={{
+                  padding: scrolled ? "5px 14px" : "6px 16px",
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: active === link ? "#F5F7FA" : "#8A96A4",
+                  fontFamily: "Rajdhani",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  borderRadius: "9999px",
+                  transition: "all 0.3s ease, padding 0.5s cubic-bezier(0.16,1,0.3,1)",
+                  letterSpacing: "0.03em",
+                }}
+              >
+                {active === link && (
+                  <motion.div
+                    layoutId="nav-active-pill"
+                    className="nav-pill-indicator absolute inset-0"
+                    transition={{
+                      type: "spring",
+                      stiffness: 380,
+                      damping: 32,
+                    }}
+                  />
+                )}
+                <span className="relative z-10">{link}</span>
+              </MagneticButton>
+            ))}
           </div>
-        </button>
-      </div>
 
-      {menuOpen && (
-        <div className="md:hidden nav-glass border-t border-white/5 px-6 py-4 flex flex-col gap-3">
-          {NAV_LINKS.map((link) => (
-            <button key={link} onClick={() => { onNav(link); setMenuOpen(false); }}
-              className="text-left text-sm font-medium py-2"
-              style={{ color: active === link ? "#ED2939" : "#F5F7FA", fontFamily: "Rajdhani", fontWeight: 600 }}>
-              {link}
-            </button>
-          ))}
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden ml-3 p-1.5 flex-shrink-0"
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{ background: "none", border: "none", cursor: "pointer" }}
+          >
+            <div className="w-5 flex flex-col gap-1">
+              <span className={`block h-0.5 bg-white transition-all duration-300 origin-center ${menuOpen ? "rotate-45 translate-y-[6px]" : ""}`} />
+              <span className={`block h-0.5 bg-white transition-all duration-300 ${menuOpen ? "opacity-0 scale-x-0" : ""}`} />
+              <span className={`block h-0.5 bg-white transition-all duration-300 origin-center ${menuOpen ? "-rotate-45 -translate-y-[6px]" : ""}`} />
+            </div>
+          </button>
         </div>
-      )}
-    </nav>
+      </nav>
+
+      {/* ── Mobile Dropdown ── */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.96 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed z-40 md:hidden nav-pill-mobile"
+            style={{
+              top: "72px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "calc(100% - 40px)",
+              maxWidth: "360px",
+            }}
+          >
+            <div className="flex flex-col py-3 px-2">
+              {NAV_LINKS.map((link) => (
+                <button
+                  key={link}
+                  onClick={() => { onNav(link); setMenuOpen(false); }}
+                  className="relative text-left text-sm font-medium py-3 px-4 transition-all duration-200"
+                  style={{
+                    color: active === link ? "#F5F7FA" : "#8A96A4",
+                    fontFamily: "Rajdhani",
+                    fontWeight: 600,
+                    background: active === link ? "rgba(237,41,57,0.08)" : "transparent",
+                    borderRadius: "12px",
+                    border: "none",
+                    cursor: "pointer",
+                  }}
+                >
+                  {active === link && (
+                    <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-4 rounded-full" style={{ background: "#ED2939" }} />
+                  )}
+                  {link}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Overlay to close mobile menu */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-30 md:hidden"
+            onClick={() => setMenuOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
