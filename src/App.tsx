@@ -715,7 +715,6 @@ function ThemeSection() {
   return (
     <section ref={sectionRef} id="theme" className="py-28 px-6 max-w-4xl mx-auto">
       <div className="text-center mb-16">
-        <span className="theme-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ This Year</span>
         <h2 className="theme-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Our Theme</h2>
         <p className="theme-subtitle mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to lock on and reveal the full story.</p>
       </div>
