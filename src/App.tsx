@@ -7,8 +7,38 @@ import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import heroBg from "./imports/1234.png";
 import TitleReveal from "./components/TitleReveal";
+import AboutPage from "./pages/AboutPage";
 
 gsap.registerPlugin(ScrollTrigger);
+
+function currentPath() {
+  const base = (import.meta.env.BASE_URL || "/").replace(/\/$/, "");
+  let path = window.location.pathname;
+  if (base && path.startsWith(base)) {
+    path = path.slice(base.length) || "/";
+  }
+  if (!path.startsWith("/")) path = `/${path}`;
+  return path.replace(/\/$/, "") || "/";
+}
+
+function navigateTo(path: string) {
+  const base = import.meta.env.BASE_URL || "/";
+  const url = path === "/" ? base : `${base.replace(/\/$/, "")}${path}`;
+  window.history.pushState({}, "", url);
+  window.dispatchEvent(new PopStateEvent("popstate"));
+}
+
+function usePath() {
+  const [path, setPath] = useState(currentPath);
+
+  useEffect(() => {
+    const sync = () => setPath(currentPath());
+    window.addEventListener("popstate", sync);
+    return () => window.removeEventListener("popstate", sync);
+  }, []);
+
+  return path;
+}
 
 // ─── Parallax Hook for Hero ───────────────────────────────────────────────────
 
@@ -1514,8 +1544,10 @@ function EventDatePanel() {
 // ─── App ───────────────────────────────────────────────────────────────────────
 
 export default function App() {
-  const [activePage, setActivePage] = useState("Home");
-  const [introDone, setIntroDone] = useState(false);
+  const path = usePath();
+  const isAboutPage = path === "/about";
+  const activePage = isAboutPage ? "About" : "Home";
+  const [introDone, setIntroDone] = useState(() => currentPath() === "/about");
   const lenisRef = useRef<Lenis | null>(null);
 
   // ── Lenis smooth scroll + GSAP ScrollTrigger sync ──
@@ -1544,25 +1576,42 @@ export default function App() {
     lenisRef.current?.start();
   }, [introDone]);
 
+  useEffect(() => {
+    if (isAboutPage) setIntroDone(true);
+  }, [isAboutPage]);
+
   const handleNav = (page: string) => {
-    setActivePage(page);
-    if (page === "Home") {
-      lenisRef.current?.scrollTo(0, { duration: 1.2 });
+    if (page === "About") {
+      navigateTo("/about");
+      lenisRef.current?.scrollTo(0, { duration: 0.8 });
       return;
     }
-    const idMap: Record<string, string> = {
-      Theme: "theme",
-      About: "about",
-      Contact: "contact",
+
+    const scrollHomeTarget = () => {
+      if (page === "Home") {
+        lenisRef.current?.scrollTo(0, { duration: 1.2 });
+        return;
+      }
+      const idMap: Record<string, string> = {
+        Theme: "theme",
+        Contact: "contact",
+      };
+      const target = document.getElementById(idMap[page]);
+      if (target) lenisRef.current?.scrollTo(target, { offset: -20, duration: 1.4 });
     };
-    const target = document.getElementById(idMap[page]);
-    if (target) lenisRef.current?.scrollTo(target, { offset: -20, duration: 1.4 });
-    setActivePage("Home");
+
+    if (isAboutPage) {
+      navigateTo("/");
+      window.setTimeout(scrollHomeTarget, 60);
+      return;
+    }
+
+    scrollHomeTarget();
   };
 
   return (
     <div style={{ background: "#03080F", minHeight: "100vh", position: "relative" }}>
-      {!introDone && (
+      {!isAboutPage && !introDone && (
         <TitleReveal
           logo="TEDXPCU"
           onComplete={() => setIntroDone(true)}
@@ -1571,17 +1620,23 @@ export default function App() {
       <AmbientParticles />
       <div style={{ position: "relative", zIndex: 1 }}>
         <Navbar active={activePage} onNav={handleNav} />
-        <HeroSection ready={introDone} />
-        <div className="section-divider" />
-        <SectionDeco />
-        <ThemeSection />
-        <div className="section-divider" />
-        <SectionDeco />
-        <AboutSection />
-        <div className="section-divider" />
-        <EventDatePanel />
-        <SectionDeco />
-        <ContactSection />
+        {isAboutPage ? (
+          <AboutPage onHome={() => handleNav("Home")} />
+        ) : (
+          <>
+            <HeroSection ready={introDone} />
+            <div className="section-divider" />
+            <SectionDeco />
+            <ThemeSection />
+            <div className="section-divider" />
+            <SectionDeco />
+            <AboutSection />
+            <div className="section-divider" />
+            <EventDatePanel />
+            <SectionDeco />
+            <ContactSection />
+          </>
+        )}
         <Footer onNav={handleNav} />
       </div>
     </div>
