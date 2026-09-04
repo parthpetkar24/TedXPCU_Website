@@ -6,6 +6,7 @@ import Lenis from "lenis";
 import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import heroBg from "./imports/1234.png";
+import TitleReveal from "./components/TitleReveal";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -514,7 +515,7 @@ function AmbientParticles() {
   );
 }
 
-function HeroSection() {
+function HeroSection({ ready = true }: { ready?: boolean }) {
   const heroRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
@@ -522,31 +523,38 @@ function HeroSection() {
 
   useEffect(() => {
     if (!heroRef.current) return;
+
+    gsap.set(titleRef.current, { opacity: 0, y: 70, scale: 0.92, filter: "blur(12px)" });
+    gsap.set(subtitleRef.current, { opacity: 0, y: 30 });
+    gsap.set(scrollIndRef.current, { opacity: 0, y: -15 });
+
+    if (!ready) return;
+
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.4 });
-      tl.from(titleRef.current, {
-        opacity: 0,
-        y: 70,
-        scale: 0.92,
-        filter: "blur(12px)",
+      const tl = gsap.timeline({ delay: 0.2 });
+      tl.to(titleRef.current, {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        filter: "blur(0px)",
         duration: 1.4,
         ease: "power3.out",
       })
-      .from(subtitleRef.current, {
-        opacity: 0,
-        y: 30,
+      .to(subtitleRef.current, {
+        opacity: 1,
+        y: 0,
         duration: 0.9,
         ease: "power3.out",
       }, "-=0.5")
-      .from(scrollIndRef.current, {
-        opacity: 0,
-        y: -15,
+      .to(scrollIndRef.current, {
+        opacity: 0.5,
+        y: 0,
         duration: 0.7,
         ease: "power2.out",
       }, "-=0.3");
     }, heroRef);
     return () => ctx.revert();
-  }, []);
+  }, [ready]);
 
   return (
     <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -604,7 +612,7 @@ function HeroSection() {
         <h1
           ref={titleRef}
           className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
-          style={{ fontFamily: "Inter", letterSpacing: "-0.03em" }}
+          style={{ fontFamily: "Inter", letterSpacing: "-0.03em", opacity: 0 }}
         >
           <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 400 }}>PCU</span>
         </h1>
@@ -612,13 +620,13 @@ function HeroSection() {
         <p
           ref={subtitleRef}
           className="text-lg md:text-xl tracking-widest h-8"
-          style={{ color: "#AAB4C0", fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.25em" }}
+          style={{ color: "#AAB4C0", fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.25em", opacity: 0 }}
         >
-          <span style={{ color: "#EB0028" }}>x</span> = <TypewriterText text="independently organized TED event" delay={1500} />
+          <span style={{ color: "#EB0028" }}>x</span> = <TypewriterText text="independently organized TED event" delay={ready ? 900 : 999999} />
         </p>
 
         {/* Scroll indicator */}
-        <div ref={scrollIndRef} className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+        <div ref={scrollIndRef} className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style={{ opacity: 0 }}>
           <div className="w-px h-16" style={{ background: "linear-gradient(180deg, #ED2939, transparent)" }} />
         </div>
       </div>
@@ -724,12 +732,9 @@ function ThemeSection() {
             </svg>
           </div>
 
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>Theme {THEME.code}</span>
-              <h3 className="text-5xl md:text-7xl font-bold mt-2" style={{ fontFamily: "'Rozha One', serif", color: "#F5F7FA", letterSpacing: "0.02em", textShadow: "0 0 25px rgba(237,41,57,0.3)" }}>{THEME.title}</h3>
-            </div>
-            <span className="text-5xl opacity-50 mt-1">{THEME.icon}</span>
+          <div className="mb-6">
+            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>Theme {THEME.code}</span>
+            <h3 className="text-5xl md:text-7xl font-bold mt-2" style={{ fontFamily: "'Rozha One', serif", color: "#F5F7FA", letterSpacing: "0.02em", textShadow: "0 0 25px rgba(237,41,57,0.3)" }}>{THEME.title}</h3>
           </div>
 
           <p className="text-lg font-medium mb-4" style={{ color: "#ED2939", fontFamily: "Oswald", textTransform: "uppercase", letterSpacing: "0.1em" }}>"{THEME.tagline}"</p>
@@ -1498,6 +1503,7 @@ function EventDatePanel() {
 
 export default function App() {
   const [activePage, setActivePage] = useState("Home");
+  const [introDone, setIntroDone] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
 
   // ── Lenis smooth scroll + GSAP ScrollTrigger sync ──
@@ -1507,6 +1513,7 @@ export default function App() {
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
+    lenis.stop();
     lenisRef.current = lenis;
 
     // Sync Lenis scroll position with GSAP ScrollTrigger
@@ -1519,6 +1526,11 @@ export default function App() {
       gsap.ticker.remove((time: number) => lenis.raf(time * 1000));
     };
   }, []);
+
+  useEffect(() => {
+    if (!introDone) return;
+    lenisRef.current?.start();
+  }, [introDone]);
 
   const handleNav = (page: string) => {
     setActivePage(page);
@@ -1538,10 +1550,16 @@ export default function App() {
 
   return (
     <div style={{ background: "#03080F", minHeight: "100vh", position: "relative" }}>
+      {!introDone && (
+        <TitleReveal
+          logo="TEDXPCU"
+          onComplete={() => setIntroDone(true)}
+        />
+      )}
       <AmbientParticles />
       <div style={{ position: "relative", zIndex: 1 }}>
         <Navbar active={activePage} onNav={handleNav} />
-        <HeroSection />
+        <HeroSection ready={introDone} />
         <div className="section-divider" />
         <SectionDeco />
         <ThemeSection />
