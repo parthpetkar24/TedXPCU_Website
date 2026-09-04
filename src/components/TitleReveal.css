@@ -156,7 +156,7 @@
   margin: 0;
   color: var(--tr-accent, #eb0028);
   font-family: Inter, Helvetica Neue, Arial, sans-serif;
-  font-size: clamp(7.5rem, 28vw, 18rem);
+  font-size: clamp(5rem, 22vw, 18rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.06em;
@@ -242,11 +242,56 @@
 }
 
 @media (max-width: 640px) {
+  .title-reveal__stage {
+    width: min(96vw, 1100px);
+    height: min(60vh, 360px);
+  }
+
+  .title-reveal__hero-x {
+    font-size: clamp(4rem, 20vw, 10rem);
+  }
+
+  .title-reveal__logo {
+    font-size: clamp(2rem, 12vw, 5rem);
+  }
+
   .title-reveal__triangle {
-    border-left-width: 12px;
-    border-right-width: 12px;
-    border-bottom-width: 20px;
-    margin-left: -12px;
+    border-left-width: 10px;
+    border-right-width: 10px;
+    border-bottom-width: 16px;
+    margin-left: -10px;
+  }
+
+  .title-reveal__triangle--bottom {
+    border-top-width: 16px;
+  }
+
+  .title-reveal__square {
+    width: min(60vw, 200px);
+    height: min(60vw, 200px);
+    margin: calc(min(60vw, 200px) * -0.5) 0 0 calc(min(60vw, 200px) * -0.5);
+  }
+
+  .title-reveal__circle {
+    width: min(70vw, 280px);
+    height: min(70vw, 280px);
+    margin: calc(min(70vw, 280px) * -0.5) 0 0 calc(min(70vw, 280px) * -0.5);
+  }
+
+  .title-reveal__line--h {
+    width: min(70vw, 300px);
+    margin-left: calc(min(70vw, 300px) * -0.5);
+  }
+
+  .title-reveal__line--v {
+    height: min(50vh, 240px);
+    margin-top: calc(min(50vh, 240px) * -0.5);
+  }
+
+  .title-reveal__rule {
+    width: min(50vw, 160px);
+    margin-left: calc(min(50vw, 160px) * -0.5);
+    bottom: 22%;
   }
 
   .title-reveal__skip {

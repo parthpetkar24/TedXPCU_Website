@@ -423,3 +423,66 @@ h1, h2, h3, h4, h5, h6 {
 .tilt-card:hover .tilt-shine {
   opacity: 1;
 }
+
+/* ─── Mobile Responsive Overrides ────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  /* Typewriter cursor scaled down */
+  .typewriter-cursor {
+    width: 8px;
+    height: 0.9em;
+    margin-left: 3px;
+  }
+
+  /* Card glass borders more visible on mobile */
+  .card-glass {
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Red glow subtle on mobile for perf */
+  .red-glow {
+    text-shadow: 0 0 30px rgba(237, 41, 57, 0.4), 0 0 60px rgba(237, 41, 57, 0.15);
+  }
+
+  /* Event date card padding */
+  .event-date-card {
+    padding: 2.5rem 1.5rem !important;
+  }
+
+  /* Section padding */
+  section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Scroll reveal elements animate faster/earlier on mobile */
+  [data-reveal].revealed {
+    animation-duration: 0.6s;
+  }
+
+  /* Spooky effect less intense on mobile for performance */
+  .spooky-effect {
+    animation-duration: 6s;
+  }
+
+  /* Nav pill sizing */
+  .nav-pill {
+    max-width: calc(100% - 32px) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .typewriter-cursor {
+    width: 6px;
+    height: 0.85em;
+    margin-left: 2px;
+  }
+
+  .red-glow {
+    text-shadow: 0 0 20px rgba(237, 41, 57, 0.35);
+  }
+
+  .event-date-card {
+    padding: 2rem 1rem !important;
+  }
+}

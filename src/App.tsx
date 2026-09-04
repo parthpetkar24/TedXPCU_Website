@@ -462,6 +462,15 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
 // ─── Ambient Particles (tsParticles) ──────────────────────────────────────────
 
 function AmbientParticles() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const particlesInit = useCallback(async (engine: any) => {
     await loadSlim(engine);
   }, []);
@@ -474,14 +483,14 @@ function AmbientParticles() {
           fullScreen: { enable: true, zIndex: 0 },
           fpsLimit: 60,
           particles: {
-            number: { value: 65, density: { enable: true, width: 1920, height: 1080 } },
+            number: { value: isMobile ? 25 : 65, density: { enable: true, width: 1920, height: 1080 } },
             color: { value: ["#ED2939", "#FF4D5A", "#FFC000", "#FF6B6B"] },
             shape: { type: ["circle", "star"] },
             opacity: {
-              value: { min: 0.1, max: 0.4 },
+              value: { min: 0.1, max: isMobile ? 0.5 : 0.4 },
             },
             size: {
-              value: { min: 0.5, max: 2.5 },
+              value: { min: 0.5, max: isMobile ? 2 : 2.5 },
             },
             move: {
               enable: true,
@@ -493,15 +502,15 @@ function AmbientParticles() {
             },
             links: {
               enable: true,
-              distance: 140,
+              distance: isMobile ? 100 : 140,
               color: "#ED2939",
               opacity: 0.25,
-              width: 2.5,
+              width: isMobile ? 1.5 : 2.5,
             },
           },
           interactivity: {
             events: {
-              onHover: { enable: true, mode: ["grab", "trail"] },
+              onHover: { enable: !isMobile, mode: ["grab", "trail"] },
             },
             modes: {
               grab: { distance: 200, links: { opacity: 0.7 } },
@@ -611,7 +620,7 @@ function HeroSection({ ready = true }: { ready?: boolean }) {
 
         <h1
           ref={titleRef}
-          className="text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
+          className="text-6xl sm:text-8xl md:text-[11rem] font-bold leading-none mb-6 red-glow"
           style={{ fontFamily: "Inter", letterSpacing: "-0.03em", opacity: 0 }}
         >
           <span style={{ color: "#EB0028", fontWeight: 700 }}>TED</span><sup style={{ color: "#EB0028", fontSize: "0.4em", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-1em", padding: "0 0.08em" }}>x</sup><span style={{ color: "#FFFFFF", fontWeight: 400 }}>PCU</span>
@@ -619,8 +628,8 @@ function HeroSection({ ready = true }: { ready?: boolean }) {
 
         <p
           ref={subtitleRef}
-          className="text-lg md:text-xl tracking-widest h-8"
-          style={{ color: "#AAB4C0", fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.25em", opacity: 0 }}
+          className="text-sm sm:text-lg md:text-xl tracking-widest h-8"
+          style={{ color: "#AAB4C0", fontFamily: "Inter", fontWeight: 500, letterSpacing: "0.15em", opacity: 0 }}
         >
           <span style={{ color: "#EB0028" }}>x</span> = <TypewriterText text="independently organized TED event" delay={ready ? 900 : 999999} />
         </p>
@@ -838,16 +847,18 @@ function AboutSection() {
 
         {/* Black hole visual */}
         {/* (data-reveal on the text side only to preserve the animated orbiting visual) */}
-        <div className="relative flex items-center justify-center order-1 lg:order-2" style={{ height: "480px" }}>
-          <div className="absolute rounded-full" style={{ width: "420px", height: "420px", background: "radial-gradient(ellipse, rgba(237,41,57,0.03) 0%, transparent 70%)" }} />
-          {[380, 320, 260, 200].map((size, i) => (
+        <div className="relative flex items-center justify-center order-1 lg:order-2" style={{ height: "clamp(280px, 50vw, 480px)" }}>
+          <div className="absolute rounded-full" style={{ width: "min(420px, 80vw)", height: "min(420px, 80vw)", background: "radial-gradient(ellipse, rgba(237,41,57,0.03) 0%, transparent 70%)" }} />
+          {[380, 320, 260, 200].map((size, i) => {
+            const mobileSize = Math.min(size, size * 0.65);
+            return (
             <div key={size} className="absolute rounded-full" style={{
-              width: `${size}px`, height: `${size}px`,
+              width: `min(${size}px, ${mobileSize / 4 + 15}vw)`, height: `min(${size}px, ${mobileSize / 4 + 15}vw)`,
               border: `1px solid rgba(237,41,57,${0.08 + i * 0.04})`,
               transform: `rotate(${rotation * (1 + i * 0.2)}deg) scaleY(0.3)`,
               boxShadow: i === 3 ? "0 0 20px rgba(237,41,57,0.2)" : "none",
             }} />
-          ))}
+          )})}
           <div className="absolute rounded-full" style={{
             width: "130px", height: "130px",
             background: "radial-gradient(circle, #03080F 40%, rgba(237,41,57,0.6) 70%, transparent 100%)",
@@ -858,12 +869,13 @@ function AboutSection() {
           </div>
           {facts.map((fact, i) => {
             const angle = (rotation * 0.5 + i * 90) * (Math.PI / 180);
-            const x = Math.cos(angle) * 170;
-            const y = Math.sin(angle) * 170 * 0.35;
+            const orbitRadius = typeof window !== 'undefined' && window.innerWidth < 640 ? 100 : 170;
+            const x = Math.cos(angle) * orbitRadius;
+            const y = Math.sin(angle) * orbitRadius * 0.35;
             return (
               <div key={fact.label} className="absolute text-center" style={{ transform: `translate(${x}px, ${y}px)`, transition: "transform 0.016s linear" }}>
-                <div className="text-xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{fact.value}</div>
-                <div className="text-xs tracking-wide" style={{ fontFamily: "Rajdhani", color: "#AAB4C0" }}>{fact.label}</div>
+                <div className="text-lg sm:text-xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939" }}>{fact.value}</div>
+                <div className="text-[10px] sm:text-xs tracking-wide" style={{ fontFamily: "Rajdhani", color: "#AAB4C0" }}>{fact.label}</div>
               </div>
             );
           })}
@@ -979,11 +991,11 @@ function ScrollTimeline() {
           return (
             <div key={item.title}>
               <div ref={(el) => { itemRefs.current[i] = el; }}
-                className={`flex items-center gap-0 w-full transition-opacity duration-500 ${isPast ? "opacity-50" : ""}`}>
+                className={`flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-0 w-full transition-opacity duration-500 ${isPast ? "opacity-50" : ""}`}>
                 {/* Left */}
                 <div className="flex-1 flex justify-end">
                   {isLeft ? (
-                    <div className={`flex-1 text-right pr-10 transition-all duration-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-40 translate-y-2"}`}>
+                    <div className={`flex-1 text-left md:text-right pr-0 md:pr-10 transition-all duration-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-40 translate-y-2"}`}>
                       <div className="inline-block px-3 py-1 text-xs font-semibold tracking-widest uppercase mb-2" style={{
                         background: isActive ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
                         color: isActive ? "#ED2939" : "#AAB4C0",
@@ -991,8 +1003,8 @@ function ScrollTimeline() {
                         borderRadius: "2px", fontFamily: "Rajdhani",
                       }}>{item.tag}</div>
                       <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
-                      <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed ml-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans", maxWidth: "360px" }}>{item.description}</p>
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
+                      <p className="text-sm leading-relaxed ml-0 md:ml-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans", maxWidth: "360px" }}>{item.description}</p>
                     </div>
                   ) : (
                     <div className={`hidden lg:block flex-1 pl-0 pr-10 transition-all duration-700 ${isActive ? "opacity-100 scale-100" : "opacity-20 scale-95"}`}>
@@ -1003,7 +1015,7 @@ function ScrollTimeline() {
                   )}
                 </div>
 
-                {/* Center */}
+                {/* Center - hide on mobile */}
                 <TimelineMarker active={isActive || isPast} icon={item.icon} />
 
                 {/* Right */}
@@ -1015,7 +1027,7 @@ function ScrollTimeline() {
                       </div>
                     </div>
                   ) : (
-                    <div className={`flex-1 text-left pl-10 transition-all duration-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-40 translate-y-2"}`}>
+                    <div className={`flex-1 text-left pl-0 md:pl-10 transition-all duration-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-40 translate-y-2"}`}>
                       <div className="inline-block px-3 py-1 text-xs font-semibold tracking-widest uppercase mb-2" style={{
                         background: isActive ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
                         color: isActive ? "#ED2939" : "#AAB4C0",
@@ -1023,7 +1035,7 @@ function ScrollTimeline() {
                         borderRadius: "2px", fontFamily: "Rajdhani",
                       }}>{item.tag}</div>
                       <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
-                      <h3 className="text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
+                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
                       <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans", maxWidth: "360px" }}>{item.description}</p>
                     </div>
                   )}
@@ -1286,7 +1298,7 @@ function ContactSection() {
 
         {/* General info bar */}
         <div
-          className="contact-info flex flex-wrap justify-center gap-8 mb-14 p-6"
+          className="contact-info flex flex-col sm:flex-row flex-wrap justify-center gap-6 sm:gap-8 mb-14 p-4 sm:p-6"
           style={{ background: "rgba(5,12,22,0.7)", border: "1px solid rgba(237,41,57,0.15)", borderRadius: "4px", backdropFilter: "blur(12px)" }}
         >
           {[
@@ -1485,10 +1497,10 @@ function EventDatePanel() {
         onMouseLeave={handleMouseLeave}
         style={{ rotateX, rotateY }}
       >
-        <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#FFFFFF", textTransform: "uppercase", letterSpacing: "0.02em" }}>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#FFFFFF", textTransform: "uppercase", letterSpacing: "0.02em" }}>
           TED<sup style={{ fontSize: "0.5em" }}>x</sup>PCU
         </h2>
-        <div className="text-6xl md:text-8xl font-bold tracking-tighter mb-6 red-glow" style={{ fontFamily: "Inter", color: "#F5F7FA" }}>
+        <div className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter mb-6 red-glow" style={{ fontFamily: "Inter", color: "#F5F7FA" }}>
           XX.XX.XXXX
         </div>
         <p className="text-lg md:text-xl font-medium tracking-widest" style={{ color: "rgba(255,255,255,0.8)", fontFamily: "Rajdhani", textTransform: "uppercase" }}>
