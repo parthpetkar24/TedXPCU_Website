@@ -337,7 +337,7 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
             style={{ fontFamily: "Inter", textTransform: "uppercase" as const, letterSpacing: "-0.02em", background: "none", border: "none", cursor: "pointer" }}
           >
             <span style={{ color: "#EB0028", fontWeight: 700, fontSize: scrolled ? "14px" : "16px", transition: "font-size 0.5s cubic-bezier(0.16,1,0.3,1)" }}>TED</span>
-            <sup style={{ color: "#EB0028", fontSize: scrolled ? "7px" : "8px", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: scrolled ? "-8px" : "-9px", padding: "0 0.08em", transition: "all 0.5s" }}>x</sup>
+            <sup style={{ color: "#EB0028", fontSize: scrolled ? "7px" : "8px", fontWeight: 700, verticalAlign: "baseline", position: "relative", top: "-0.5em", padding: "0 0.08em", transition: "all 0.5s" }}>x</sup>
             <span style={{ color: "#FFFFFF", fontWeight: 700, fontSize: scrolled ? "14px" : "16px", transition: "font-size 0.5s cubic-bezier(0.16,1,0.3,1)" }}>PCU</span>
           </MagneticButton>
 
@@ -531,27 +531,27 @@ function HeroSection({ ready = true }: { ready?: boolean }) {
     if (!ready) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.2 });
+      const tl = gsap.timeline({ delay: 0.4 });
       tl.to(titleRef.current, {
         opacity: 1,
         y: 0,
         scale: 1,
         filter: "blur(0px)",
-        duration: 1.4,
+        duration: 2.0,
         ease: "power3.out",
       })
       .to(subtitleRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.9,
+        duration: 1.2,
         ease: "power3.out",
-      }, "-=0.5")
+      }, "-=0.8")
       .to(scrollIndRef.current, {
         opacity: 0.5,
         y: 0,
-        duration: 0.7,
+        duration: 1.0,
         ease: "power2.out",
-      }, "-=0.3");
+      }, "-=0.5");
     }, heroRef);
     return () => ctx.revert();
   }, [ready]);
@@ -687,7 +687,7 @@ function ThemeSection() {
           className="theme-card relative cursor-pointer transition-all duration-700 w-full h-full"
           onClick={handleClick}
           style={{
-            border: locked ? "1px solid rgba(237,41,57,0.5)" : "1px solid rgba(255,255,255,0.07)",
+            border: locked ? "1px solid rgba(237,41,57,0.5)" : "1px solid rgba(255,255,255,0.25)",
             background: expanded ? "rgba(5,12,22,0.98)" : "rgba(5,12,22,0.7)",
             borderRadius: "4px",
             backdropFilter: "blur(12px)",
