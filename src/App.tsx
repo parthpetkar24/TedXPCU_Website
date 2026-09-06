@@ -1530,7 +1530,7 @@ function EventDatePanel() {
           TED<sup style={{ fontSize: "0.5em" }}>x</sup>PCU
         </h2>
         <div className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter mb-6 red-glow" style={{ fontFamily: "Inter", color: "#F5F7FA" }}>
-          XX.XX.XXXX
+          XX.XX.2026
         </div>
         <p className="text-lg md:text-xl font-medium tracking-widest" style={{ color: "rgba(255,255,255,0.8)", fontFamily: "Rajdhani", textTransform: "uppercase" }}>
           Save The Date
