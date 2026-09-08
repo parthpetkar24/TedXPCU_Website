@@ -6,8 +6,13 @@ import Lenis from "lenis";
 import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import heroBg from "./imports/1234.png";
+import dummyTeamImage from "./imports/dummy_team.webp";
 import TitleReveal from "./components/TitleReveal";
 import AboutPage from "./pages/AboutPage";
+import DepthCarousel from "./components/DepthCarousel";
+import PixelCard from "./components/PixelCard";
+import InfiniteSpiral from "./components/InfiniteSpiral";
+import DriftWall from "./components/DriftWall";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -194,22 +199,45 @@ const THEME = {
 
 const TEAM = [
   {
-    name: "Rhea Sharma",
+    name: "Aryan Raj",
     role: "Organiser",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&auto=format",
     department: "Leadership",
   },
   {
-    name: "Aryan Kapoor",
+    name: "Shradha Solanke",
     role: "Co-Organiser",
     image: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=300&h=300&fit=crop&auto=format",
     department: "Leadership",
   },
   {
-    name: "Dev Mehta",
-    role: "Operations Lead",
+    name: "Swapnil Adlinge",
+    role: "Operations",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&auto=format",
     department: "Operations",
+  },
+];
+
+const SPEAKERS = [
+  {
+    name: "Dr. Aisha Khan",
+    topic: "The Future of AI",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&auto=format",
+  },
+  {
+    name: "Marcus Reynolds",
+    topic: "Sustainable Energy",
+    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&auto=format",
+  },
+  {
+    name: "Elena Rostova",
+    topic: "Space Exploration",
+    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop&auto=format",
+  },
+  {
+    name: "David Chen",
+    topic: "Quantum Computing",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop&auto=format",
   },
 ];
 
@@ -919,6 +947,183 @@ function AboutSection() {
   );
 }
 
+// ─── Speakers Section ────────────────────────────────────────────────────────
+function SpeakersSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".speakers-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".speakers-label", start: "top 88%" },
+      });
+      gsap.from(".speakers-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".speakers-heading", start: "top 88%" },
+      });
+      gsap.from(".speaker-card-anim", {
+        opacity: 0, y: 40, duration: 0.7, stagger: 0.15, ease: "power3.out",
+        scrollTrigger: { trigger: ".speaker-card-anim", start: "top 85%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} id="speakers" className="py-28 px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <span className="speakers-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Lineup</span>
+        <h2 className="speakers-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
+          Our Speakers
+        </h2>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20 justify-items-center">
+        {SPEAKERS.map((speaker, idx) => (
+          <div key={idx} className="speaker-card-anim">
+            <PixelCard variant="imperial" className="bg-black">
+              <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none p-4 text-center">
+                <h3 className="text-2xl font-bold" style={{ fontFamily: "Oswald", color: "#FFFFFF", textTransform: "uppercase" }}>To be Announced</h3>
+              </div>
+            </PixelCard>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Team Section ─────────────────────────────────────────────────────────────
+function TeamSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".team-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".team-label", start: "top 88%" },
+      });
+      gsap.from(".team-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".team-heading", start: "top 88%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  const teamCarouselItems = TEAM.map(t => ({
+    image: dummyTeamImage,
+    alt: t.name,
+    title: t.name,
+    designation: t.role
+  }));
+
+  const spiralItems = TEAM.map(t => ({
+    src: dummyTeamImage,
+    alt: t.name,
+    title: t.name,
+    designation: t.role
+  }));
+
+  const driftItems = TEAM.map(t => ({
+    image: dummyTeamImage,
+    title: t.name,
+    designation: t.role
+  }));
+
+  return (
+    <section ref={sectionRef} id="team" className="py-28 px-6 max-w-7xl mx-auto overflow-hidden">
+      <div className="text-center mb-16">
+        <span className="team-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Core Team</span>
+        <h2 className="team-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
+          Behind TEDxPCU
+        </h2>
+      </div>
+
+      <div style={{ height: '450px', position: 'relative', maxWidth: '100vw' }}>
+        <DepthCarousel
+          items={teamCarouselItems}
+          depth={220}
+          spread={90}
+          tilt={22}
+          tiltDirection="right"
+          perspective={1400}
+          visibleCards={3}
+          falloff={0.2}
+          blur={6}
+          autoplay={true}
+          loop={true}
+          cardWidth={280}
+          cardHeight={360}
+          radius={18}
+          tint="rgba(237,41,57, 0.15)"
+          duration={700}
+          ease="power3.out"
+          autoplayDelay={3200}
+          showControls={true}
+          showIndicators={true}
+        />
+      </div>
+
+      <div className="mt-20 text-center mb-16">
+        <h3 className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Spiraling Ideas</h3>
+      </div>
+      <div style={{ height: '600px', position: 'relative', overflow: 'hidden' }}>
+        <InfiniteSpiral
+          items={spiralItems}
+          animationMode="auto"
+          speed={0.55}
+          radius={170}
+          cardWidth={120}
+          cardHeight={160}
+          verticalSpacing={60}
+          perspective={1000}
+          cardRadius={10}
+          centerScale={1.2}
+          edgeBlur={6}
+          cardsPerTurn={7}
+          pauseOnHover
+          direction="up"
+          rotation={0}
+          cardTilt={0}
+          edgeFade={0.3}
+          imageFit="cover"
+          grayscale={0}
+        />
+      </div>
+
+      <div className="mt-20 text-center mb-16">
+        <h3 className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>The Drift Wall</h3>
+      </div>
+      <div style={{ height: 600 }}>
+        <DriftWall
+          items={driftItems}
+          columns={5}
+          tileWidth={200}
+          tileHeight={132}
+          gap={18}
+          tilt={16}
+          turn={-14}
+          perspective={1200}
+          depth={120}
+          speed={42}
+          direction="up"
+          variance={0.45}
+          parallax={0.6}
+          lift={64}
+          fade={0.6}
+          dim={0.55}
+          overlayColor="rgba(3,8,15,0.7)"
+          radius={14}
+          roll={0}
+          pauseOnHover={false}
+          grayscale={false}
+        />
+      </div>
+    </section>
+  );
+}
+
 // ─── Event Timeline ────────────────────────────────────────────────────────────
 
 function TimelineMarker({ active, icon }: { active: boolean; icon: string }) {
@@ -1387,7 +1592,7 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
             <div className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#EB0028", fontFamily: "Rajdhani", fontWeight: 700 }}>Connect</div>
             {[
               { name: "Instagram", url: "https://www.instagram.com/tedxpcu" },
-              { name: "LinkedIn", url: "https://www.linkedin.com/company/tedxpcu" },
+              { name: "LinkedIn", url: "https://www.linkedin.com/showcase/tedxpcu2026/" },
               { name: "YouTube", url: "https://www.youtube.com/@tedxpcu" },
             ].map(({ name, url }) => (
               <a key={name} href={url} target="_blank" rel="noopener noreferrer"
@@ -1530,7 +1735,7 @@ function EventDatePanel() {
           TED<sup style={{ fontSize: "0.5em" }}>x</sup>PCU
         </h2>
         <div className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter mb-6 red-glow" style={{ fontFamily: "Inter", color: "#F5F7FA" }}>
-          XX.XX.2026
+          09.10.2026
         </div>
         <p className="text-lg md:text-xl font-medium tracking-widest" style={{ color: "rgba(255,255,255,0.8)", fontFamily: "Rajdhani", textTransform: "uppercase" }}>
           Save The Date
@@ -1630,6 +1835,12 @@ export default function App() {
             <div className="section-divider" />
             <SectionDeco />
             <AboutSection />
+            <div className="section-divider" />
+            <SectionDeco />
+            <SpeakersSection />
+            <div className="section-divider" />
+            <SectionDeco />
+            <TeamSection />
             <div className="section-divider" />
             <EventDatePanel />
             <SectionDeco />
