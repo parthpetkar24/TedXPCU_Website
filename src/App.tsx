@@ -6,7 +6,7 @@ import Lenis from "lenis";
 import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import heroBg from "./imports/1234.png";
-import dummyTeamImage from "./imports/dummy_team.webp";
+
 import TitleReveal from "./components/TitleReveal";
 import AboutPage from "./pages/AboutPage";
 import DepthCarousel from "./components/DepthCarousel";
@@ -201,21 +201,100 @@ const TEAM = [
   {
     name: "Aryan Raj",
     role: "Organiser",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&h=300&fit=crop&auto=format",
-    department: "Leadership",
+    image: "/src/imports/Team/Aryan_Raj.png",
   },
   {
     name: "Shradha Solanke",
     role: "Co-Organiser",
-    image: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=300&h=300&fit=crop&auto=format",
-    department: "Leadership",
+    image: "/src/imports/Team/Shradha_Solanke.png",
   },
   {
     name: "Swapnil Adlinge",
     role: "Operations",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&auto=format",
-    department: "Operations",
+    image: "/src/imports/Team/Swapnil_Adlinge.png",
   },
+  {
+    name: "Amrisha Vashishtha",
+    role: "Digital Platform",
+    image: "/src/imports/Team/Amrisha_Vashishtha.png",
+  },
+  {
+    name: "Shreya Singh",
+    role: "EPM",
+    image: "/src/imports/Team/Shreya_Singh.png",
+  },
+  {
+    name: "Sahil Gore",
+    role: "Production",
+    image: "/src/imports/Team/Sahil_Gore.png",
+  },
+  {
+    name: "Aditya Harpude",
+    role: "Social Media",
+    image: "/src/imports/Team/Aditya_Harpude.png",
+  },
+  {
+    name: "Pratiksha Ghonshikar",
+    role: "Graphic Design",
+    image: "/src/imports/Team/Pratiksha_Ghonshikar.png",
+  },
+  {
+    name: "Malhaar Jawalkar",
+    role: "Hospitality",
+    image: "/src/imports/Team/Malhaar_Jawalkar.png",
+  },
+  {
+    name: "Ashwani Singh",
+    role: "Logistics",
+    image: "/src/imports/Team/Ashwani_Singh.png",
+  },
+  {
+    name: "Sankalp Kale",
+    role: "F&B",
+    image: "/src/imports/Team/Sankalp_Kale.png",
+  },
+  {
+    name: "Tanishka Borude",
+    role: "Documentation",
+    image: "/src/imports/Team/Tanishka_Borude.png",
+  },
+  {
+    name: "Divyansh Gangurde",
+    role: "Technical",
+    image: "/src/imports/Team/Divyansh_Gangurde.png",
+  },
+  {
+    name: "Abha Kurumbansi",
+    role: "Registration",
+    image: "/src/imports/Team/Abha_Kurumbansi.png",
+  },
+  {
+    name: "Kashish Valecha",
+    role: "Registration",
+    image: "/src/imports/Team/Kashish_Valecha.png",
+  },
+  {
+    name: "Shreya Rai",
+    role: "Cultural",
+    image: "/src/imports/Team/Shreya_Rai.png",
+  },
+  {
+    name: "Vaishnavi Khandelwal",
+    role: "Cultural",
+    image: "/src/imports/Team/Vaishnavi_Khandelwal.png",
+  },
+  {
+    name: "Kunal Shinde",
+    role: "Promotions",
+    image: "/src/imports/Team/Kunal_Shinde.png",
+  },
+  {
+    name: "Viraj Mandekar",
+    role: "Security",
+    image: "/src/imports/Team/Viraj_Mandekar.png",
+  },
+  
+
 ];
 
 const SPEAKERS = [
@@ -1012,21 +1091,21 @@ function TeamSection() {
   }, []);
 
   const teamCarouselItems = TEAM.map(t => ({
-    image: dummyTeamImage,
+    image: t.image,
     alt: t.name,
     title: t.name,
     designation: t.role
   }));
 
   const spiralItems = TEAM.map(t => ({
-    src: dummyTeamImage,
+    src: t.image,
     alt: t.name,
     title: t.name,
     designation: t.role
   }));
 
   const driftItems = TEAM.map(t => ({
-    image: dummyTeamImage,
+    image: t.image,
     title: t.name,
     designation: t.role
   }));
