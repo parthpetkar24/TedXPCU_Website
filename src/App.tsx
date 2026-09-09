@@ -9,10 +9,11 @@ import heroBg from "./imports/1234.png";
 
 import TitleReveal from "./components/TitleReveal";
 import AboutPage from "./pages/AboutPage";
-import DepthCarousel from "./components/DepthCarousel";
+import TeamsPage from "./pages/TeamsPage";
 import PixelCard from "./components/PixelCard";
-import InfiniteSpiral from "./components/InfiniteSpiral";
-import DriftWall from "./components/DriftWall";
+import TiltedCard from "./components/TiltedCard";
+import DepthCarousel from "./components/DepthCarousel";
+import dummyTeamImg from "./imports/dummy_team.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -187,7 +188,7 @@ function TiltCard({ children, locked = false }: { children: React.ReactNode, loc
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const NAV_LINKS = ["Home", "Theme", "About", "Contact"];
+const NAV_LINKS = ["Home", "Theme", "About", "Teams", "Contact"];
 
 const THEME = {
   code: " ",
@@ -201,100 +202,133 @@ const TEAM = [
   {
     name: "Aryan Raj",
     role: "Organiser",
-    image: "/src/imports/Team/Aryan_Raj.png",
+    image: "/src/imports/Team/Aryan_Raj(2).png",
   },
   {
     name: "Shradha Solanke",
     role: "Co-Organiser",
-    image: "/src/imports/Team/Shradha_Solanke.png",
+    image: "/src/imports/Team/Shradha_Solanke (2).png",
   },
   {
     name: "Swapnil Adlinge",
     role: "Operations",
-    image: "/src/imports/Team/Swapnil_Adlinge.png",
+    image: "/src/imports/Team/Swapnil_Adlinge (2).png",
   },
   {
     name: "Amrisha Vashishtha",
     role: "Digital Platform",
-    image: "/src/imports/Team/Amrisha_Vashishtha.png",
+    image: "/src/imports/Team/Amrisha_Vashishtha (2).png",
   },
   {
     name: "Shreya Singh",
     role: "EPM",
-    image: "/src/imports/Team/Shreya_Singh.png",
+    image: "/src/imports/Team/Shreya_Singh (2).png",
   },
   {
     name: "Sahil Gore",
     role: "Production",
-    image: "/src/imports/Team/Sahil_Gore.png",
+    image: "/src/imports/Team/Sahil_Gore (2).png",
   },
   {
     name: "Aditya Harpude",
     role: "Social Media",
-    image: "/src/imports/Team/Aditya_Harpude.png",
+    image: "/src/imports/Team/Aditya_Harpude (2).png",
   },
   {
     name: "Pratiksha Ghonshikar",
     role: "Graphic Design",
-    image: "/src/imports/Team/Pratiksha_Ghonshikar.png",
+    image: "/src/imports/Team/Pratiksha_Ghonshikar (2).png",
   },
   {
     name: "Malhaar Jawalkar",
     role: "Hospitality",
-    image: "/src/imports/Team/Malhaar_Jawalkar.png",
+    image: "/src/imports/Team/Malhaar_Jawalkar (2).png",
   },
   {
     name: "Ashwani Singh",
     role: "Logistics",
-    image: "/src/imports/Team/Ashwani_Singh.png",
+    image: "/src/imports/Team/Ashwani_Singh (2).png",
   },
   {
     name: "Sankalp Kale",
     role: "F&B",
-    image: "/src/imports/Team/Sankalp_Kale.png",
+    image: "/src/imports/Team/Sankalp_Kale (2).png",
   },
   {
     name: "Tanishka Borude",
     role: "Documentation",
-    image: "/src/imports/Team/Tanishka_Borude.png",
+    image: "/src/imports/Team/Tanishka_Borude (2).png",
   },
   {
     name: "Divyansh Gangurde",
     role: "Technical",
-    image: "/src/imports/Team/Divyansh_Gangurde.png",
+    image: "/src/imports/Team/Divyansh_Gangurde (2).png",
   },
   {
     name: "Abha Kurumbansi",
     role: "Registration",
-    image: "/src/imports/Team/Abha_Kurumbansi.png",
+    image: "/src/imports/Team/Abha_Kurumbansi (2).png",
   },
   {
     name: "Kashish Valecha",
     role: "Registration",
-    image: "/src/imports/Team/Kashish_Valecha.png",
+    image: "/src/imports/Team/Kashish_Valecha (2).png",
   },
   {
     name: "Shreya Rai",
     role: "Cultural",
-    image: "/src/imports/Team/Shreya_Rai.png",
+    image: "/src/imports/Team/Shreya_Rai (2).png",
   },
   {
     name: "Vaishnavi Khandelwal",
     role: "Cultural",
-    image: "/src/imports/Team/Vaishnavi_Khandelwal.png",
+    image: "/src/imports/Team/Vaishnavi_Khandelwal (2).png",
   },
   {
     name: "Kunal Shinde",
     role: "Promotions",
-    image: "/src/imports/Team/Kunal_Shinde.png",
+    image: "/src/imports/Team/Kunal_Shinde (2).png",
   },
   {
     name: "Viraj Mandekar",
     role: "Security",
-    image: "/src/imports/Team/Viraj_Mandekar.png",
+    image: "/src/imports/Team/Viraj_Mandekar (2).png",
   },
   
 
+];
+
+const MENTORS = [
+  {
+    name: "Aditya Rasal",
+    role: "Mentor",
+    image: "/src/imports/Team/Aditya_Rasal (2).png",
+  },
+  {
+    name: "Prathamesh Tupkari",
+    role: "Mentor",
+    image: "/src/imports/Team/Prathamesh (2).png",
+  },
+  {
+    name: "Harshika Bodekar",
+    role: "Mentor",
+    image: "/src/imports/Team/Harshika (2).png",
+  },
+  {
+    name: "Pranjali Pandit",
+    role: "Mentor",
+    image: "/src/imports/Team/Pranjali (2).png",
+  },
+  {
+    name: "Raj Singh",
+    role: "Mentor",
+    image: "/src/imports/Team/Raj_Singh (2).png",
+  },
+  {
+    name: "Raj Konde",
+    role: "Mentor",
+    image: "/src/imports/Team/Raj_Konde (2).png",
+  },
 ];
 
 const SPEAKERS = [
@@ -1073,7 +1107,7 @@ function SpeakersSection() {
 }
 
 // ─── Team Section ─────────────────────────────────────────────────────────────
-function TeamSection() {
+function TeamSection({ onViewAll }: { onViewAll: () => void }) {
   const sectionRef = useRef<HTMLElement>(null);
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -1086,29 +1120,13 @@ function TeamSection() {
         opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
         scrollTrigger: { trigger: ".team-heading", start: "top 88%" },
       });
+      gsap.from(".team-cards-row", {
+        opacity: 0, y: 50, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: ".team-cards-row", start: "top 85%" },
+      });
     }, sectionRef);
     return () => ctx.revert();
   }, []);
-
-  const teamCarouselItems = TEAM.map(t => ({
-    image: t.image,
-    alt: t.name,
-    title: t.name,
-    designation: t.role
-  }));
-
-  const spiralItems = TEAM.map(t => ({
-    src: t.image,
-    alt: t.name,
-    title: t.name,
-    designation: t.role
-  }));
-
-  const driftItems = TEAM.map(t => ({
-    image: t.image,
-    title: t.name,
-    designation: t.role
-  }));
 
   return (
     <section ref={sectionRef} id="team" className="py-28 px-6 max-w-7xl mx-auto overflow-hidden">
@@ -1119,9 +1137,116 @@ function TeamSection() {
         </h2>
       </div>
 
-      <div style={{ height: '450px', position: 'relative', maxWidth: '100vw' }}>
+      {/* Two TiltedCards side by side */}
+      <div className="team-cards-row flex flex-col md:flex-row items-center justify-center gap-12 md:gap-16 mb-16">
+        <TiltedCard
+          imageSrc={TEAM[0].image}
+          altText={TEAM[0].name}
+          captionText={`${TEAM[0].name} — ${TEAM[0].role}`}
+          containerHeight="300px"
+          containerWidth="300px"
+          imageHeight="300px"
+          imageWidth="300px"
+          rotateAmplitude={12}
+          scaleOnHover={1.05}
+          showMobileWarning={false}
+          showTooltip
+          displayOverlayContent
+          overlayContent={
+            <p className="tilted-card-demo-text">
+              {TEAM[0].name} — {TEAM[0].role}
+            </p>
+          }
+        />
+        <TiltedCard
+          imageSrc={TEAM[1].image}
+          altText={TEAM[1].name}
+          captionText={`${TEAM[1].name} — ${TEAM[1].role}`}
+          containerHeight="300px"
+          containerWidth="300px"
+          imageHeight="300px"
+          imageWidth="300px"
+          rotateAmplitude={12}
+          scaleOnHover={1.05}
+          showMobileWarning={false}
+          showTooltip
+          displayOverlayContent
+          overlayContent={
+            <p className="tilted-card-demo-text">
+              {TEAM[1].name} — {TEAM[1].role}
+            </p>
+          }
+        />
+      </div>
+
+      {/* View All Members Button */}
+      <div className="flex justify-center mt-8">
+        <button
+          onClick={onViewAll}
+          className="view-all-members-btn px-10 py-4 text-sm font-semibold tracking-widest uppercase transition-all duration-300 hover:scale-[1.04]"
+          style={{
+            background: "#ED2939",
+            color: "#F5F7FA",
+            fontFamily: "Oswald",
+            borderRadius: "4px",
+            textTransform: "uppercase",
+            border: "none",
+            cursor: "pointer",
+            boxShadow: "0 0 24px rgba(237,41,57,0.35), 0 4px 16px rgba(237,41,57,0.2)",
+            letterSpacing: "0.12em",
+          }}
+        >
+          View All Members →
+        </button>
+      </div>
+    </section>
+  );
+}
+
+// ─── Mentors Section ──────────────────────────────────────────────────────────
+function MentorsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".mentors-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".mentors-label", start: "top 88%" },
+      });
+      gsap.from(".mentors-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".mentors-heading", start: "top 88%" },
+      });
+      gsap.from(".mentors-carousel-wrap", {
+        opacity: 0, y: 50, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: ".mentors-carousel-wrap", start: "top 85%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  const mentorCarouselItems = MENTORS.map(t => ({
+    image: t.image,
+    alt: t.name,
+    title: t.name,
+    designation: t.role
+  }));
+
+  return (
+    <section ref={sectionRef} id="mentors" className="py-28 px-6 max-w-7xl mx-auto overflow-hidden">
+      <div className="text-center mb-16">
+        <span className="mentors-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Guidance</span>
+        <h2 className="mentors-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
+          Mentors
+        </h2>
+        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
+          The guiding forces behind TEDxPCU — mentors who inspire and elevate every idea.
+        </p>
+      </div>
+
+      <div className="mentors-carousel-wrap" style={{ height: '450px', position: 'relative', maxWidth: '100vw' }}>
         <DepthCarousel
-          items={teamCarouselItems}
+          items={mentorCarouselItems}
           depth={220}
           spread={90}
           tilt={22}
@@ -1141,62 +1266,6 @@ function TeamSection() {
           autoplayDelay={3200}
           showControls={true}
           showIndicators={true}
-        />
-      </div>
-
-      <div className="mt-20 text-center mb-16">
-        <h3 className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Spiraling Ideas</h3>
-      </div>
-      <div style={{ height: '600px', position: 'relative', overflow: 'hidden' }}>
-        <InfiniteSpiral
-          items={spiralItems}
-          animationMode="auto"
-          speed={0.55}
-          radius={170}
-          cardWidth={120}
-          cardHeight={160}
-          verticalSpacing={60}
-          perspective={1000}
-          cardRadius={10}
-          centerScale={1.2}
-          edgeBlur={6}
-          cardsPerTurn={7}
-          pauseOnHover
-          direction="up"
-          rotation={0}
-          cardTilt={0}
-          edgeFade={0.3}
-          imageFit="cover"
-          grayscale={0}
-        />
-      </div>
-
-      <div className="mt-20 text-center mb-16">
-        <h3 className="text-3xl font-bold" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>The Drift Wall</h3>
-      </div>
-      <div style={{ height: 600 }}>
-        <DriftWall
-          items={driftItems}
-          columns={5}
-          tileWidth={200}
-          tileHeight={132}
-          gap={18}
-          tilt={16}
-          turn={-14}
-          perspective={1200}
-          depth={120}
-          speed={42}
-          direction="up"
-          variance={0.45}
-          parallax={0.6}
-          lift={64}
-          fade={0.6}
-          dim={0.55}
-          overlayColor="rgba(3,8,15,0.7)"
-          radius={14}
-          roll={0}
-          pauseOnHover={false}
-          grayscale={false}
         />
       </div>
     </section>
@@ -1640,6 +1709,51 @@ function ContactSection() {
   );
 }
 
+// ─── Sponsors Section ──────────────────────────────────────────────────────────
+
+function SponsorsSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    if (!sectionRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".sponsors-label", {
+        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
+        scrollTrigger: { trigger: ".sponsors-label", start: "top 88%" },
+      });
+      gsap.from(".sponsors-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".sponsors-heading", start: "top 88%" },
+      });
+      gsap.from(".sponsor-card", {
+        opacity: 0, y: 40, duration: 0.7, stagger: 0.2, ease: "power3.out",
+        scrollTrigger: { trigger: ".sponsor-card", start: "top 90%" },
+      });
+    }, sectionRef);
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section ref={sectionRef} id="sponsors" className="py-28 px-6 max-w-7xl mx-auto">
+      <div className="text-center mb-16">
+        <span className="sponsors-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Our Partners</span>
+        <h2 className="sponsors-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
+          Sponsors
+        </h2>
+      </div>
+
+      <div className="flex items-center justify-center">
+        <img
+          src="/src/imports/Propel_Logo.png"
+          alt="Propel sponsor"
+          className="sponsor-card max-w-full object-contain"
+          style={{ width: "320px", height: "220px" }}
+        />
+      </div>
+    </section>
+  );
+}
+
 // ─── Footer ────────────────────────────────────────────────────────────────────
 
 function Footer({ onNav }: { onNav: (s: string) => void }) {
@@ -1829,8 +1943,9 @@ function EventDatePanel() {
 export default function App() {
   const path = usePath();
   const isAboutPage = path === "/about";
-  const activePage = isAboutPage ? "About" : "Home";
-  const [introDone, setIntroDone] = useState(() => currentPath() === "/about");
+  const isTeamsPage = path === "/teams";
+  const activePage = isAboutPage ? "About" : isTeamsPage ? "Teams" : "Home";
+  const [introDone, setIntroDone] = useState(() => currentPath() === "/about" || currentPath() === "/teams");
   const lenisRef = useRef<Lenis | null>(null);
 
   // ── Lenis smooth scroll + GSAP ScrollTrigger sync ──
@@ -1860,10 +1975,17 @@ export default function App() {
   }, [introDone]);
 
   useEffect(() => {
-    if (isAboutPage) setIntroDone(true);
-  }, [isAboutPage]);
+    if (isAboutPage || isTeamsPage) setIntroDone(true);
+  }, [isAboutPage, isTeamsPage]);
 
   const handleNav = (page: string) => {
+    if (page === "Teams") {
+      navigateTo("/teams");
+      window.scrollTo(0, 0);
+      lenisRef.current?.scrollTo(0, { immediate: true });
+      return;
+    }
+
     if (page === "About") {
       navigateTo("/about");
       lenisRef.current?.scrollTo(0, { duration: 0.8 });
@@ -1883,7 +2005,7 @@ export default function App() {
       if (target) lenisRef.current?.scrollTo(target, { offset: -20, duration: 1.4 });
     };
 
-    if (isAboutPage) {
+    if (isAboutPage || isTeamsPage) {
       navigateTo("/");
       window.setTimeout(scrollHomeTarget, 60);
       return;
@@ -1892,9 +2014,21 @@ export default function App() {
     scrollHomeTarget();
   };
 
+  const handleGoToTeams = () => {
+    navigateTo("/teams");
+    window.scrollTo(0, 0);
+    lenisRef.current?.scrollTo(0, { immediate: true });
+  };
+
+  const handleBackFromTeams = () => {
+    navigateTo("/");
+    window.scrollTo(0, 0);
+    lenisRef.current?.scrollTo(0, { immediate: true });
+  };
+
   return (
     <div style={{ background: "#03080F", minHeight: "100vh", position: "relative" }}>
-      {!isAboutPage && !introDone && (
+      {!isAboutPage && !isTeamsPage && !introDone && (
         <TitleReveal
           logo="TEDXPCU"
           onComplete={() => setIntroDone(true)}
@@ -1905,6 +2039,8 @@ export default function App() {
         <Navbar active={activePage} onNav={handleNav} />
         {isAboutPage ? (
           <AboutPage onHome={() => handleNav("Home")} />
+        ) : isTeamsPage ? (
+          <TeamsPage onBack={handleBackFromTeams} />
         ) : (
           <>
             <HeroSection ready={introDone} />
@@ -1919,11 +2055,16 @@ export default function App() {
             <SpeakersSection />
             <div className="section-divider" />
             <SectionDeco />
-            <TeamSection />
+            <TeamSection onViewAll={handleGoToTeams} />
             <div className="section-divider" />
+            <SectionDeco />
+            <MentorsSection />
             <EventDatePanel />
             <SectionDeco />
             <ContactSection />
+            <div className="section-divider" />
+            <SectionDeco />
+            <SponsorsSection />
           </>
         )}
         <Footer onNav={handleNav} />
