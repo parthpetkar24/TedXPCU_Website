@@ -26,15 +26,21 @@ const TEAM = [
     color: "#ED2939"
   },
   {
-    name: "Amrisha Vashishtha",
-    role: "Digital Platform",
-    image: "/src/imports/Team/Amrisha_Vashishtha (2).png",
-    color: "#ED2939"
-  },
-  {
     name: "Shreya Singh",
     role: "EPM",
     image: "/src/imports/Team/Shreya_Singh (2).png",
+    color: "#ED2939"
+  },
+  {
+    name: "Divyansh Gangurde",
+    role: "Technical",
+    image: "/src/imports/Team/Divyansh_Gangurde (2).png",
+    color: "#ED2939"
+  },
+  {
+    name: "Amrisha Vashishtha",
+    role: "Digital Platform",
+    image: "/src/imports/Team/Amrisha_Vashishtha (2).png",
     color: "#ED2939"
   },
   {
@@ -56,15 +62,15 @@ const TEAM = [
     color: "#ED2939"
   },
   {
-    name: "Malhaar Jawalkar",
-    role: "Hospitality",
-    image: "/src/imports/Team/Malhaar_Jawalkar (2).png",
-    color: "#ED2939"
-  },
-  {
     name: "Ashwani Singh",
     role: "Logistics",
     image: "/src/imports/Team/Ashwani_Singh (2).png",
+    color: "#ED2939"
+  },
+  {
+    name: "Malhaar Jawalkar",
+    role: "Hospitality",
+    image: "/src/imports/Team/Malhaar_Jawalkar (2).png",
     color: "#ED2939"
   },
   {
@@ -79,12 +85,7 @@ const TEAM = [
     image: "/src/imports/Team/Tanishka_Borude (2).png",
     color: "#ED2939"
   },
-  {
-    name: "Divyansh Gangurde",
-    role: "Technical",
-    image: "/src/imports/Team/Divyansh_Gangurde (2).png",
-    color: "#ED2939"
-  },
+  
   {
     name: "Abha Kurumbansi",
     role: "Registration",
