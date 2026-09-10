@@ -6,13 +6,12 @@ import Lenis from "lenis";
 import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
 import heroBg from "./imports/1234.png";
-
+import themeLogo from "./imports/Theme/silver-1.png";
 import TitleReveal from "./components/TitleReveal";
 import AboutPage from "./pages/AboutPage";
 import TeamsPage from "./pages/TeamsPage";
 import PixelCard from "./components/PixelCard";
 import TiltedCard from "./components/TiltedCard";
-import dummyTeamImg from "./imports/dummy_team.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -45,23 +44,7 @@ function usePath() {
   return path;
 }
 
-// ─── Parallax Hook for Hero ───────────────────────────────────────────────────
 
-function useParallax(speed = 0.3, baseScale = 0.85) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!ref.current) return;
-      const scrollY = window.scrollY;
-      ref.current.style.transform = `translateY(${scrollY * speed}px) scale(${baseScale})`;
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [speed, baseScale]);
-
-  return ref;
-}
 
 // ─── Decorative Graphics Component ────────────────────────────────────────────
 
@@ -197,205 +180,6 @@ const THEME = {
     " Avirbhava means the emergence or coming into existence of something meaningful. The theme represents how a simple idea, when supported by passion, determination, and action, can grow into something that creates a real impact. Every innovation, achievement, and change begins with an idea. Through this theme, TEDxPCU aims to showcase inspiring stories and perspectives that encourage people to turn their ideas into reality.",
 };
 
-const TEAM = [
-  {
-    name: "Aryan Raj",
-    role: "Organiser",
-    image: "/src/imports/Team/Aryan_Raj(2).png",
-  },
-  {
-    name: "Shradha Solanke",
-    role: "Co-Organiser",
-    image: "/src/imports/Team/Shradha_Solanke (2).png",
-  },
-  {
-    name: "Swapnil Adlinge",
-    role: "Operations",
-    image: "/src/imports/Team/Swapnil_Adlinge (2).png",
-  },
-  {
-    name: "Amrisha Vashishtha",
-    role: "Digital Platform",
-    image: "/src/imports/Team/Amrisha_Vashishtha (2).png",
-  },
-  {
-    name: "Shreya Singh",
-    role: "EPM",
-    image: "/src/imports/Team/Shreya_Singh (2).png",
-  },
-  {
-    name: "Sahil Gore",
-    role: "Production",
-    image: "/src/imports/Team/Sahil_Gore (2).png",
-  },
-  {
-    name: "Aditya Harpude",
-    role: "Social Media",
-    image: "/src/imports/Team/Aditya_Harpude (2).png",
-  },
-  {
-    name: "Pratiksha Ghonshikar",
-    role: "Graphic Design",
-    image: "/src/imports/Team/Pratiksha_Ghonshikar (2).png",
-  },
-  {
-    name: "Malhaar Jawalkar",
-    role: "Hospitality",
-    image: "/src/imports/Team/Malhaar_Jawalkar (2).png",
-  },
-  {
-    name: "Ashwani Singh",
-    role: "Logistics",
-    image: "/src/imports/Team/Ashwani_Singh (2).png",
-  },
-  {
-    name: "Sankalp Kale",
-    role: "F&B",
-    image: "/src/imports/Team/Sankalp_Kale (2).png",
-  },
-  {
-    name: "Tanishka Borude",
-    role: "Documentation",
-    image: "/src/imports/Team/Tanishka_Borude (2).png",
-  },
-  {
-    name: "Divyansh Gangurde",
-    role: "Technical",
-    image: "/src/imports/Team/Divyansh_Gangurde (2).png",
-  },
-  {
-    name: "Abha Kurumbansi",
-    role: "Registration",
-    image: "/src/imports/Team/Abha_Kurumbansi (2).png",
-  },
-  {
-    name: "Kashish Valecha",
-    role: "Registration",
-    image: "/src/imports/Team/Kashish_Valecha (2).png",
-  },
-  {
-    name: "Shreya Rai",
-    role: "Cultural",
-    image: "/src/imports/Team/Shreya_Rai (2).png",
-  },
-  {
-    name: "Vaishnavi Khandelwal",
-    role: "Cultural",
-    image: "/src/imports/Team/Vaishnavi_Khandelwal (2).png",
-  },
-  {
-    name: "Kunal Shinde",
-    role: "Promotions",
-    image: "/src/imports/Team/Kunal_Shinde (2).png",
-  },
-  {
-    name: "Viraj Mandekar",
-    role: "Security",
-    image: "/src/imports/Team/Viraj_Mandekar (2).png",
-  },
-  
-
-];
-
-
-
-const SPEAKERS = [
-  {
-    name: "Dr. Aisha Khan",
-    topic: "The Future of AI",
-    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=500&fit=crop&auto=format",
-  },
-  {
-    name: "Marcus Reynolds",
-    topic: "Sustainable Energy",
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&auto=format",
-  },
-  {
-    name: "Elena Rostova",
-    topic: "Space Exploration",
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=500&fit=crop&auto=format",
-  },
-  {
-    name: "David Chen",
-    topic: "Quantum Computing",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=500&fit=crop&auto=format",
-  },
-];
-
-const EVENT_TIMELINE = [
-  {
-    time: "08:30 AM",
-    title: "Doors Open & Registration",
-    description:
-      "Arrive early, collect your badge, and settle in. Meet fellow attendees over freshly brewed coffee and curated ambient sounds setting the tone for the day.",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop&auto=format",
-    tag: "Welcome",
-    icon: "🎟️",
-  },
-  {
-    time: "09:15 AM",
-    title: "Opening Ceremony",
-    description:
-      "The TEDxPCU organising team officially welcomes you. A powerful opening performance sets the emotional stage for a day of bold ideas and unexpected connections.",
-    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&h=400&fit=crop&auto=format",
-    tag: "Ceremony",
-    icon: "🎙️",
-  },
-  {
-    time: "10:00 AM",
-    title: "Session I — Ignite",
-    description:
-      "The first speaker block. Three live talks exploring the catalytic power of a single idea. Thought-provoking, personal, and precise — each speaker gets 15 minutes to change your mind.",
-    image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&h=400&fit=crop&auto=format",
-    tag: "Talks",
-    icon: "⚡",
-  },
-  {
-    time: "11:30 AM",
-    title: "TED Talk Screening",
-    description:
-      "A hand-picked TED Talk from the global archive, chosen to deepen the morning's theme. Watch together, reflect together.",
-    image: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=600&h=400&fit=crop&auto=format",
-    tag: "Screening",
-    icon: "🎬",
-  },
-  {
-    time: "12:30 PM",
-    title: "Networking Lunch",
-    description:
-      "A 60-minute curated lunch break with facilitated table conversations. Every table gets a conversation starter card — no small talk allowed.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&auto=format",
-    tag: "Networking",
-    icon: "🤝",
-  },
-  {
-    time: "01:30 PM",
-    title: "Session II — Fracture",
-    description:
-      "The afternoon's boldest block. Speakers who've lived through radical change share what broke and what emerged from the wreckage.",
-    image: "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&h=400&fit=crop&auto=format",
-    tag: "Talks",
-    icon: "💎",
-  },
-  {
-    time: "03:30 PM",
-    title: "Interactive Workshop",
-    description:
-      "A hands-on workshop led by our guest facilitator. Small groups, big ideas, zero hierarchy.",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop&auto=format",
-    tag: "Workshop",
-    icon: "🛠️",
-  },
-  {
-    time: "05:00 PM",
-    title: "Closing Keynote & Finale",
-    description:
-      "Our closing keynote speaker delivers a talk designed to leave a lasting imprint. Followed by a group reflection and the official TEDxPCU closing ritual.",
-    image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=600&h=400&fit=crop&auto=format",
-    tag: "Keynote",
-    icon: "🌐",
-  },
-];
 
 // ─── Magnetic Button Wrapper ───────────────────────────────────────────────────
 
@@ -866,17 +650,12 @@ function ThemeSection() {
         <div className="p-10 md:p-14">
           {/* Theme logo */}
           <div className="mb-8 flex justify-center">
-            <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="36" cy="36" r="34" stroke="#ED2939" strokeWidth="1.5" strokeDasharray="4 3" opacity="0.5" />
-              <circle cx="36" cy="36" r="26" stroke="#ED2939" strokeWidth="1" opacity="0.3" />
-              <circle cx="36" cy="36" r="18" fill="rgba(237,41,57,0.08)" stroke="#ED2939" strokeWidth="1.5" />
-              <line x1="25" y1="25" x2="47" y2="47" stroke="#ED2939" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="47" y1="25" x2="25" y2="47" stroke="#ED2939" strokeWidth="2.5" strokeLinecap="round" />
-              <line x1="36" y1="2" x2="36" y2="8" stroke="#ED2939" strokeWidth="1.5" strokeLinecap="round" />
-              <line x1="36" y1="64" x2="36" y2="70" stroke="#ED2939" strokeWidth="1.5" strokeLinecap="round" />
-              <line x1="2" y1="36" x2="8" y2="36" stroke="#ED2939" strokeWidth="1.5" strokeLinecap="round" />
-              <line x1="64" y1="36" x2="70" y2="36" stroke="#ED2939" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
+            <img
+              src={themeLogo}
+              alt="Abhirbhav"
+              className="block"
+              style={{ width: "211px", height: "84px", objectFit: "contain" }}
+            />
           </div>
 
           <div className="mb-6">
@@ -1028,6 +807,29 @@ function AboutSection() {
   );
 }
 
+const SPEAKERS=[
+  {
+    name: "To be Announced",
+    role: "",
+    image: "",
+  },
+  {
+    name: "To be Announced",
+    role: "",
+    image: "",
+  },
+  {
+    name: "To be Announced",
+    role: "",
+    image: "",
+  },
+  {
+    name: "To be Announced",
+    role: "",
+    image: "",
+  },
+]
+
 // ─── Speakers Section ────────────────────────────────────────────────────────
 function SpeakersSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -1073,6 +875,21 @@ function SpeakersSection() {
     </section>
   );
 }
+
+const TEAM = [
+  {
+    name: "Aryan Raj",
+    role: "Organiser",
+    image: "/src/imports/Team/Aryan_Raj(2).png",
+    color: "#ED2939"
+  },
+  {
+    name: "Shradha Solanke",
+    role: "Co-Organiser",
+    image: "/src/imports/Team/Shradha_Solanke (2).png",
+    color: "#ED2939"
+  },
+]
 
 // ─── Team Section ─────────────────────────────────────────────────────────────
 function TeamSection({ onViewAll }: { onViewAll: () => void }) {
@@ -1171,172 +988,6 @@ function TeamSection({ onViewAll }: { onViewAll: () => void }) {
   );
 }
 
-
-
-// ─── Event Timeline ────────────────────────────────────────────────────────────
-
-function TimelineMarker({ active, icon }: { active: boolean; icon: string }) {
-  return (
-    <div className="relative flex flex-col items-center">
-      <div className="relative z-10 w-14 h-14 rounded-full flex items-center justify-center text-xl transition-all duration-500" style={{
-        background: active ? "rgba(237,41,57,0.15)" : "rgba(5,12,22,0.9)",
-        border: active ? "2px solid #ED2939" : "1px solid rgba(255,255,255,0.08)",
-        boxShadow: active ? "0 0 24px rgba(237,41,57,0.4)" : "none",
-      }}>
-        {icon}
-      </div>
-    </div>
-  );
-}
-
-function TimelineConnector({ active }: { active: boolean }) {
-  return (
-    <div className="w-0.5 transition-all duration-700" style={{
-      height: "60px",
-      background: active ? "linear-gradient(180deg, #ED2939, rgba(237,41,57,0.2))" : "rgba(255,255,255,0.06)",
-    }} />
-  );
-}
-
-function TimelineProgress({ total, current }: { total: number; current: number }) {
-  return (
-    <div className="flex items-center gap-3 justify-center mb-12">
-      <span className="text-xs tracking-widest" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 600 }}>{String(current + 1).padStart(2, "0")}</span>
-      <div className="relative h-px flex-1 max-w-xs" style={{ background: "rgba(255,255,255,0.06)" }}>
-        <div className="absolute left-0 top-0 h-full transition-all duration-500" style={{
-          width: `${((current + 1) / total) * 100}%`,
-          background: "linear-gradient(90deg, #ED2939, rgba(237,41,57,0.4))",
-        }} />
-      </div>
-      <span className="text-xs tracking-widest" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 600 }}>{String(total).padStart(2, "0")}</span>
-    </div>
-  );
-}
-
-function ScrollTimeline() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const timelineSectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const idx = itemRefs.current.indexOf(entry.target as HTMLDivElement);
-            if (idx !== -1) setActiveIndex(idx);
-          }
-        });
-      },
-      { threshold: 0.55 }
-    );
-    itemRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!timelineSectionRef.current) return;
-    const ctx = gsap.context(() => {
-      gsap.from(".tl-label", {
-        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
-        scrollTrigger: { trigger: ".tl-label", start: "top 88%" },
-      });
-      gsap.from(".tl-heading", {
-        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
-        scrollTrigger: { trigger: ".tl-heading", start: "top 88%" },
-      });
-      gsap.from(".tl-subtitle", {
-        opacity: 0, y: 30, duration: 0.7, delay: 0.1, ease: "power3.out",
-        scrollTrigger: { trigger: ".tl-subtitle", start: "top 88%" },
-      });
-    }, timelineSectionRef);
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <section ref={timelineSectionRef} id="timeline" className="py-28 px-6 max-w-6xl mx-auto">
-      <div className="text-center mb-16">
-        <span className="tl-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Event Day</span>
-        <h2 className="tl-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>How It Unfolds</h2>
-        <p className="tl-subtitle mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
-          A full-day journey from first coffee to closing keynote — every moment crafted with intention.
-        </p>
-      </div>
-
-      <TimelineProgress total={EVENT_TIMELINE.length} current={activeIndex} />
-
-      <div className="relative flex flex-col">
-        {EVENT_TIMELINE.map((item, i) => {
-          const isLeft = i % 2 === 0;
-          const isActive = i === activeIndex;
-          const isPast = i < activeIndex;
-
-          return (
-            <div key={item.title}>
-              <div ref={(el) => { itemRefs.current[i] = el; }}
-                className={`flex flex-col md:flex-row items-start md:items-center gap-4 md:gap-0 w-full transition-opacity duration-500 ${isPast ? "opacity-50" : ""}`}>
-                {/* Left */}
-                <div className="flex-1 flex justify-end">
-                  {isLeft ? (
-                    <div className={`flex-1 text-left md:text-right pr-0 md:pr-10 transition-all duration-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-40 translate-y-2"}`}>
-                      <div className="inline-block px-3 py-1 text-xs font-semibold tracking-widest uppercase mb-2" style={{
-                        background: isActive ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
-                        color: isActive ? "#ED2939" : "#AAB4C0",
-                        border: isActive ? "1px solid rgba(237,41,57,0.3)" : "1px solid rgba(255,255,255,0.06)",
-                        borderRadius: "2px", fontFamily: "Rajdhani",
-                      }}>{item.tag}</div>
-                      <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed ml-0 md:ml-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans", maxWidth: "360px" }}>{item.description}</p>
-                    </div>
-                  ) : (
-                    <div className={`hidden lg:block flex-1 pl-0 pr-10 transition-all duration-700 ${isActive ? "opacity-100 scale-100" : "opacity-20 scale-95"}`}>
-                      <div className="overflow-hidden" style={{ borderRadius: "4px", border: isActive ? "1px solid rgba(237,41,57,0.25)" : "1px solid rgba(255,255,255,0.04)", maxHeight: "180px" }}>
-                        <img src={item.image} alt={item.title} className="w-full h-full object-cover" style={{ maxHeight: "180px" }} />
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Center - hide on mobile */}
-                <TimelineMarker active={isActive || isPast} icon={item.icon} />
-
-                {/* Right */}
-                <div className="flex-1 flex justify-start">
-                  {isLeft ? (
-                    <div className={`hidden lg:block flex-1 pl-10 transition-all duration-700 ${isActive ? "opacity-100 scale-100" : "opacity-20 scale-95"}`}>
-                      <div className="overflow-hidden" style={{ borderRadius: "4px", border: isActive ? "1px solid rgba(237,41,57,0.25)" : "1px solid rgba(255,255,255,0.04)", maxHeight: "180px" }}>
-                        <img src={item.image} alt={item.title} className="w-full h-full object-cover" style={{ maxHeight: "180px" }} />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className={`flex-1 text-left pl-0 md:pl-10 transition-all duration-700 ${isActive ? "opacity-100 translate-y-0" : "opacity-40 translate-y-2"}`}>
-                      <div className="inline-block px-3 py-1 text-xs font-semibold tracking-widest uppercase mb-2" style={{
-                        background: isActive ? "rgba(237,41,57,0.12)" : "rgba(255,255,255,0.04)",
-                        color: isActive ? "#ED2939" : "#AAB4C0",
-                        border: isActive ? "1px solid rgba(237,41,57,0.3)" : "1px solid rgba(255,255,255,0.06)",
-                        borderRadius: "2px", fontFamily: "Rajdhani",
-                      }}>{item.tag}</div>
-                      <div className="text-xs font-semibold tracking-widest mb-2" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>{item.time}</div>
-                      <h3 className="text-lg sm:text-xl md:text-2xl font-bold mb-3" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>{item.title}</h3>
-                      <p className="text-sm leading-relaxed" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans", maxWidth: "360px" }}>{item.description}</p>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {i < EVENT_TIMELINE.length - 1 && (
-                <div className="flex justify-center">
-                  <TimelineConnector active={i < activeIndex} />
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
 
 // ─── Contact Section ───────────────────────────────────────────────────────────
 
@@ -1734,7 +1385,7 @@ function SponsorsSection() {
 
       <div className="flex items-center justify-center">
         <img
-          src="/src/imports/Propel_Logo.png"
+          src="/src/imports/Sponsors/Propel_Logo.png"
           alt="Propel sponsor"
           className="sponsor-card max-w-full object-contain"
           style={{ width: "320px", height: "220px" }}
@@ -1792,139 +1443,6 @@ function Footer({ onNav }: { onNav: (s: string) => void }) {
         </div>
       </div>
     </footer>
-  );
-}
-
-// ─── Apply Now Page ─────────────────────────────────────────────────────────────
-
-function ApplyPage({ onBack }: { onBack: () => void }) {
-  const [form, setForm] = useState({ name: "", email: "", phone: "", college: "", why: "", idea: "" });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setSubmitted(true); };
-
-  if (submitted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-6">
-        <div className="text-center max-w-lg">
-          <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 animate-glow-pulse"
-            style={{ background: "rgba(237,41,57,0.15)", border: "2px solid #ED2939" }}>
-            <span className="text-3xl">✓</span>
-          </div>
-          <h2 className="text-4xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Application Received!</h2>
-          <p className="mb-8" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
-            Thank you for applying to TEDxPCU. Our team will review your application and get back to you within 7 days.
-          </p>
-          <button onClick={onBack} className="px-8 py-3 text-sm font-semibold tracking-widest uppercase"
-            style={{ background: "#ED2939", color: "#F5F7FA", fontFamily: "Oswald", borderRadius: "2px", textTransform: "uppercase" }}>
-            Back to Home
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen pt-24 pb-16 px-6">
-      <div className="max-w-2xl mx-auto">
-        <button onClick={onBack} className="text-sm mb-8 flex items-center gap-2 transition-colors hover:text-red-400"
-          style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
-          ← Back to Home
-        </button>
-        <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani", fontWeight: 700 }}>◆ Join The Movement</span>
-        <h1 className="text-5xl font-bold mt-4 mb-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Apply Now</h1>
-        <p className="mb-10" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
-          Applications are reviewed by our curation team. Seats are limited. Tell us your story.
-        </p>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-          {[
-            { field: "name", label: "Full Name", type: "text", placeholder: "Your full name" },
-            { field: "email", label: "Email", type: "email", placeholder: "you@email.com" },
-            { field: "phone", label: "Phone", type: "tel", placeholder: "+91 XXXXX XXXXX" },
-            { field: "college", label: "College / Institution", type: "text", placeholder: "Where do you study/work?" },
-          ].map(({ field, label, type, placeholder }) => (
-            <div key={field}>
-              <label className="block text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 700 }}>{label}</label>
-              <input type={type} placeholder={placeholder} value={form[field as keyof typeof form]}
-                onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
-                className="w-full px-4 py-3 bg-transparent outline-none"
-                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "IBM Plex Sans", borderRadius: "2px" }}
-                onFocus={(e) => (e.target.style.borderColor = "rgba(237,41,57,0.5)")}
-                onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")} />
-            </div>
-          ))}
-          {[
-            { field: "why", label: "Why do you want to attend TEDxPCU?", placeholder: "Tell us what draws you to this experience..." },
-            { field: "idea", label: "What idea excites you most right now?", placeholder: "An idea worth sharing..." },
-          ].map(({ field, label, placeholder }) => (
-            <div key={field}>
-              <label className="block text-xs font-semibold tracking-widest uppercase mb-2" style={{ color: "#8A96A4", fontFamily: "Rajdhani", fontWeight: 700 }}>{label}</label>
-              <textarea rows={4} placeholder={placeholder} value={form[field as keyof typeof form]}
-                onChange={(e) => setForm({ ...form, [field]: e.target.value })} required
-                className="w-full px-4 py-3 bg-transparent outline-none resize-none"
-                style={{ border: "1px solid rgba(255,255,255,0.1)", color: "#F5F7FA", fontFamily: "IBM Plex Sans", borderRadius: "2px" }}
-                onFocus={(e) => (e.target.style.borderColor = "rgba(237,41,57,0.5)")}
-                onBlur={(e) => (e.target.style.borderColor = "rgba(255,255,255,0.1)")} />
-            </div>
-          ))}
-          <button type="submit" className="px-10 py-4 text-sm font-semibold tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] animate-glow-pulse mt-2"
-            style={{ background: "#ED2939", color: "#F5F7FA", fontFamily: "Oswald", borderRadius: "2px", textTransform: "uppercase" }}>
-            Submit Application →
-          </button>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-// ─── Event Date Panel ────────────────────────────────────────────────────────────
-
-function EventDatePanel() {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  
-  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
-  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
-  
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
-  
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <section className="py-20 px-6 max-w-6xl mx-auto event-date-panel">
-      <motion.div
-        className="event-date-card p-12 md:p-20 flex flex-col items-center justify-center text-center cursor-default"
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-        style={{ rotateX, rotateY }}
-      >
-        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#FFFFFF", textTransform: "uppercase", letterSpacing: "0.02em" }}>
-          TED<sup style={{ fontSize: "0.5em" }}>x</sup>PCU
-        </h2>
-        <div className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter mb-6 red-glow" style={{ fontFamily: "Inter", color: "#F5F7FA" }}>
-          09.10.2026
-        </div>
-        <p className="text-lg md:text-xl font-medium tracking-widest" style={{ color: "rgba(255,255,255,0.8)", fontFamily: "Rajdhani", textTransform: "uppercase" }}>
-          Save The Date
-        </p>
-      </motion.div>
-    </section>
   );
 }
 
@@ -2046,7 +1564,6 @@ export default function App() {
             <div className="section-divider" />
             <SectionDeco />
             <TeamSection onViewAll={handleGoToTeams} />
-            <EventDatePanel />
             <SectionDeco />
             <ContactSection />
             <div className="section-divider" />
