@@ -12,7 +12,6 @@ import AboutPage from "./pages/AboutPage";
 import TeamsPage from "./pages/TeamsPage";
 import PixelCard from "./components/PixelCard";
 import TiltedCard from "./components/TiltedCard";
-import DepthCarousel from "./components/DepthCarousel";
 import dummyTeamImg from "./imports/dummy_team.webp";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -298,38 +297,7 @@ const TEAM = [
 
 ];
 
-const MENTORS = [
-  {
-    name: "Aditya Rasal",
-    role: "Mentor",
-    image: "/src/imports/Team/Aditya_Rasal (2).png",
-  },
-  {
-    name: "Prathamesh Tupkari",
-    role: "Mentor",
-    image: "/src/imports/Team/Prathamesh (2).png",
-  },
-  {
-    name: "Harshika Bodekar",
-    role: "Mentor",
-    image: "/src/imports/Team/Harshika (2).png",
-  },
-  {
-    name: "Pranjali Pandit",
-    role: "Mentor",
-    image: "/src/imports/Team/Pranjali (2).png",
-  },
-  {
-    name: "Raj Singh",
-    role: "Mentor",
-    image: "/src/imports/Team/Raj_Singh (2).png",
-  },
-  {
-    name: "Raj Konde",
-    role: "Mentor",
-    image: "/src/imports/Team/Raj_Konde (2).png",
-  },
-];
+
 
 const SPEAKERS = [
   {
@@ -1203,74 +1171,7 @@ function TeamSection({ onViewAll }: { onViewAll: () => void }) {
   );
 }
 
-// ─── Mentors Section ──────────────────────────────────────────────────────────
-function MentorsSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (!sectionRef.current) return;
-    const ctx = gsap.context(() => {
-      gsap.from(".mentors-label", {
-        opacity: 0, y: 20, duration: 0.6, ease: "power3.out",
-        scrollTrigger: { trigger: ".mentors-label", start: "top 88%" },
-      });
-      gsap.from(".mentors-heading", {
-        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
-        scrollTrigger: { trigger: ".mentors-heading", start: "top 88%" },
-      });
-      gsap.from(".mentors-carousel-wrap", {
-        opacity: 0, y: 50, duration: 0.9, ease: "power3.out",
-        scrollTrigger: { trigger: ".mentors-carousel-wrap", start: "top 85%" },
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
 
-  const mentorCarouselItems = MENTORS.map(t => ({
-    image: t.image,
-    alt: t.name,
-    title: t.name,
-    designation: t.role
-  }));
-
-  return (
-    <section ref={sectionRef} id="mentors" className="py-28 px-6 max-w-7xl mx-auto overflow-hidden">
-      <div className="text-center mb-16">
-        <span className="mentors-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Guidance</span>
-        <h2 className="mentors-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
-          Mentors
-        </h2>
-        <p className="mt-4 max-w-lg mx-auto" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
-          The guiding forces behind TEDxPCU — mentors who inspire and elevate every idea.
-        </p>
-      </div>
-
-      <div className="mentors-carousel-wrap" style={{ height: '450px', position: 'relative', maxWidth: '100vw' }}>
-        <DepthCarousel
-          items={mentorCarouselItems}
-          depth={220}
-          spread={90}
-          tilt={22}
-          tiltDirection="right"
-          perspective={1400}
-          visibleCards={3}
-          falloff={0.2}
-          blur={6}
-          autoplay={true}
-          loop={true}
-          cardWidth={280}
-          cardHeight={360}
-          radius={18}
-          tint="rgba(237,41,57, 0.15)"
-          duration={700}
-          ease="power3.out"
-          autoplayDelay={3200}
-          showControls={true}
-          showIndicators={true}
-        />
-      </div>
-    </section>
-  );
-}
 
 // ─── Event Timeline ────────────────────────────────────────────────────────────
 
@@ -2056,9 +1957,6 @@ export default function App() {
             <div className="section-divider" />
             <SectionDeco />
             <TeamSection onViewAll={handleGoToTeams} />
-            <div className="section-divider" />
-            <SectionDeco />
-            <MentorsSection />
             <EventDatePanel />
             <SectionDeco />
             <ContactSection />

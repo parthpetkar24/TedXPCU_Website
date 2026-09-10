@@ -253,29 +253,6 @@ const DepthCarousel = ({
     return () => ro.disconnect();
   }, [layout]);
 
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      const cfg = cfgRef.current;
-      if (cfg.count < 2) return;
-      e.preventDefault();
-      tweenRef.current?.kill();
-      const raw = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      const delta = e.deltaMode === 1 ? raw * 24 : raw;
-      const step = clamp(delta / (cfg.cardWidth * 0.9), -0.6, 0.6);
-      posRef.current += step;
-      layout(posRef.current);
-      if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
-      wheelTimerRef.current = setTimeout(() => setFocus(Math.round(posRef.current), true), 130);
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => {
-      el.removeEventListener('wheel', onWheel);
-      if (wheelTimerRef.current) clearTimeout(wheelTimerRef.current);
-    };
-  }, [layout, setFocus]);
-
   const onPointerDown = useCallback((e: ReactPointerEvent<HTMLDivElement>) => {
     const cfg = cfgRef.current;
     if (cfg.count < 2) return;
@@ -340,14 +317,9 @@ const DepthCarousel = ({
 
   const onCardClick = useCallback(
     (index: number) => {
-      if (dragRef.current?.moved) return;
-      if (active === index) {
-        setFlippedCards(prev => ({ ...prev, [index]: !prev[index] }));
-      } else {
-        setFocus(index, true);
-      }
+      // Disabled as per request: "change in carousel should be only when arrow clicked"
     },
-    [active, setFocus]
+    []
   );
 
   useEffect(() => {
@@ -417,10 +389,6 @@ const DepthCarousel = ({
       aria-roledescription="carousel"
       aria-label="Depth carousel"
       tabIndex={0}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerEnd}
-      onPointerCancel={onPointerEnd}
       onKeyDown={onKeyDown}
     >
       <div className="depth-carousel__stage" ref={stageRef}>

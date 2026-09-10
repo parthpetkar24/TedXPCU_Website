@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import ChromaGrid from '../components/ChromaGrid';
+import DepthCarousel from '../components/DepthCarousel';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -182,7 +183,7 @@ export default function TeamsPage({ onBack }: TeamsPageProps) {
           </p>
         </div>
         {/* Profile Cards Grid -> ChromaGrid */}
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative', paddingBottom: '100px' }}>
           <ChromaGrid 
             items={chromaItems}
             radius={300}
@@ -190,6 +191,37 @@ export default function TeamsPage({ onBack }: TeamsPageProps) {
             fadeOut={0.6}
             ease="power3.out"
           />
+        </div>
+
+        {/* Mentors Section */}
+        <div className="mt-20 text-center">
+          <span className="teams-page-label text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Guidance</span>
+          <h2 className="teams-page-heading text-5xl md:text-7xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
+            Mentors
+          </h2>
+          <p className="teams-page-subtitle mt-4 max-w-lg mx-auto mb-16" style={{ color: "#8A96A4", fontFamily: "IBM Plex Sans" }}>
+            The guiding lights who made this event possible.
+          </p>
+          
+          <div className="w-full flex justify-center items-center relative" style={{ height: '550px' }}>
+            <DepthCarousel 
+              items={[
+                { image: "/src/imports/Team/Aditya_Rasal (2).png", title: "Aditya Rasal", designation: "Mentor" },
+                { image: "/src/imports/Team/Prathamesh (2).png", title: "Prathamesh Tupkari", designation: "Mentor" },
+                { image: "/src/imports/Team/Harshika (2).png", title: "Harshika Bodekar", designation: "Mentor" },
+                { image: "/src/imports/Team/Pranjali (2).png", title: "Pranjali Pandit", designation: "Mentor" },
+                { image: "/src/imports/Team/Raj_Singh (2).png", title: "Raj Singh", designation: "Mentor" },
+                { image: "/src/imports/Team/Raj_Konde (2).png", title: "Raj Konde", designation: "Mentor" }
+              ]}
+              cardWidth={300}
+              cardHeight={400}
+              autoplay={false}
+              showControls={true}
+              showIndicators={false}
+              duration={0}
+              className="mt-8"
+            />
+          </div>
         </div>
       </div>
     </div>
