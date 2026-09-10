@@ -1468,6 +1468,64 @@ function ContactCard({ contact, index }: { contact: typeof CONTACTS[0]; index: n
   );
 }
 
+import MagicBento, { BentoCardData } from "./components/MagicBento";
+
+const APPLY_CARDS: BentoCardData[] = [
+  {
+    title: "Apply to Speak at TEDxPCU",
+    description: "Become a TEDx speaker and share ideas worth spreading.",
+    label: "Speaker",
+    url: "https://forms.gle/QPwhPm1bSq5LSP3R6",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"></path>
+        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+        <line x1="12" y1="19" x2="12" y2="23"></line>
+        <line x1="8" y1="23" x2="16" y2="23"></line>
+      </svg>
+    )
+  },
+  {
+    title: "Start Your Partnership with TEDxPCU",
+    description: "Collaborate or sponsor TEDx events with us.",
+    label: "Partner",
+    url: "https://forms.gle/Q6fGQyZ3trz5myge9",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+      </svg>
+    )
+  },
+  {
+    title: "Perform at TEDxPCU",
+    description: "Join our show line-up as a performer or entertainer.",
+    label: "Performer",
+    url: "https://forms.gle/zWd8e9nkPWtAjinU9",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </svg>
+    )
+  },
+  {
+    title: "Join Our Team — Recruitment Form",
+    description: "Become a part of organizing TEDxPCU.",
+    label: "Team",
+    url: "https://forms.gle/JfWRa525XCZfiU419",
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="8.5" cy="7" r="4"></circle>
+        <line x1="20" y1="8" x2="20" y2="14"></line>
+        <line x1="23" y1="11" x2="17" y2="11"></line>
+      </svg>
+    )
+  }
+];
+
 function ContactSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -1494,6 +1552,14 @@ function ContactSection() {
       gsap.from(".contact-cards > div", {
         opacity: 0, y: 40, duration: 0.7, stagger: 0.15, ease: "power3.out",
         scrollTrigger: { trigger: ".contact-cards", start: "top 90%" },
+      });
+      gsap.from(".apply-now-heading", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".apply-now-heading", start: "top 90%" },
+      });
+      gsap.from(".magic-bento-section", {
+        opacity: 0, y: 40, duration: 0.8, ease: "power3.out",
+        scrollTrigger: { trigger: ".magic-bento-section", start: "top 80%" },
       });
     }, sectionRef);
     return () => ctx.revert();
@@ -1600,10 +1666,33 @@ function ContactSection() {
         </div>
 
         {/* Contact cards */}
-        <div className="contact-cards grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="contact-cards grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
           {CONTACTS.map((contact, i) => (
             <ContactCard key={contact.name} contact={contact} index={i} />
           ))}
+        </div>
+
+        {/* Apply Now Section */}
+        <div className="text-center mb-16">
+          <span className="apply-now-heading text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>◆ Join Us</span>
+          <h2 className="apply-now-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Apply Now</h2>
+        </div>
+        
+        <div className="magic-bento-section flex justify-center w-full">
+          <MagicBento 
+            cards={APPLY_CARDS}
+            textAutoHide={true}
+            enableStars={true}
+            enableSpotlight={true}
+            enableBorderGlow={true}
+            enableTilt={false}
+            enableMagnetism={false}
+            clickEffect={true}
+            spotlightRadius={400}
+            particleCount={12}
+            glowColor="237, 41, 57"
+            disableAnimations={false}
+          />
         </div>
       </div>
     </section>

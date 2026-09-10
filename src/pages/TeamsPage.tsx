@@ -218,7 +218,7 @@ export default function TeamsPage({ onBack }: TeamsPageProps) {
               autoplay={false}
               showControls={true}
               showIndicators={false}
-              duration={0}
+              duration={800}
               className="mt-8"
             />
           </div>
