@@ -12,6 +12,7 @@ import AboutPage from "./pages/AboutPage";
 import TeamsPage from "./pages/TeamsPage";
 import PixelCard from "./components/PixelCard";
 import TiltedCard from "./components/TiltedCard";
+import AdmitOneTicket from "./components/TicketCard";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -807,28 +808,123 @@ function AboutSection() {
   );
 }
 
-const SPEAKERS=[
+const SPEAKERS = [
   {
-    name: "To be Announced",
-    role: "",
-    image: "",
+    name: "Pulkit Handaa",
+    description: "Professional at District with experience across product, business development, and client-facing roles in the technology and food industries. Recipient of the Most Valuable Player award at Magicpin and the Tiger of the Month award at Times Internet.",
+    image: "/src/imports/Speakers/Pulkit_Handaa.jpeg",
   },
   {
-    name: "To be Announced",
-    role: "",
-    image: "",
+    name: "Chinmay Mahale",
+    description: "Ex-Indian Army officer Cadet and ex-Indian Air Force trainee Flying Officer, and founder of Defence Mavericks, focused on empowering young minds through education, discipline, and leadership. A Computer Engineer who teaches Engineering Mathematics, Aptitude, and Logical Reasoning.",
+    image: "/src/imports/Speakers/Chinmay_Mahale.jpeg",
   },
   {
-    name: "To be Announced",
-    role: "",
-    image: "",
+    name: "Rahul Trivedi",
+    description: "An Assistant Professor at Marwadi University and an Associate NLP Practitioner with a strong interest in human development and emotional intelligence. A Dale Carnegie Certified Training Professional. His work reflects a passion for empowering individuals through education, communication, and personal growth.",
+    image: "/src/imports/Speakers/Rahul_Trivedi.png",
   },
   {
-    name: "To be Announced",
-    role: "",
-    image: "",
+    name: "Subhash Talekar",
+    description: "The President of the Mumbai Dabbawala Association and a third-/fourth-generation member of the iconic Mumbai Dabbawala community. A renowned motivational speaker, he shares insights on teamwork, time management, discipline, customer service, and operational excellence drawn from the Dabbawala system. He has also been associated with social initiatives such as the Roti Bank and Kapda Bank.",
+    image: "/src/imports/Speakers/Subhash_Talekar.png",
   },
-]
+  {
+    name: "Sarika Kharbanda",
+    description: "Global Lean Change Agent and Change Hacker, focused on organizational transformation, leadership, facilitation, and building adaptive teams. An IIT Bombay alumna with over two decades of experience driving change across technology, insurance, and financial services organizations in India and internationally.",
+    image: "/src/imports/Speakers/Sarika_Kharbanda.jpeg",
+  },
+  {
+    name: "Aarshad Devani",
+    description: "Senior AI Architect at Cobweb, focused on building credible AI products and AI-powered solutions. A technology community builder and AI practitioner, recognized as part of the Guinness World Record for the largest agentic AI hackathon.",
+    image: "/src/imports/Speakers/Aarshad_Devani.jpg",
+  },
+  {
+    name: "Mukesh Jain",
+    description: "Chief Technology Officer and Executive Vice President at Capgemini, with expertise across AI/GenAI, cybersecurity, product innovation, and people analytics. A 6x TEDx speaker and former leader at Microsoft, Jio, and NICE, he is also an executive coach, author, startup advisor, mentor, and investor.",
+    image: "/src/imports/Speakers/Mukesh_Jain.png",
+  },
+  
+
+];
+
+const CELEBRITY_GUEST_IMG = `data:image/svg+xml,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400">' +
+  '<defs><radialGradient id="g" cx="50%" cy="35%" r="55%">' +
+  '<stop offset="0%" stop-color="#1a0a10"/>' +
+  '<stop offset="100%" stop-color="#07111F"/>' +
+  '</radialGradient></defs>' +
+  '<rect fill="url(#g)" width="300" height="400"/>' +
+  '<circle cx="150" cy="155" r="45" fill="none" stroke="#FFC000" stroke-width="0.5" opacity="0.12" stroke-dasharray="6 4"/>' +
+  '<text x="150" y="170" text-anchor="middle" dominant-baseline="middle" font-size="52" fill="#FFC000" opacity="0.08" font-family="serif">?</text>' +
+  '</svg>'
+)}`;
+
+// ─── Speaker Flip Card ────────────────────────────────────────────────────────
+function SpeakerFlipCard({ speaker }: { speaker: typeof SPEAKERS[0] }) {
+  const [flipped, setFlipped] = useState(false);
+
+  return (
+    <div
+      className={`speaker-flip-card ${flipped ? "flipped" : ""}`}
+      onClick={() => setFlipped(!flipped)}
+    >
+      <div className="speaker-flip-inner">
+        {/* Front */}
+        <div className="speaker-flip-front">
+          {speaker.image ? (
+            <img
+              src={speaker.image}
+              alt={speaker.name}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center" style={{ background: "radial-gradient(ellipse at 50% 35%, rgba(237,41,57,0.06) 0%, transparent 70%)" }}>
+              <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(237,41,57,0.2)" strokeWidth="0.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+          )}
+          <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(3,8,15,0.95) 100%)" }} />
+          <div className="relative z-10 mt-auto p-6 w-full text-center">
+            <h3 className="text-xl font-bold mb-1" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "0.02em" }}>
+              {speaker.name}
+            </h3>
+            {/* <p className="text-sm font-semibold" style={{ fontFamily: "Rajdhani", color: "#ED2939" }}>
+              {speaker.designation}
+            </p> */}
+            <span className="text-xs mt-3 inline-block opacity-60" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+              Tap to know more →
+            </span>
+          </div>
+        </div>
+
+        {/* Back */}
+        <div className="speaker-flip-back">
+          <div className="text-center">
+            <span className="text-xs font-semibold tracking-widest uppercase mb-3 inline-block" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>
+              ◆ Speaker
+            </span>
+            <h3 className="text-lg font-bold mb-1" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
+              {speaker.name}
+            </h3>
+            {/* <p className="text-xs mb-5 font-semibold" style={{ fontFamily: "Rajdhani", color: "#ED2939" }}>
+              {speaker.designation}
+            </p> */}
+            <div className="w-12 h-px mx-auto mb-5" style={{ background: "linear-gradient(90deg, transparent, #ED2939, transparent)" }} />
+            <p className="text-sm leading-relaxed" style={{ fontFamily: "IBM Plex Sans", color: "#AAB4C0" }}>
+              {speaker.description}
+            </p>
+            <span className="text-xs mt-6 inline-block opacity-50" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+              ← Tap to flip back
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // ─── Speakers Section ────────────────────────────────────────────────────────
 function SpeakersSection() {
@@ -848,6 +944,10 @@ function SpeakersSection() {
         opacity: 0, y: 40, duration: 0.7, stagger: 0.15, ease: "power3.out",
         scrollTrigger: { trigger: ".speaker-card-anim", start: "top 85%" },
       });
+      gsap.from(".special-guest-anim", {
+        opacity: 0, y: 50, duration: 0.9, ease: "power3.out",
+        scrollTrigger: { trigger: ".special-guest-anim", start: "top 85%" },
+      });
     }, sectionRef);
     return () => ctx.revert();
   }, []);
@@ -861,16 +961,33 @@ function SpeakersSection() {
         </h2>
       </div>
 
+      {/* Speaker Flip Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20 justify-items-center">
         {SPEAKERS.map((speaker, idx) => (
           <div key={idx} className="speaker-card-anim">
+            <TiltCard>
+              <SpeakerFlipCard speaker={speaker} />
+            </TiltCard>
+          </div>
+        ))}
+      </div>
+
+      {/* Celebrity Guest + To Be Announced */}
+      <div className="special-guest-anim">
+        <SectionDeco />
+        <div className="text-center mt-8 mb-12">
+          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#FFC000", fontFamily: "Rajdhani" }}>★ Special Appearances</span>
+        </div>
+        <div className="flex flex-col items-center justify-center gap-12">
+          {/* To Be Announced - PixelCard */}
+          <div>
             <PixelCard variant="imperial" className="bg-black">
               <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none p-4 text-center">
-                <h3 className="text-2xl font-bold" style={{ fontFamily: "Oswald", color: "#FFFFFF", textTransform: "uppercase" }}>To be Announced</h3>
+                <h3 className="text-2xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939", textTransform: "uppercase" }}>To be Announced</h3>
               </div>
             </PixelCard>
           </div>
-        ))}
+        </div>
       </div>
     </section>
   );
@@ -988,6 +1105,57 @@ function TeamSection({ onViewAll }: { onViewAll: () => void }) {
   );
 }
 
+
+// ─── Event Date Panel ────────────────────────────────────────────────────────────
+
+function EventDatePanel() {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseXSpring = useSpring(x, { stiffness: 400, damping: 40 });
+  const mouseYSpring = useSpring(y, { stiffness: 400, damping: 40 });
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["8deg", "-8deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-8deg", "8deg"]);
+  
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <section className="py-20 px-6 max-w-6xl mx-auto event-date-panel">
+      <motion.div
+        className="event-date-card p-12 md:p-20 flex flex-col items-center justify-center text-center cursor-default"
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ rotateX, rotateY }}
+      >
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4" style={{ fontFamily: "Oswald", color: "#FFFFFF", textTransform: "uppercase", letterSpacing: "0.02em" }}>
+          TED<sup style={{ fontSize: "0.5em" }}>x</sup>PCU
+        </h2>
+        <div className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tighter mb-6 red-glow" style={{ fontFamily: "Inter", color: "#F5F7FA" }}>
+          09.10.2026
+        </div>
+        <p className="text-lg md:text-xl font-medium tracking-widest" style={{ color: "rgba(255,255,255,0.8)", fontFamily: "Rajdhani", textTransform: "uppercase" }}>
+          Save The Date
+        </p>
+      </motion.div>
+    </section>
+  );
+}
 
 // ─── Contact Section ───────────────────────────────────────────────────────────
 
@@ -1180,6 +1348,16 @@ const APPLY_CARDS: BentoCardData[] = [
 function ContactSection() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const [ticketWidth, setTicketWidth] = useState(800);
+
+  useEffect(() => {
+    const updateTicketWidth = () => {
+      setTicketWidth(Math.min(800, window.innerWidth - 48));
+    };
+    updateTicketWidth();
+    window.addEventListener("resize", updateTicketWidth);
+    return () => window.removeEventListener("resize", updateTicketWidth);
+  }, []);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -1329,7 +1507,60 @@ function ContactSection() {
           <h2 className="apply-now-heading text-5xl md:text-6xl font-bold mt-4" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>Apply Now</h2>
         </div>
         
-        <div className="magic-bento-section flex justify-center w-full">
+        <div className="ticket-card-section flex justify-center w-full mb-16">
+          <a href="#" target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-[1.02] duration-300">
+            <AdmitOneTicket 
+              name="APPLY NOW" 
+              presenter="TEDxPCU" 
+              event="2026" 
+              venue="PCU CAMPUS" 
+              dates="COMING SOON" 
+              stubText="ADMIT ONE" 
+              watermark="TEDx" 
+              width={ticketWidth}
+              texture={{
+                engine: "generative",
+                colorBack: "#3a0910",
+                colorFront: "#ed2939",
+                colorHighlight: "#ff4d5a",
+                shape: "warp",
+                type: "4x4",
+                size: 1.5,
+                colorSteps: 3,
+                originalColors: false,
+                scale: 1,
+                rotation: 0,
+                offsetX: 0,
+                offsetY: 0,
+                speed: 0.6
+              }}
+              layout={{
+                padding: 57 / 741,
+                labelTop: 58 / 741,
+                labelSize: 22 / 741,
+                labelLead: 30 / 741,
+                labelTracking: 0.05,
+                nameTop: 185 / 741,
+                nameSize: 85 / 741,
+                nameLead: 90 / 741,
+                nameTracking: 0,
+                footerTop: 348 / 741,
+                footerSize: 22 / 741,
+                footerTracking: 0.05,
+                stubSize: 67.61 / 741,
+                stubTracking: 0,
+                stubOpacity: 0.88,
+                watermarkSize: 144 / 741,
+                watermarkOpacity: 0.2,
+                watermarkColor: "#ed2939",
+                inkColor: "#ffffff"
+              }}
+              tilt={{ maxTilt: 12, scale: 1.05, glare: 0.2 }}
+            />
+          </a>
+        </div>
+
+        <div className="magic-bento-section flex justify-center w-full mt-10">
           <MagicBento 
             cards={APPLY_CARDS}
             textAutoHide={true}
@@ -1564,6 +1795,7 @@ export default function App() {
             <div className="section-divider" />
             <SectionDeco />
             <TeamSection onViewAll={handleGoToTeams} />
+            <EventDatePanel />
             <SectionDeco />
             <ContactSection />
             <div className="section-divider" />

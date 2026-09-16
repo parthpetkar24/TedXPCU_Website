@@ -517,6 +517,70 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
+/* ─── Speaker Flip Card ──────────────────────────────────────────────── */
+
+.speaker-flip-card {
+  perspective: 1000px;
+  width: 300px;
+  height: 400px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.speaker-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.speaker-flip-card.flipped .speaker-flip-inner {
+  transform: rotateY(180deg);
+}
+
+.speaker-flip-front,
+.speaker-flip-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.speaker-flip-front {
+  background: linear-gradient(145deg, #0a1628 0%, #07111F 50%, #0d0a14 100%);
+  border: 1px solid rgba(237, 41, 57, 0.12);
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.speaker-flip-card:not(.flipped):hover .speaker-flip-front {
+  border-color: rgba(237, 41, 57, 0.35);
+  box-shadow: 0 0 30px rgba(237, 41, 57, 0.1);
+}
+
+.speaker-flip-back {
+  background: linear-gradient(145deg, #0d0a14 0%, #07111F 50%, #0a1628 100%);
+  border: 1px solid rgba(237, 41, 57, 0.25);
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+@media (max-width: 640px) {
+  .speaker-flip-card {
+    width: 260px;
+    height: 360px;
+  }
+}
+
 /* ─── Mobile Responsive Overrides ────────────────────────────────────────── */
 
 @media (max-width: 768px) {
