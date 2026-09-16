@@ -232,6 +232,7 @@ var ShaderMount = class {
     this.program = program;
   };
   setupPositionAttribute = () => {
+    if (!this.program) return;
     const positionAttributeLocation = this.gl.getAttribLocation(this.program, "a_position");
     const positionBuffer = this.gl.createBuffer();
     this.gl.bindBuffer(this.gl.ARRAY_BUFFER, positionBuffer);
@@ -241,16 +242,18 @@ var ShaderMount = class {
     this.gl.vertexAttribPointer(positionAttributeLocation, 2, this.gl.FLOAT, false, 0, 0);
   };
   setupUniforms = () => {
-    const uniformLocations = {
-      u_time: this.gl.getUniformLocation(this.program, "u_time"),
-      u_pixelRatio: this.gl.getUniformLocation(this.program, "u_pixelRatio"),
-      u_resolution: this.gl.getUniformLocation(this.program, "u_resolution")
+    if (!this.program) return;
+    const program = this.program;
+    const uniformLocations: Record<string, WebGLUniformLocation | null> = {
+      u_time: this.gl.getUniformLocation(program, "u_time"),
+      u_pixelRatio: this.gl.getUniformLocation(program, "u_pixelRatio"),
+      u_resolution: this.gl.getUniformLocation(program, "u_resolution")
     };
     Object.entries(this.providedUniforms).forEach(([key, value]) => {
-      uniformLocations[key] = this.gl.getUniformLocation(this.program, key);
+      uniformLocations[key] = this.gl.getUniformLocation(program, key);
       if (value instanceof HTMLImageElement) {
         const aspectRatioUniformName = `${key}AspectRatio`;
-        uniformLocations[aspectRatioUniformName] = this.gl.getUniformLocation(this.program, aspectRatioUniformName);
+        uniformLocations[aspectRatioUniformName] = this.gl.getUniformLocation(program, aspectRatioUniformName);
       }
     });
     this.uniformLocations = uniformLocations;
@@ -267,7 +270,7 @@ var ShaderMount = class {
   parentDevicePixelWidth = 0;
   parentDevicePixelHeight = 0;
   devicePixelsSupported = false;
-  resizeObserver = null;
+  resizeObserver: ResizeObserver | null = null;
   setupResizeObserver = () => {
     this.resizeObserver = new ResizeObserver(([entry]) => {
       if (entry?.borderBoxSize[0]) {
@@ -371,7 +374,7 @@ var ShaderMount = class {
     if (!this.textureUnitMap.has(uniformName)) {
       this.textureUnitMap.set(uniformName, this.textureUnitMap.size);
     }
-    const textureUnit = this.textureUnitMap.get(uniformName);
+    const textureUnit = this.textureUnitMap.get(uniformName)!;
     this.gl.activeTexture(this.gl.TEXTURE0 + textureUnit);
     const texture = this.gl.createTexture();
     this.gl.bindTexture(this.gl.TEXTURE_2D, texture);
@@ -1173,7 +1176,7 @@ function getShaderColorFromString(colorString: any) {
 function hexToRgba(hex: any) {
   hex = hex.replace(/^#/, "");
   if (hex.length === 3) {
-    hex = hex.split("").map((char) => char + char).join("");
+    hex = hex.split("").map((char: string) => char + char).join("");
   }
   if (hex.length === 6) {
     hex = hex + "ff";
@@ -1245,7 +1248,7 @@ var emptyPixel = "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEA
 
 import * as React from "react";
 function useMergeRefs(refs: any) {
-  const cleanupRef = React.useRef(void 0);
+  const cleanupRef = React.useRef<(() => void) | undefined>(void 0);
   const refEffect = React.useCallback((instance: any) => {
     const cleanups = refs.map((ref: any) => {
       if (ref == null) {
@@ -1326,7 +1329,7 @@ async function processUniforms(uniformsProp: any) {
         console.warn(`Uniform "\${key}" has invalid URL "\${value}". Skipping image loading.`);
         return;
       }
-      const imagePromise = new Promise((resolve, reject) => {
+      const imagePromise = new Promise<void>((resolve, reject) => {
         const img = new Image();
         if (isExternalUrl(value)) {
           img.crossOrigin = "anonymous";
@@ -1369,9 +1372,9 @@ var ShaderMount2 = forwardRef(
     ...divProps
   }: any, forwardedRef: any) {
     const [isInitialized, setIsInitialized] = useState(false);
-    const divRef = useRef2(null);
-    const shaderMountRef = useRef2(null);
-    const webGlContextAttributesRef = useRef2(webGlContextAttributes);
+    const divRef = useRef2<HTMLDivElement>(null);
+    const shaderMountRef = useRef2<any>(null);
+    const webGlContextAttributesRef = useRef2<any>(webGlContextAttributes);
     useEffect(() => {
       const initShader = async () => {
         const uniforms = await processUniforms(uniformsProp);
@@ -1812,7 +1815,7 @@ function ticketClipPath(width: any, height: any, geometry: any = TICKET_GEOMETRY
 function splitName(name: any, max = 3) {
   const clean = name.trim().replace(/\s+/g, " ").toUpperCase();
   if (!clean) return [];
-  const lines = [];
+  const lines: string[] = [];
   for (const word of clean.split(" ")) {
     if (lines.length < max) lines.push(word);
     else lines[lines.length - 1] = `${lines[lines.length - 1]} ${word}`;
@@ -1823,7 +1826,7 @@ function fitScale(lines: any, opts: any) {
   if (lines.length === 0) return 1;
   const { availableWidth, availableHeight, fontSize, lineHeight, tracking } = opts;
   if (fontSize <= 0 || availableWidth <= 0) return 1;
-  const longest = Math.max(...lines.map((l) => l.length));
+  const longest = Math.max(...lines.map((l: string) => l.length));
   const charWidth = (0.6 + tracking) * fontSize;
   const block = lines.length * lineHeight;
   return Math.max(

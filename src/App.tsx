@@ -1508,7 +1508,7 @@ function ContactSection() {
         </div>
         
         <div className="ticket-card-section flex justify-center w-full mb-16">
-          <a href="#" target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-[1.02] duration-300">
+          <a href="https://link.district.in/DSTRKT/ctr1n8hy" target="_blank" rel="noopener noreferrer" className="block transition-transform hover:scale-[1.02] duration-300">
             <AdmitOneTicket 
               name="APPLY NOW" 
               presenter="TEDxPCU" 
