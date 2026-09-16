@@ -260,12 +260,3 @@ nvm use 22
 
 ---
 
-## 📄 License
-
-This project is for **TEDxPCU** internal use. TEDx is a program of independently organized TED events.
-
----
-
-## 👥 Contact
-
-For questions about deployment or the codebase, reach out to the TEDxPCU tech team.
