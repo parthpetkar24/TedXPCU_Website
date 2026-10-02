@@ -5,8 +5,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "lenis";
 import Particles, { ParticlesProvider } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim";
-import heroBg from "./imports/1234.png";
-import themeLogo from "./imports/Theme/silver-1.png";
+import heroBg from "./imports/1234.webp";
+import themeLogo from "./imports/Theme/silver-1.webp";
 import TitleReveal from "./components/TitleReveal";
 import AboutPage from "./pages/AboutPage";
 import TeamsPage from "./pages/TeamsPage";
@@ -176,7 +176,7 @@ const NAV_LINKS = ["Home", "Theme", "About", "Teams", "Contact"];
 const THEME = {
   code: " ",
   title: "आविर्भावः ",
-  tagline: "Idea Manifested",
+  tagline: "IDEAS MANIFESTED",
   description:
     " Avirbhava means the emergence or coming into existence of something meaningful. The theme represents how a simple idea, when supported by passion, determination, and action, can grow into something that creates a real impact. Every innovation, achievement, and change begins with an idea. Through this theme, TEDxPCU aims to showcase inspiring stories and perspectives that encourage people to turn their ideas into reality.",
 };
@@ -659,12 +659,7 @@ function ThemeSection() {
             />
           </div>
 
-          <div className="mb-6">
-            <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#ED2939", fontFamily: "Rajdhani" }}>Theme {THEME.code}</span>
-            <h3 className="text-5xl md:text-7xl font-bold mt-2" style={{ fontFamily: "'Rozha One', serif", color: "#F5F7FA", letterSpacing: "0.02em", textShadow: "0 0 25px rgba(237,41,57,0.3)" }}>{THEME.title}</h3>
-          </div>
-
-          <p className="text-lg font-medium mb-4" style={{ color: "#ED2939", fontFamily: "Oswald", textTransform: "uppercase", letterSpacing: "0.1em" }}>"{THEME.tagline}"</p>
+          <p className="text-lg font-medium mb-4 text-center" style={{ color: "#ED2939", fontFamily: "Oswald", textTransform: "uppercase", letterSpacing: "0.1em" }}>"{THEME.tagline}"</p>
 
           {!locked && (
             <p className="text-sm" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>Click to reveal →</p>
@@ -811,40 +806,58 @@ function AboutSection() {
 const SPEAKERS = [
   {
     name: "Pulkit Handaa",
+    designation:"Human Resources Leader & Leadership Advocate",
     description: "Professional at District with experience across product, business development, and client-facing roles in the technology and food industries. Recipient of the Most Valuable Player award at Magicpin and the Tiger of the Month award at Times Internet.",
-    image: "/src/imports/Speakers/Pulkit_Handaa.jpeg",
+    image: "/src/imports/Speakers/Pulkit_Handaa.webp",
   },
   {
     name: "Chinmay Mahale",
+    designation:"Ex-Indian Army Officer Cadet, Ex-Air Force Trainee Flying Officier, Founder of Defence Mavericks",
     description: "Ex-Indian Army officer Cadet and ex-Indian Air Force trainee Flying Officer, and founder of Defence Mavericks, focused on empowering young minds through education, discipline, and leadership. A Computer Engineer who teaches Engineering Mathematics, Aptitude, and Logical Reasoning.",
-    image: "/src/imports/Speakers/Chinmay_Mahale.jpeg",
+    image: "/src/imports/Speakers/Chinmay_Mahale.webp",
   },
   {
     name: "Rahul Trivedi",
+    designation:"Associate Professor, Marwadi University & Associate NLP Practitioneer",
     description: "An Assistant Professor at Marwadi University and an Associate NLP Practitioner with a strong interest in human development and emotional intelligence. A Dale Carnegie Certified Training Professional. His work reflects a passion for empowering individuals through education, communication, and personal growth.",
-    image: "/src/imports/Speakers/Rahul_Trivedi.png",
+    image: "/src/imports/Speakers/Rahul_Trivedi.webp",
   },
   {
     name: "Subhash Talekar",
+    designation:"President of Mumbai Dabbawala Association & Motivational Speaker",
     description: "The President of the Mumbai Dabbawala Association and a third-/fourth-generation member of the iconic Mumbai Dabbawala community. A renowned motivational speaker, he shares insights on teamwork, time management, discipline, customer service, and operational excellence drawn from the Dabbawala system. He has also been associated with social initiatives such as the Roti Bank and Kapda Bank.",
-    image: "/src/imports/Speakers/Subhash_Talekar.png",
+    image: "/src/imports/Speakers/Subhash_Talekar.webp",
   },
   {
     name: "Sarika Kharbanda",
+    designation:"Global Lean Change Agent & Change Hacker",
     description: "Global Lean Change Agent and Change Hacker, focused on organizational transformation, leadership, facilitation, and building adaptive teams. An IIT Bombay alumna with over two decades of experience driving change across technology, insurance, and financial services organizations in India and internationally.",
-    image: "/src/imports/Speakers/Sarika_Kharbanda.jpeg",
+    image: "/src/imports/Speakers/Sarika_Kharbanda.webp",
   },
   {
     name: "Aarshad Devani",
+    designation:"Senior AI Architect, Cobweb",
     description: "Senior AI Architect at Cobweb, focused on building credible AI products and AI-powered solutions. A technology community builder and AI practitioner, recognized as part of the Guinness World Record for the largest agentic AI hackathon.",
-    image: "/src/imports/Speakers/Aarshad_Devani.jpg",
+    image: "/src/imports/Speakers/Aarshad_Devani.webp",
   },
   {
     name: "Mukesh Jain",
+    designation:"Chief Technology Officer & Executive Vice President, Capgemini",
     description: "Chief Technology Officer and Executive Vice President at Capgemini, with expertise across AI/GenAI, cybersecurity, product innovation, and people analytics. A 6x TEDx speaker and former leader at Microsoft, Jio, and NICE, he is also an executive coach, author, startup advisor, mentor, and investor.",
-    image: "/src/imports/Speakers/Mukesh_Jain.png",
+    image: "/src/imports/Speakers/Mukesh_Jain.webp",
   },
-  
+  {
+    name: "Sagar Babar",
+    designation:"Co-Founder, President & Chief AI Officer, Comsense",
+    description: "A seasoned technology and business transformation leader, he specializes in helping global enterprises build and scale AI-first, value-led Global Capability Centers (GCC 2.0) from India. As Co-Founder, President, and Chief AI Officer at Comsense Technologies, he brings extensive experience across global delivery, capability strategy, governance, operating models, and AI, Data, Salesforce, and digital transformation.",
+    image: "/src/imports/Speakers/Sagar_Babar.webp",
+  },
+  {
+    name: "Saurabh Bhosale",
+    designation:"Marathi Standup Comedian, Digital Creator & Storyteller",
+    description: "Saurabh Suresh Bhosale is a stand-up comedian known for his engaging storytelling, observational humour, and relatable take on everyday life. With a distinctive comedic style and strong stage presence, he brings a fresh perspective to contemporary experiences, connecting with audiences through wit, authenticity, and sharp observations.",
+    image: "/src/imports/Speakers/Saurabh_Bhosale.webp",
+  },
 
 ];
 
@@ -888,13 +901,10 @@ function SpeakerFlipCard({ speaker }: { speaker: typeof SPEAKERS[0] }) {
           )}
           <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, transparent 45%, rgba(3,8,15,0.95) 100%)" }} />
           <div className="relative z-10 mt-auto p-6 w-full text-center">
-            <h3 className="text-xl font-bold mb-1" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "0.02em" }}>
+            <h3 className="text-xl font-bold mb-2" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase", letterSpacing: "0.02em" }}>
               {speaker.name}
             </h3>
-            {/* <p className="text-sm font-semibold" style={{ fontFamily: "Rajdhani", color: "#ED2939" }}>
-              {speaker.designation}
-            </p> */}
-            <span className="text-xs mt-3 inline-block opacity-60" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
+            <span className="text-xs inline-block opacity-60" style={{ color: "#8A96A4", fontFamily: "Rajdhani" }}>
               Tap to know more →
             </span>
           </div>
@@ -909,9 +919,9 @@ function SpeakerFlipCard({ speaker }: { speaker: typeof SPEAKERS[0] }) {
             <h3 className="text-lg font-bold mb-1" style={{ fontFamily: "Oswald", color: "#F5F7FA", textTransform: "uppercase" }}>
               {speaker.name}
             </h3>
-            {/* <p className="text-xs mb-5 font-semibold" style={{ fontFamily: "Rajdhani", color: "#ED2939" }}>
+            <p className="text-xs mb-5 font-semibold" style={{ fontFamily: "Rajdhani", color: "#ED2939" }}>
               {speaker.designation}
-            </p> */}
+            </p>
             <div className="w-12 h-px mx-auto mb-5" style={{ background: "linear-gradient(90deg, transparent, #ED2939, transparent)" }} />
             <p className="text-sm leading-relaxed" style={{ fontFamily: "IBM Plex Sans", color: "#AAB4C0" }}>
               {speaker.description}
@@ -962,9 +972,9 @@ function SpeakersSection() {
       </div>
 
       {/* Speaker Flip Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20 justify-items-center">
+      <div className="flex flex-wrap justify-center mb-20 -mx-4 gap-y-8">
         {SPEAKERS.map((speaker, idx) => (
-          <div key={idx} className="speaker-card-anim">
+          <div key={idx} className="w-full md:w-1/2 lg:w-1/4 px-4 flex justify-center speaker-card-anim">
             <TiltCard>
               <SpeakerFlipCard speaker={speaker} />
             </TiltCard>
@@ -972,23 +982,7 @@ function SpeakersSection() {
         ))}
       </div>
 
-      {/* Celebrity Guest + To Be Announced */}
-      <div className="special-guest-anim">
-        <SectionDeco />
-        <div className="text-center mt-8 mb-12">
-          <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#FFC000", fontFamily: "Rajdhani" }}>★ Special Appearances</span>
-        </div>
-        <div className="flex flex-col items-center justify-center gap-12">
-          {/* To Be Announced - PixelCard */}
-          <div>
-            <PixelCard variant="imperial" className="bg-black">
-              <div className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none p-4 text-center">
-                <h3 className="text-2xl font-bold" style={{ fontFamily: "Oswald", color: "#ED2939", textTransform: "uppercase" }}>To be Announced</h3>
-              </div>
-            </PixelCard>
-          </div>
-        </div>
-      </div>
+
     </section>
   );
 }
@@ -997,13 +991,13 @@ const TEAM = [
   {
     name: "Aryan Raj",
     role: "Organiser",
-    image: "/src/imports/Team/Aryan_Raj(2).png",
+    image: "/src/imports/Team/Aryan_Raj(2).webp",
     color: "#ED2939"
   },
   {
     name: "Shradha Solanke",
     role: "Co-Organiser",
-    image: "/src/imports/Team/Shradha_Solanke (2).png",
+    image: "/src/imports/Team/Shradha_Solanke (2).webp",
     color: "#ED2939"
   },
 ]
@@ -1616,7 +1610,7 @@ function SponsorsSection() {
 
       <div className="flex items-center justify-center">
         <img
-          src="/src/imports/Sponsors/Propel_Logo.png"
+          src="/src/imports/Sponsors/Propel_Logo.webp"
           alt="Propel sponsor"
           className="sponsor-card max-w-full object-contain"
           style={{ width: "320px", height: "220px" }}

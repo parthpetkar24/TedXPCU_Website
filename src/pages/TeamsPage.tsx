@@ -10,116 +10,116 @@ const TEAM = [
   {
     name: "Aryan Raj",
     role: "Organiser",
-    image: "/src/imports/Team/Aryan_Raj(2).png",
+    image: "/src/imports/Team/Aryan_Raj(2).webp",
     color: "#ED2939"
   },
   {
     name: "Shradha Solanke",
     role: "Co-Organiser",
-    image: "/src/imports/Team/Shradha_Solanke (2).png",
+    image: "/src/imports/Team/Shradha_Solanke (2).webp",
     color: "#ED2939"
   },
   {
     name: "Swapnil Adlinge",
     role: "Operations",
-    image: "/src/imports/Team/Swapnil_Adlinge (2).png",
+    image: "/src/imports/Team/Swapnil_Adlinge (2).webp",
     color: "#ED2939"
   },
   {
     name: "Shreya Singh",
     role: "EPM",
-    image: "/src/imports/Team/Shreya_Singh (2).png",
+    image: "/src/imports/Team/Shreya_Singh (2).webp",
     color: "#ED2939"
   },
   {
     name: "Divyansh Gangurde",
     role: "Technical",
-    image: "/src/imports/Team/Divyansh_Gangurde (2).png",
+    image: "/src/imports/Team/Divyansh_Gangurde (2).webp",
     color: "#ED2939"
   },
   {
     name: "Amrisha Vashishtha",
     role: "Digital Platform",
-    image: "/src/imports/Team/Amrisha_Vashishtha (2).png",
+    image: "/src/imports/Team/Amrisha_Vashishtha (2).webp",
     color: "#ED2939"
   },
   {
     name: "Sahil Gore",
     role: "Production",
-    image: "/src/imports/Team/Sahil_Gore (2).png",
+    image: "/src/imports/Team/Sahil_Gore (2).webp",
     color: "#ED2939"
   },
   {
     name: "Aditya Harpude",
     role: "Social Media",
-    image: "/src/imports/Team/Aditya_Harpude (2).png",
+    image: "/src/imports/Team/Aditya_Harpude (2).webp",
     color: "#ED2939"
   },
   {
     name: "Pratiksha Ghonshikar",
     role: "Graphic Design",
-    image: "/src/imports/Team/Pratiksha_Ghonshikar (2).png",
+    image: "/src/imports/Team/Pratiksha_Ghonshikar (2).webp",
     color: "#ED2939"
   },
   {
     name: "Ashwani Singh",
     role: "Logistics",
-    image: "/src/imports/Team/Ashwani_Singh (2).png",
+    image: "/src/imports/Team/Ashwani_Singh (2).webp",
     color: "#ED2939"
   },
   {
     name: "Malhaar Jawalkar",
     role: "Hospitality",
-    image: "/src/imports/Team/Malhaar_Jawalkar (2).png",
+    image: "/src/imports/Team/Malhaar_Jawalkar (2).webp",
     color: "#ED2939"
   },
   {
     name: "Sankalp Kale",
     role: "F&B",
-    image: "/src/imports/Team/Sankalp_Kale (2).png",
+    image: "/src/imports/Team/Sankalp_Kale (2).webp",
     color: "#ED2939"
   },
   {
     name: "Tanishka Borude",
     role: "Documentation",
-    image: "/src/imports/Team/Tanishka_Borude (2).png",
+    image: "/src/imports/Team/Tanishka_Borude (2).webp",
     color: "#ED2939"
   },
   
   {
     name: "Abha Kurumbansi",
     role: "Registration",
-    image: "/src/imports/Team/Abha_Kurumbansi (2).png",
+    image: "/src/imports/Team/Abha_Kurumbansi (2).webp",
     color: "#ED2939"
   },
   {
     name: "Kashish Valecha",
     role: "Registration",
-    image: "/src/imports/Team/Kashish_Valecha (2).png",
+    image: "/src/imports/Team/Kashish_Valecha (2).webp",
     color: "#ED2939"
   },
   {
     name: "Shreya Rai",
     role: "Cultural",
-    image: "/src/imports/Team/Shreya_Rai (2).png",
+    image: "/src/imports/Team/Shreya_Rai (2).webp",
     color: "#ED2939"
   },
   {
     name: "Vaishnavi Khandelwal",
     role: "Cultural",
-    image: "/src/imports/Team/Vaishnavi_Khandelwal (2).png",
+    image: "/src/imports/Team/Vaishnavi_Khandelwal (2).webp",
     color: "#ED2939"
   },
   {
     name: "Kunal Shinde",
     role: "Promotions",
-    image: "/src/imports/Team/Kunal_Shinde (2).png",
+    image: "/src/imports/Team/Kunal_Shinde (2).webp",
     color: "#ED2939"
   },
   {
     name: "Viraj Mandekar",
     role: "Security",
-    image: "/src/imports/Team/Viraj_Mandekar (2).png",
+    image: "/src/imports/Team/Viraj_Mandekar (2).webp",
     color: "#ED2939"
   },
   
@@ -157,7 +157,6 @@ export default function TeamsPage({ onBack }: TeamsPageProps) {
     image: member.image,
     title: member.name,
     subtitle: member.role,
-    handle: `@${member.name.toLowerCase().replace(/\s+/g, '')}`,
     borderColor: member.color,
     gradient: `linear-gradient(145deg, ${member.color}, #000)`,
     url: "#" // Optional URL
@@ -207,12 +206,12 @@ export default function TeamsPage({ onBack }: TeamsPageProps) {
           <div className="w-full flex justify-center items-center relative" style={{ height: '550px' }}>
             <DepthCarousel 
               items={[
-                { image: "/src/imports/Team/Aditya_Rasal (2).png", title: "Aditya Rasal", designation: "Mentor" },
-                { image: "/src/imports/Team/Prathamesh (2).png", title: "Prathamesh Tupkari", designation: "Mentor" },
-                { image: "/src/imports/Team/Harshika (2).png", title: "Harshika Bodekar", designation: "Mentor" },
-                { image: "/src/imports/Team/Pranjali (2).png", title: "Pranjali Pandit", designation: "Mentor" },
-                { image: "/src/imports/Team/Raj_Singh (2).png", title: "Raj Singh", designation: "Mentor" },
-                { image: "/src/imports/Team/Raj_Konde (2).png", title: "Raj Konde", designation: "Mentor" }
+                { image: "/src/imports/Team/Aditya_Rasal (2).webp", title: "Aditya Rasal", designation: "Mentor" },
+                { image: "/src/imports/Team/Prathamesh (2).webp", title: "Prathamesh Tupkari", designation: "Mentor" },
+                { image: "/src/imports/Team/Harshika (2).webp", title: "Harshika Bodekar", designation: "Mentor" },
+                { image: "/src/imports/Team/Pranjali (2).webp", title: "Pranjali Pandit", designation: "Mentor" },
+                { image: "/src/imports/Team/Raj_Singh (2).webp", title: "Raj Singh", designation: "Mentor" },
+                { image: "/src/imports/Team/Raj_Konde (2).webp", title: "Raj Konde", designation: "Mentor" }
               ]}
               cardWidth={300}
               cardHeight={400}
