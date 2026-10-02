@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
+import LazyImage from '../utils/LazyImage';
 import './ChromaGrid.css';
 
 export interface ChromaItem {
@@ -183,7 +184,7 @@ export const ChromaGrid: React.FC<ChromaGridProps> = ({
           }
         >
           <div className="chroma-img-wrapper">
-            <img src={c.image} alt={c.title} loading="lazy" />
+            <LazyImage src={c.image} alt={c.title} style={{ width: '100%', height: '100%' }} />
           </div>
           <footer className="chroma-info">
             <h3 className="name">{c.title}</h3>

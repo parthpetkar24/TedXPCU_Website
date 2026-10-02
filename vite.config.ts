@@ -16,6 +16,18 @@ export default defineConfig(({ mode }) => {
     build: {
       sourcemap: emitSourcemaps ? 'inline' : false,
       minify: !emitSourcemaps,
+      // Inline small assets (< 8KB) as base64 to reduce HTTP requests
+      assetsInlineLimit: 8192,
+      rollupOptions: {
+        output: {
+          // Split vendor chunks for better caching & parallel loading
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom'],
+            'vendor-animation': ['framer-motion', 'gsap', 'gsap/ScrollTrigger', 'lenis'],
+            'vendor-particles': ['@tsparticles/react', '@tsparticles/slim'],
+          },
+        },
+      },
     },
     plugins: [
       react(),

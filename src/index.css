@@ -49,6 +49,12 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-track { background: #07111F; }
 ::-webkit-scrollbar-thumb { background: #ED2939; border-radius: 2px; }
 
+/* Shimmer loading placeholder */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 /* Custom animations */
 @keyframes pulse-ring {
   0% { transform: scale(1); opacity: 0.8; }

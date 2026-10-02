@@ -13,6 +13,7 @@ import TeamsPage from "./pages/TeamsPage";
 import PixelCard from "./components/PixelCard";
 import TiltedCard from "./components/TiltedCard";
 import AdmitOneTicket from "./components/TicketCard";
+import LazyImage from "./utils/LazyImage";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -387,17 +388,27 @@ function Navbar({ active, onNav }: { active: string; onNav: (s: string) => void 
 
 function AmbientParticles() {
   const [isMobile, setIsMobile] = useState(false);
+  const [shouldLoad, setShouldLoad] = useState(false);
   
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    
+    // Defer heavy particle loading to improve initial render speed
+    const timer = setTimeout(() => setShouldLoad(true), 1500);
+    
+    return () => {
+      window.removeEventListener("resize", check);
+      clearTimeout(timer);
+    };
   }, []);
 
   const particlesInit = useCallback(async (engine: any) => {
     await loadSlim(engine);
   }, []);
+
+  if (!shouldLoad) return null;
 
   return (
     <ParticlesProvider init={particlesInit}>
@@ -405,9 +416,9 @@ function AmbientParticles() {
         id="ambient-sparks"
         options={{
           fullScreen: { enable: true, zIndex: 0 },
-          fpsLimit: 60,
+          fpsLimit: 30,
           particles: {
-            number: { value: isMobile ? 25 : 65, density: { enable: true, width: 1920, height: 1080 } },
+            number: { value: isMobile ? 15 : 40, density: { enable: true, width: 1920, height: 1080 } },
             color: { value: ["#ED2939", "#FF4D5A", "#FFC000", "#FF6B6B"] },
             shape: { type: ["circle", "star"] },
             opacity: {
@@ -434,7 +445,7 @@ function AmbientParticles() {
           },
           interactivity: {
             events: {
-              onHover: { enable: !isMobile, mode: ["grab", "trail"] },
+              onHover: { enable: !isMobile, mode: ["grab"] },
             },
             modes: {
               grab: { distance: 200, links: { opacity: 0.7 } },
@@ -886,10 +897,10 @@ function SpeakerFlipCard({ speaker }: { speaker: typeof SPEAKERS[0] }) {
         {/* Front */}
         <div className="speaker-flip-front">
           {speaker.image ? (
-            <img
+            <LazyImage
               src={speaker.image}
               alt={speaker.name}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full"
             />
           ) : (
             <div className="absolute inset-0 flex items-center justify-center" style={{ background: "radial-gradient(ellipse at 50% 35%, rgba(237,41,57,0.06) 0%, transparent 70%)" }}>

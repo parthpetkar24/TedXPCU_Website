@@ -9,6 +9,7 @@ import {
   KeyboardEvent as ReactKeyboardEvent
 } from 'react';
 import gsap from 'gsap';
+import LazyImage from '../utils/LazyImage';
 import './DepthCarousel.css';
 
 export type DepthCarouselItem = { image: string; alt?: string; title?: string; designation?: string };
@@ -407,7 +408,7 @@ const DepthCarousel = ({
           >
             <div className={`depth-carousel__flip-inner ${flippedCards[i] ? 'is-flipped' : ''}`}>
               <div className="depth-carousel__flip-front">
-                <img className="depth-carousel__img" src={item.image} alt={item.alt || ''} draggable={false} />
+                <LazyImage className="depth-carousel__img" src={item.image} alt={item.alt || ''} draggable={false} style={{ width: '100%', height: '100%' }} />
                 {item.title && (
                   <div className="depth-carousel__front-title">
                     {item.title}
