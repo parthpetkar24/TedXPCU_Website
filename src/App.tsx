@@ -1619,10 +1619,28 @@ function SponsorsSection() {
         </h2>
       </div>
 
-      <div className="flex items-center justify-center">
+      <div className="flex flex-wrap items-center justify-center gap-12">
         <img
           src="/src/imports/Sponsors/Propel_Logo.webp"
           alt="Propel sponsor"
+          className="sponsor-card max-w-full object-contain"
+          style={{ width: "320px", height: "220px" }}
+        />
+        <img
+          src="/src/imports/Sponsors/Green Gusto ENginnering Private Limited.webp"
+          alt="Green Gusto Engineering Private Limited sponsor"
+          className="sponsor-card max-w-full object-contain"
+          style={{ width: "320px", height: "220px" }}
+        />
+        <img
+          src="/src/imports/Sponsors/Regal.webp"
+          alt="Regal sponsor"
+          className="sponsor-card max-w-full object-contain"
+          style={{ width: "320px", height: "220px" }}
+        />
+        <img
+          src="/src/imports/Sponsors/SAS Logo Final_removed.webp"
+          alt="SAS sponsor"
           className="sponsor-card max-w-full object-contain"
           style={{ width: "320px", height: "220px" }}
         />
