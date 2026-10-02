@@ -213,7 +213,7 @@ export default function TeamsPage({ onBack }: TeamsPageProps) {
                 { image: "/src/imports/Team/Raj_Singh (2).webp", title: "Raj Singh", designation: "Mentor" },
                 { image: "/src/imports/Team/Raj_Konde (2).webp", title: "Raj Konde", designation: "Mentor" }
               ]}
-              cardWidth={300}
+              cardWidth={typeof window !== 'undefined' && window.innerWidth < 480 ? window.innerWidth - 64 : 300}
               cardHeight={400}
               autoplay={false}
               showControls={true}
